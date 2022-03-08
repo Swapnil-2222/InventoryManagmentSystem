@@ -1,0 +1,34 @@
+{
+  "inventoryManagmentSystemApp": {
+    "purchaseOrderDetails": {
+      "home": {
+        "title": "Purchase Order Details",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Purchase Order Details",
+        "createOrEditLabel": "Create or edit a Purchase Order Details",
+        "notFound": "No Purchase Order Details found"
+      },
+      "created": "A new Purchase Order Details is created with identifier {{ param }}",
+      "updated": "A Purchase Order Details is updated with identifier {{ param }}",
+      "deleted": "A Purchase Order Details is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Purchase Order Details {{ id }}?"
+      },
+      "detail": {
+        "title": "Purchase Order Details"
+      },
+      "id": "ID",
+      "qtyordered": "Qtyordered",
+      "gstTaxPercentage": "Gst Tax Percentage",
+      "pricePerUnit": "Price Per Unit",
+      "totalPrice": "Total Price",
+      "discount": "Discount",
+      "lastModified": "Last Modified",
+      "lastModifiedBy": "Last Modified By",
+      "freeField1": "Free Field 1",
+      "freeField2": "Free Field 2",
+      "product": "Product",
+      "purchaseOrder": "Purchase Order"
+    }
+  }
+}

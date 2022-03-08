@@ -1,0 +1,149 @@
+<div>
+  <h2 id="page-heading" data-cy="PurchaseOrderDetailsHeading">
+    <span jhiTranslate="inventoryManagmentSystemApp.purchaseOrderDetails.home.title">Purchase Order Details</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="loadPage()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="inventoryManagmentSystemApp.purchaseOrderDetails.home.refreshListLabel">Refresh List</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-purchase-order-details"
+        [routerLink]="['/purchase-order-details/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="inventoryManagmentSystemApp.purchaseOrderDetails.home.createLabel"> Create a new Purchase Order Details </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="purchaseOrderDetails?.length === 0">
+    <span jhiTranslate="inventoryManagmentSystemApp.purchaseOrderDetails.home.notFound">No purchaseOrderDetails found</span>
+  </div>
+
+  <div class="table-responsive" id="entities" *ngIf="purchaseOrderDetails && purchaseOrderDetails.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="loadPage()">
+          <th scope="col" jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="qtyordered">
+            <span jhiTranslate="inventoryManagmentSystemApp.purchaseOrderDetails.qtyordered">Qtyordered</span>
+            <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="gstTaxPercentage">
+            <span jhiTranslate="inventoryManagmentSystemApp.purchaseOrderDetails.gstTaxPercentage">Gst Tax Percentage</span>
+            <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="pricePerUnit">
+            <span jhiTranslate="inventoryManagmentSystemApp.purchaseOrderDetails.pricePerUnit">Price Per Unit</span>
+            <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="totalPrice">
+            <span jhiTranslate="inventoryManagmentSystemApp.purchaseOrderDetails.totalPrice">Total Price</span>
+            <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="discount">
+            <span jhiTranslate="inventoryManagmentSystemApp.purchaseOrderDetails.discount">Discount</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="lastModified">
+            <span jhiTranslate="inventoryManagmentSystemApp.purchaseOrderDetails.lastModified">Last Modified</span>
+            <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="lastModifiedBy">
+            <span jhiTranslate="inventoryManagmentSystemApp.purchaseOrderDetails.lastModifiedBy">Last Modified By</span>
+            <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="freeField1">
+            <span jhiTranslate="inventoryManagmentSystemApp.purchaseOrderDetails.freeField1">Free Field 1</span>
+            <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="freeField2">
+            <span jhiTranslate="inventoryManagmentSystemApp.purchaseOrderDetails.freeField2">Free Field 2</span>
+            <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="purchaseOrder.id">
+            <span jhiTranslate="inventoryManagmentSystemApp.purchaseOrderDetails.purchaseOrder">Purchase Order</span>
+            <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let purchaseOrderDetails of purchaseOrderDetails; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/purchase-order-details', purchaseOrderDetails.id, 'view']">{{ purchaseOrderDetails.id }}</a>
+          </td>
+          <td>{{ purchaseOrderDetails.qtyordered }}</td>
+          <td>{{ purchaseOrderDetails.gstTaxPercentage }}</td>
+          <td>{{ purchaseOrderDetails.pricePerUnit }}</td>
+          <td>{{ purchaseOrderDetails.totalPrice }}</td>
+          <td>{{ purchaseOrderDetails.discount }}</td>
+          <td>{{ purchaseOrderDetails.lastModified | formatMediumDatetime }}</td>
+          <td>{{ purchaseOrderDetails.lastModifiedBy }}</td>
+          <td>{{ purchaseOrderDetails.freeField1 }}</td>
+          <td>{{ purchaseOrderDetails.freeField2 }}</td>
+          <td>
+            <div *ngIf="purchaseOrderDetails.purchaseOrder">
+              <a [routerLink]="['/purchase-order', purchaseOrderDetails.purchaseOrder?.id, 'view']">{{
+                purchaseOrderDetails.purchaseOrder?.id
+              }}</a>
+            </div>
+          </td>
+          <td class="text-end">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/purchase-order-details', purchaseOrderDetails.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/purchase-order-details', purchaseOrderDetails.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(purchaseOrderDetails)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="purchaseOrderDetails && purchaseOrderDetails.length > 0">
+    <div class="d-flex justify-content-center">
+      <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+    </div>
+
+    <div class="d-flex justify-content-center">
+      <ngb-pagination
+        [collectionSize]="totalItems"
+        [(page)]="ngbPaginationPage"
+        [pageSize]="itemsPerPage"
+        [maxSize]="5"
+        [rotate]="true"
+        [boundaryLinks]="true"
+        (pageChange)="loadPage($event)"
+      ></ngb-pagination>
+    </div>
+  </div>
+</div>

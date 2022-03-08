@@ -1,0 +1,98 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="purchaseOrder">
+      <h2 data-cy="purchaseOrderDetailsHeading">
+        <span jhiTranslate="inventoryManagmentSystemApp.purchaseOrder.detail.title">Purchase Order</span>
+      </h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ purchaseOrder.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="inventoryManagmentSystemApp.purchaseOrder.totalPOAmount">Total PO Amount</span></dt>
+        <dd>
+          <span>{{ purchaseOrder.totalPOAmount }}</span>
+        </dd>
+        <dt><span jhiTranslate="inventoryManagmentSystemApp.purchaseOrder.totalGSTAmount">Total GST Amount</span></dt>
+        <dd>
+          <span>{{ purchaseOrder.totalGSTAmount }}</span>
+        </dd>
+        <dt><span jhiTranslate="inventoryManagmentSystemApp.purchaseOrder.expectedDeliveryDate">Expected Delivery Date</span></dt>
+        <dd>
+          <span>{{ purchaseOrder.expectedDeliveryDate | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="inventoryManagmentSystemApp.purchaseOrder.poDate">Po Date</span></dt>
+        <dd>
+          <span>{{ purchaseOrder.poDate | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="inventoryManagmentSystemApp.purchaseOrder.orderType">Order Type</span></dt>
+        <dd>
+          <span jhiTranslate="{{ 'inventoryManagmentSystemApp.OrderType.' + purchaseOrder.orderType }}">{{ purchaseOrder.orderType }}</span>
+        </dd>
+        <dt><span jhiTranslate="inventoryManagmentSystemApp.purchaseOrder.orderStatus">Order Status</span></dt>
+        <dd>
+          <span jhiTranslate="{{ 'inventoryManagmentSystemApp.Status.' + purchaseOrder.orderStatus }}">{{
+            purchaseOrder.orderStatus
+          }}</span>
+        </dd>
+        <dt><span jhiTranslate="inventoryManagmentSystemApp.purchaseOrder.clientName">Client Name</span></dt>
+        <dd>
+          <span>{{ purchaseOrder.clientName }}</span>
+        </dd>
+        <dt><span jhiTranslate="inventoryManagmentSystemApp.purchaseOrder.clientMobile">Client Mobile</span></dt>
+        <dd>
+          <span>{{ purchaseOrder.clientMobile }}</span>
+        </dd>
+        <dt><span jhiTranslate="inventoryManagmentSystemApp.purchaseOrder.clientEmail">Client Email</span></dt>
+        <dd>
+          <span>{{ purchaseOrder.clientEmail }}</span>
+        </dd>
+        <dt><span jhiTranslate="inventoryManagmentSystemApp.purchaseOrder.termsAndCondition">Terms And Condition</span></dt>
+        <dd>
+          <span>{{ purchaseOrder.termsAndCondition }}</span>
+        </dd>
+        <dt><span jhiTranslate="inventoryManagmentSystemApp.purchaseOrder.notes">Notes</span></dt>
+        <dd>
+          <span>{{ purchaseOrder.notes }}</span>
+        </dd>
+        <dt><span jhiTranslate="inventoryManagmentSystemApp.purchaseOrder.lastModified">Last Modified</span></dt>
+        <dd>
+          <span>{{ purchaseOrder.lastModified | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="inventoryManagmentSystemApp.purchaseOrder.lastModifiedBy">Last Modified By</span></dt>
+        <dd>
+          <span>{{ purchaseOrder.lastModifiedBy }}</span>
+        </dd>
+        <dt><span jhiTranslate="inventoryManagmentSystemApp.purchaseOrder.freeField1">Free Field 1</span></dt>
+        <dd>
+          <span>{{ purchaseOrder.freeField1 }}</span>
+        </dd>
+        <dt><span jhiTranslate="inventoryManagmentSystemApp.purchaseOrder.freeField2">Free Field 2</span></dt>
+        <dd>
+          <span>{{ purchaseOrder.freeField2 }}</span>
+        </dd>
+        <dt><span jhiTranslate="inventoryManagmentSystemApp.purchaseOrder.securityUser">Security User</span></dt>
+        <dd>
+          <div *ngIf="purchaseOrder.securityUser">
+            <a [routerLink]="['/security-user', purchaseOrder.securityUser?.id, 'view']">{{ purchaseOrder.securityUser?.login }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/purchase-order', purchaseOrder.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>
