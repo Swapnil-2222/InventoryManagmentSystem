@@ -1,0 +1,42 @@
+{
+  "inventoryManagmentSystemApp": {
+    "purchaseOrder": {
+      "home": {
+        "title": "Purchase Orders",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Purchase Order",
+        "createOrEditLabel": "Create or edit a Purchase Order",
+        "notFound": "No Purchase Orders found"
+      },
+      "created": "A new Purchase Order is created with identifier {{ param }}",
+      "updated": "A Purchase Order is updated with identifier {{ param }}",
+      "deleted": "A Purchase Order is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Purchase Order {{ id }}?"
+      },
+      "detail": {
+        "title": "Purchase Order"
+      },
+      "id": "ID",
+      "totalPOAmount": "Total PO Amount",
+      "totalGSTAmount": "Total GST Amount",
+      "expectedDeliveryDate": "Expected Delivery Date",
+      "poDate": "Po Date",
+      "orderType": "Order Type",
+      "orderStatus": "Order Status",
+      "clientName": "Client Name",
+      "clientMobile": "Client Mobile",
+      "clientEmail": "Client Email",
+      "termsAndCondition": "Terms And Condition",
+      "notes": "Notes",
+      "lastModified": "Last Modified",
+      "lastModifiedBy": "Last Modified By",
+      "freeField1": "Free Field 1",
+      "freeField2": "Free Field 2",
+      "purchaseOrderDetails": "Purchase Order Details",
+      "goodRecived": "Good Recived",
+      "securityUser": "Security User",
+      "productInventory": "Product Inventory"
+    }
+  }
+}

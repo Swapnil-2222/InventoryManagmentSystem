@@ -1,0 +1,86 @@
+{
+  "applications": "*",
+  "changelogDate": "20220308101645",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "ware_house",
+  "fields": [
+    {
+      "fieldName": "wareHouseName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "address",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "pincode",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "city",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "state",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "country",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "gstDetails",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "managerName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "managerEmail",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "managerContact",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "contact",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "isDeleted",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "isActive",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "lastModified",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "lastModifiedBy",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": true,
+  "name": "WareHouse",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "productInventory",
+      "otherEntityRelationshipName": "wareHouse",
+      "ownerSide": false,
+      "relationshipName": "productInventory",
+      "relationshipType": "many-to-many"
+    }
+  ],
+  "service": "serviceClass"
+}
