@@ -1,0 +1,360 @@
+entity Product {
+   shortName String
+   chemicalFormula String
+   hsnNo String
+   materialImage Blob
+   isDeleted Boolean
+   isActive Boolean
+   //Above fields are added as RawMaterialMaster contains these fields
+   productName String
+   alertUnits String 
+   casNumber String 
+   catlogNumber String 
+   molecularWt Double
+   molecularFormula String
+   chemicalName String
+   structureImg String
+   description String
+   qrCode String
+   barCode String
+   gstPercentage Double
+   productType ProductType
+   lastModified Instant 
+   lastModifiedBy String 
+   freeField1 String
+   freeField2 String
+}
+
+entity Categories {
+    categoryName String
+    categoryDescription String
+    freeField1 String
+    lastModified Instant
+    lastModifiedBy String
+    isDeleted Boolean
+    isActive Boolean
+}
+
+entity Unit {
+    unitName String
+    shortName String
+    freeField1 String
+    lastModified Instant
+    lastModifiedBy String
+    isDeleted Boolean
+    isActive Boolean
+}
+
+entity WareHouse {
+    whName String
+    address String
+    pincode Integer
+    city String
+    state String
+    country String
+    GSTDetails String
+    managerName String
+    managerEmail String
+    managerContact String
+    contact String
+    isDeleted Boolean
+    isActive Boolean
+    wareHouseId Long
+    lastModified Instant required
+    lastModifiedBy String required
+}
+
+entity ProductInventory{
+    inwardOutwardDate Instant
+    inwardQty String //all inwards will be captured here
+    outwardQty String
+    totalQuanity String
+    pricePerUnit Long
+    lotNo String
+    expiryDate Instant
+    inventoryTypeId String
+    freeField1 String
+    freeField2 String
+    lastModified Instant
+    lastModifiedBy String
+    isDeleted Boolean
+    isActive Boolean
+}
+
+entity Project{
+    name String 
+    startDate Instant
+    endDate Instant
+    departmentName String
+    budget String
+    freeField1 String
+    freeField2 String
+    freeField3 String
+    lastModified Instant
+    lastModifiedBy String
+}
+entity ConsumptionDetails{
+    comsumptionDate Instant
+    qtyConsumed Double
+    freeField1 String
+    freeField2 String
+    lastModified Instant
+    lastModifiedBy String
+    }
+    
+entity ProductTransaction {
+    qtySold Double
+    pricePerUnit Double
+    lotNumber String
+    expirydate Instant
+    totalAmount Double
+    gstAmount Double
+    description String
+    lastModified Instant 
+	lastModifiedBy String 
+}
+
+entity PurchaseOrder {
+   totalPOAmount Double
+   totalGSTAmount Double
+   expectedDeliveryDate Instant
+   poDate Instant
+   orderType OrderType
+   orderStatus Status
+   clientName String
+   clientMobile String
+   clientEmail String
+   termsAndCondition String
+   notes String
+   lastModified Instant required
+   lastModifiedBy String required
+   freeField1 String
+   freeField2 String
+}
+
+entity PurchaseOrderDetails{
+  qtyordered Double
+  gstTaxPercentage Integer
+  pricePerUnit Double
+  totalPrice Double
+  discount Double
+  lastModified Instant required
+  lastModifiedBy String required
+  freeField1 String
+  freeField2 String
+}
+
+entity GoodsRecived {
+  grDate Instant
+  qtyOrdered Double
+  qtyRecieved Double
+  manufacturingDate Instant
+  expiryDate Instant
+  lotNo String
+  freeField1 String
+  freeField2 String
+  freeField3 String
+}
+
+entity Transfer{
+   tranferDate Instant
+   comment String
+   status Status
+   sourceWareHouse String
+   destinationWareHouse String
+   freeField1 String
+   lastModified Instant
+   lastModifiedBy String
+  }
+ 
+  entity TransferDetails{
+   approvalDate Instant
+    qty Double
+    comment String
+    freeField1 String
+    freeField2 String
+    lastModified Instant
+    lastModifiedBy String
+    isDeleted Boolean
+    isActive Boolean
+  }
+ 
+  entity TransferDetailsApprovals{
+    approvalDate Instant
+    qtyRequested Double
+    qtyApproved Double
+    comment String
+    freeField1 String
+    lastModified Instant
+    lastModifiedBy String
+    isDeleted Boolean
+    isActive Boolean
+  }
+ 
+   entity TransferRecieved{
+    transferDate Instant
+    qtyTransfered Double
+    qtyReceived Double
+    comment String
+    freeField1 String
+    lastModified Instant
+    lastModifiedBy String
+    isDeleted Boolean
+    isActive Boolean
+  }
+
+entity SecurityUser {
+    firstName String
+    lastName String
+    designation String
+    businessTitle String
+    login String required unique
+    passwordHash String required
+	email String unique
+    imageUrl String
+    activated Boolean required
+    langKey String
+    activationKey String
+    resetKey String
+    resetDate Instant
+	mobileNo String
+	oneTimePassword String
+	otpExpiryTime Instant
+    lastModified Instant
+	lastModifiedBy String
+}
+
+entity Notification {
+	massage String required 
+	notificationType NotificationType
+    isActionRequired Boolean
+    lastModified Instant required
+	lastModifiedBy String required
+}
+
+entity SecurityRole {
+	name String required unique
+	description String
+    lastModified Instant required
+	lastModifiedBy String required
+}
+
+entity SecurityPermission {
+	name String required unique
+	description String
+    lastModified Instant required
+	lastModifiedBy String required
+}
+
+enum Status {
+    REQUESTED(Requested),
+    APPROVED(Approved),
+    CANCELED(Canceled),
+    RECEIVED(Received),
+    COMPLETED(Completed)
+}
+
+entity UserAccess {
+    level AccessLevel
+    accessId Long
+    lastModified Instant required
+	lastModifiedBy String required
+}
+
+enum AccessLevel {
+    ROOT(Root),
+    LAB(Lab),
+    SECTION(Section)
+}
+
+enum ProductType{
+	RAWMATERIAL(RawMaterial),
+    PRODUCT(Product),
+    BOTH(Both),
+    OTHER(Other)
+}
+
+enum NotificationType{
+	APPROVAL(Apporoval),
+    REQUEST(Product),
+    ALERT(Alert),
+    TRANSFER(Transfer)
+}
+enum OrderType{
+	PURCHASE_ORDER(PurchaseOrder),
+    PRODUCT_QUATATION(ProductQuatation)
+}
+
+relationship ManyToOne {
+    Product{categories} to Categories 
+    Product{unit} to Unit 
+}
+
+relationship OneToMany {
+  Product to TransferDetails{product}
+  ProductInventory{consumptionDetails} to ConsumptionDetails{productInventory}
+}
+
+relationship OneToMany {
+	PurchaseOrder to PurchaseOrderDetails{purchaseOrder}
+    PurchaseOrder{goodRecived} to GoodsRecived{purchaseOrder}
+    PurchaseOrderDetails{product} to Product   
+}
+
+relationship OneToMany{
+    Transfer to TransferDetails{transfer}
+    Transfer to TransferRecieved{transfer}
+    Transfer to TransferDetailsApprovals{transfer}
+    Transfer to TransferRecieved{transfer}
+}
+
+relationship ManyToOne {  
+  Product{ecurityUser(login)} to SecurityUser
+  ProductInventory{product(productName)} to Product
+  ProductInventory{purchaseOrder} to PurchaseOrder{productInventory}
+  ProductInventory{productTransaction} to ProductTransaction
+  ConsumptionDetails{securityUser(login)} to SecurityUser
+  ConsumptionDetails{project(name)} to Project
+  PurchaseOrder{securityUser(login)} to SecurityUser
+}
+
+relationship ManyToOne {
+    UserAccess{securityUser(login)} to SecurityUser 
+    ProductTransaction{ecurityUser(login)} to SecurityUser
+    ProductTransaction{wareHouse(whName)} to WareHouse
+    Transfer{securityUser(login)} to SecurityUser
+    Transfer{wareHouse(whName)} to WareHouse
+    TransferDetailsApprovals{securityUser(login)} to SecurityUser
+    TransferRecieved{securityUser(login)} to SecurityUser
+    TransferDetails{wareHouse(whName)} to WareHouse
+    Notification{ecurityUser(login)} to SecurityUser
+    Notification{wareHouse(whName)} to WareHouse
+    
+}
+
+
+relationship ManyToMany {
+  SecurityRole{securityPermission(name)} to SecurityPermission{securityRole(name)},
+  SecurityUser{securityPermission(name)} to SecurityPermission{securityUser(login)},
+  SecurityUser{securityRole(name)} to SecurityRole{securityUser(login)} 
+}
+
+relationship ManyToMany {
+  ProductInventory{wareHouse(whName)} to WareHouse{productInventory}
+  SecurityUser{securityUser(login)} to WareHouse{productInventory}
+  ProductInventory{securityUser(login)} to SecurityUser{productInventory}
+  }
+
+// Set pagination options
+paginate * with infinite-scroll
+paginate * with pagination
+
+// Use Data Transfert Objects (DTO)
+dto * with mapstruct
+
+// Set service options to all except few
+service * with serviceClass
+
+filter *
+// Set an angular suffix
+// angularSuffix * with tvg
