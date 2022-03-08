@@ -1,0 +1,106 @@
+{
+  "applications": "*",
+  "changelogDate": "20220308101650",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "purchase_order",
+  "fields": [
+    {
+      "fieldName": "totalPOAmount",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "totalGSTAmount",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "expectedDeliveryDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "poDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "orderType",
+      "fieldType": "OrderType",
+      "fieldValues": "PURCHASE_ORDER (PurchaseOrder),PRODUCT_QUATATION (ProductQuatation)"
+    },
+    {
+      "fieldName": "orderStatus",
+      "fieldType": "Status",
+      "fieldValues": "REQUESTED (Requested),APPROVED (Approved),CANCELED (Canceled),RECEIVED (Received),COMPLETED (Completed)"
+    },
+    {
+      "fieldName": "clientName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "clientMobile",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "clientEmail",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "termsAndCondition",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "notes",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "lastModified",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "lastModifiedBy",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "freeField1",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "freeField2",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": true,
+  "name": "PurchaseOrder",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "purchaseOrderDetails",
+      "otherEntityRelationshipName": "purchaseOrder",
+      "relationshipName": "purchaseOrderDetails",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "goodsRecived",
+      "otherEntityRelationshipName": "purchaseOrder",
+      "relationshipName": "goodRecived",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityField": "login",
+      "otherEntityName": "securityUser",
+      "otherEntityRelationshipName": "purchaseOrder",
+      "relationshipName": "securityUser",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "productInventory",
+      "otherEntityRelationshipName": "purchaseOrder",
+      "relationshipName": "productInventory",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "service": "serviceClass"
+}

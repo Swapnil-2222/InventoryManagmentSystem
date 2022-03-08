@@ -1,0 +1,221 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2
+        id="jhi-product-transaction-heading"
+        data-cy="ProductTransactionCreateUpdateHeading"
+        jhiTranslate="inventoryManagmentSystemApp.productTransaction.home.createOrEditLabel"
+      >
+        Create or edit a Product Transaction
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-3" [hidden]="editForm.get('id')!.value == null">
+          <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="inventoryManagmentSystemApp.productTransaction.qtySold" for="field_qtySold"
+            >Qty Sold</label
+          >
+          <input type="number" class="form-control" name="qtySold" id="field_qtySold" data-cy="qtySold" formControlName="qtySold" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="inventoryManagmentSystemApp.productTransaction.pricePerUnit" for="field_pricePerUnit"
+            >Price Per Unit</label
+          >
+          <input
+            type="number"
+            class="form-control"
+            name="pricePerUnit"
+            id="field_pricePerUnit"
+            data-cy="pricePerUnit"
+            formControlName="pricePerUnit"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="inventoryManagmentSystemApp.productTransaction.lotNumber" for="field_lotNumber"
+            >Lot Number</label
+          >
+          <input type="text" class="form-control" name="lotNumber" id="field_lotNumber" data-cy="lotNumber" formControlName="lotNumber" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="inventoryManagmentSystemApp.productTransaction.expirydate" for="field_expirydate"
+            >Expirydate</label
+          >
+          <div class="d-flex">
+            <input
+              id="field_expirydate"
+              data-cy="expirydate"
+              type="datetime-local"
+              class="form-control"
+              name="expirydate"
+              formControlName="expirydate"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="inventoryManagmentSystemApp.productTransaction.totalAmount" for="field_totalAmount"
+            >Total Amount</label
+          >
+          <input
+            type="number"
+            class="form-control"
+            name="totalAmount"
+            id="field_totalAmount"
+            data-cy="totalAmount"
+            formControlName="totalAmount"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="inventoryManagmentSystemApp.productTransaction.gstAmount" for="field_gstAmount"
+            >Gst Amount</label
+          >
+          <input type="number" class="form-control" name="gstAmount" id="field_gstAmount" data-cy="gstAmount" formControlName="gstAmount" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="inventoryManagmentSystemApp.productTransaction.description" for="field_description"
+            >Description</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="description"
+            id="field_description"
+            data-cy="description"
+            formControlName="description"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="inventoryManagmentSystemApp.productTransaction.lastModified" for="field_lastModified"
+            >Last Modified</label
+          >
+          <div class="d-flex">
+            <input
+              id="field_lastModified"
+              data-cy="lastModified"
+              type="datetime-local"
+              class="form-control"
+              name="lastModified"
+              formControlName="lastModified"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="inventoryManagmentSystemApp.productTransaction.lastModifiedBy" for="field_lastModifiedBy"
+            >Last Modified By</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="lastModifiedBy"
+            id="field_lastModifiedBy"
+            data-cy="lastModifiedBy"
+            formControlName="lastModifiedBy"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="inventoryManagmentSystemApp.productTransaction.wareHouse" for="field_wareHouse"
+            >Ware House</label
+          >
+          <select class="form-control" id="field_wareHouse" data-cy="wareHouse" name="wareHouse" formControlName="wareHouse">
+            <option [ngValue]="null"></option>
+            <option
+              [ngValue]="wareHouseOption.id === editForm.get('wareHouse')!.value?.id ? editForm.get('wareHouse')!.value : wareHouseOption"
+              *ngFor="let wareHouseOption of wareHousesSharedCollection; trackBy: trackWareHouseById"
+            >
+              {{ wareHouseOption.wareHouseName }}
+            </option>
+          </select>
+        </div>
+
+        <div class="row mb-3">
+          <label jhiTranslate="inventoryManagmentSystemApp.productTransaction.product" for="field_products">Product</label>
+          <select class="form-control" id="field_products" data-cy="product" multiple name="products" formControlName="products">
+            <option
+              [ngValue]="getSelectedProduct(productOption, editForm.get('products')!.value)"
+              *ngFor="let productOption of productsSharedCollection; trackBy: trackProductById"
+            >
+              {{ productOption.productName }}
+            </option>
+          </select>
+        </div>
+
+        <div class="row mb-3">
+          <label
+            class="form-label"
+            jhiTranslate="inventoryManagmentSystemApp.productTransaction.productInventory"
+            for="field_productInventory"
+            >Product Inventory</label
+          >
+          <select
+            class="form-control"
+            id="field_productInventory"
+            data-cy="productInventory"
+            name="productInventory"
+            formControlName="productInventory"
+          >
+            <option [ngValue]="null"></option>
+            <option
+              [ngValue]="
+                productInventoryOption.id === editForm.get('productInventory')!.value?.id
+                  ? editForm.get('productInventory')!.value
+                  : productInventoryOption
+              "
+              *ngFor="let productInventoryOption of productInventoriesSharedCollection; trackBy: trackProductInventoryById"
+            >
+              {{ productInventoryOption.id }}
+            </option>
+          </select>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="inventoryManagmentSystemApp.productTransaction.securityUser" for="field_securityUser"
+            >Security User</label
+          >
+          <select class="form-control" id="field_securityUser" data-cy="securityUser" name="securityUser" formControlName="securityUser">
+            <option [ngValue]="null"></option>
+            <option
+              [ngValue]="
+                securityUserOption.id === editForm.get('securityUser')!.value?.id ? editForm.get('securityUser')!.value : securityUserOption
+              "
+              *ngFor="let securityUserOption of securityUsersSharedCollection; trackBy: trackSecurityUserById"
+            >
+              {{ securityUserOption.id }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
