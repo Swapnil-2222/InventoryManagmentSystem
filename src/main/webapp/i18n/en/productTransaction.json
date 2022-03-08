@@ -1,0 +1,36 @@
+{
+  "inventoryManagmentSystemApp": {
+    "productTransaction": {
+      "home": {
+        "title": "Product Transactions",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Product Transaction",
+        "createOrEditLabel": "Create or edit a Product Transaction",
+        "notFound": "No Product Transactions found"
+      },
+      "created": "A new Product Transaction is created with identifier {{ param }}",
+      "updated": "A Product Transaction is updated with identifier {{ param }}",
+      "deleted": "A Product Transaction is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Product Transaction {{ id }}?"
+      },
+      "detail": {
+        "title": "Product Transaction"
+      },
+      "id": "ID",
+      "qtySold": "Qty Sold",
+      "pricePerUnit": "Price Per Unit",
+      "lotNumber": "Lot Number",
+      "expirydate": "Expirydate",
+      "totalAmount": "Total Amount",
+      "gstAmount": "Gst Amount",
+      "description": "Description",
+      "lastModified": "Last Modified",
+      "lastModifiedBy": "Last Modified By",
+      "wareHouse": "Ware House",
+      "product": "Product",
+      "productInventory": "Product Inventory",
+      "securityUser": "Security User"
+    }
+  }
+}
