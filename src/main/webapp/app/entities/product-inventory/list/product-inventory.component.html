@@ -88,6 +88,10 @@
             <span jhiTranslate="inventoryManagmentSystemApp.productInventory.purchaseOrder">Purchase Order</span>
             <fa-icon icon="sort"></fa-icon>
           </th>
+          <th scope="col" jhiSortBy="productTransaction.id">
+            <span jhiTranslate="inventoryManagmentSystemApp.productInventory.productTransaction">Product Transaction</span>
+            <fa-icon icon="sort"></fa-icon>
+          </th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -118,6 +122,13 @@
           <td>
             <div *ngIf="productInventory.purchaseOrder">
               <a [routerLink]="['/purchase-order', productInventory.purchaseOrder?.id, 'view']">{{ productInventory.purchaseOrder?.id }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="productInventory.productTransaction">
+              <a [routerLink]="['/product-transaction', productInventory.productTransaction?.id, 'view']">{{
+                productInventory.productTransaction?.id
+              }}</a>
             </div>
           </td>
           <td class="text-end">

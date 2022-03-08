@@ -20,6 +20,12 @@
                                  referencedColumnNames="id"
                                  referencedTableName="purchase_order"/>
 
+        <addForeignKeyConstraint baseColumnNames="product_transaction_id"
+                                 baseTableName="product_inventory"
+                                 constraintName="fk_product_inventory__product_transaction_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="product_transaction"/>
+
         <addForeignKeyConstraint baseColumnNames="product_inventory_id"
                                  baseTableName="rel_product_inventory__ware_house"
                                  constraintName="fk_rel_product_inventory__ware_house__product_inventory_id"

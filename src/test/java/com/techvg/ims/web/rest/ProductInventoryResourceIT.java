@@ -1334,32 +1334,6 @@ class ProductInventoryResourceIT {
 
     @Test
     @Transactional
-    void getAllProductInventoriesByProductTransactionIsEqualToSomething() throws Exception {
-        // Initialize the database
-        productInventoryRepository.saveAndFlush(productInventory);
-        ProductTransaction productTransaction;
-        if (TestUtil.findAll(em, ProductTransaction.class).isEmpty()) {
-            productTransaction = ProductTransactionResourceIT.createEntity(em);
-            em.persist(productTransaction);
-            em.flush();
-        } else {
-            productTransaction = TestUtil.findAll(em, ProductTransaction.class).get(0);
-        }
-        em.persist(productTransaction);
-        em.flush();
-        productInventory.addProductTransaction(productTransaction);
-        productInventoryRepository.saveAndFlush(productInventory);
-        Long productTransactionId = productTransaction.getId();
-
-        // Get all the productInventoryList where productTransaction equals to productTransactionId
-        defaultProductInventoryShouldBeFound("productTransactionId.equals=" + productTransactionId);
-
-        // Get all the productInventoryList where productTransaction equals to (productTransactionId + 1)
-        defaultProductInventoryShouldNotBeFound("productTransactionId.equals=" + (productTransactionId + 1));
-    }
-
-    @Test
-    @Transactional
     void getAllProductInventoriesByProductIsEqualToSomething() throws Exception {
         // Initialize the database
         productInventoryRepository.saveAndFlush(productInventory);
@@ -1408,6 +1382,32 @@ class ProductInventoryResourceIT {
 
         // Get all the productInventoryList where purchaseOrder equals to (purchaseOrderId + 1)
         defaultProductInventoryShouldNotBeFound("purchaseOrderId.equals=" + (purchaseOrderId + 1));
+    }
+
+    @Test
+    @Transactional
+    void getAllProductInventoriesByProductTransactionIsEqualToSomething() throws Exception {
+        // Initialize the database
+        productInventoryRepository.saveAndFlush(productInventory);
+        ProductTransaction productTransaction;
+        if (TestUtil.findAll(em, ProductTransaction.class).isEmpty()) {
+            productTransaction = ProductTransactionResourceIT.createEntity(em);
+            em.persist(productTransaction);
+            em.flush();
+        } else {
+            productTransaction = TestUtil.findAll(em, ProductTransaction.class).get(0);
+        }
+        em.persist(productTransaction);
+        em.flush();
+        productInventory.setProductTransaction(productTransaction);
+        productInventoryRepository.saveAndFlush(productInventory);
+        Long productTransactionId = productTransaction.getId();
+
+        // Get all the productInventoryList where productTransaction equals to productTransactionId
+        defaultProductInventoryShouldBeFound("productTransactionId.equals=" + productTransactionId);
+
+        // Get all the productInventoryList where productTransaction equals to (productTransactionId + 1)
+        defaultProductInventoryShouldNotBeFound("productTransactionId.equals=" + (productTransactionId + 1));
     }
 
     @Test

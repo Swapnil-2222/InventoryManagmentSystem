@@ -10,7 +10,7 @@ import org.mapstruct.*;
 @Mapper(componentModel = "spring", uses = { SecurityUserMapper.class, WareHouseMapper.class })
 public interface TransferMapper extends EntityMapper<TransferDTO, Transfer> {
     @Mapping(target = "securityUser", source = "securityUser", qualifiedByName = "login")
-    @Mapping(target = "wareHouse", source = "wareHouse", qualifiedByName = "wareHouseName")
+    @Mapping(target = "wareHouse", source = "wareHouse", qualifiedByName = "whName")
     TransferDTO toDto(Transfer s);
 
     @Named("id")

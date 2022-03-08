@@ -41,10 +41,7 @@ public class ConsumptionDetails implements Serializable {
     private String lastModifiedBy;
 
     @ManyToOne
-    @JsonIgnoreProperties(
-        value = { "productTransactions", "products", "securityPermissions", "securityRoles", "productInventories" },
-        allowSetters = true
-    )
+    @JsonIgnoreProperties(value = { "securityPermissions", "securityRoles", "securityUsers", "productInventories" }, allowSetters = true)
     private SecurityUser securityUser;
 
     @ManyToOne
@@ -52,7 +49,7 @@ public class ConsumptionDetails implements Serializable {
 
     @ManyToOne
     @JsonIgnoreProperties(
-        value = { "consumptionDetails", "productTransactions", "product", "purchaseOrder", "wareHouses", "securityUsers" },
+        value = { "consumptionDetails", "product", "purchaseOrder", "productTransaction", "wareHouses", "securityUsers" },
         allowSetters = true
     )
     private ProductInventory productInventory;

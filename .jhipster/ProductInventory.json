@@ -75,12 +75,6 @@
       "relationshipType": "one-to-many"
     },
     {
-      "otherEntityName": "productTransaction",
-      "otherEntityRelationshipName": "productInventory",
-      "relationshipName": "productTransaction",
-      "relationshipType": "one-to-many"
-    },
-    {
       "otherEntityField": "productName",
       "otherEntityName": "product",
       "otherEntityRelationshipName": "productInventory",
@@ -94,7 +88,13 @@
       "relationshipType": "many-to-one"
     },
     {
-      "otherEntityField": "wareHouseName",
+      "otherEntityName": "productTransaction",
+      "otherEntityRelationshipName": "productInventory",
+      "relationshipName": "productTransaction",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "whName",
       "otherEntityName": "wareHouse",
       "otherEntityRelationshipName": "productInventory",
       "ownerSide": true,

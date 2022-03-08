@@ -25,8 +25,8 @@ public class WareHouse implements Serializable {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "ware_house_name")
-    private String wareHouseName;
+    @Column(name = "wh_name")
+    private String whName;
 
     @Column(name = "address")
     private String address;
@@ -43,8 +43,8 @@ public class WareHouse implements Serializable {
     @Column(name = "country")
     private String country;
 
-    @Column(name = "gst_details")
-    private String gstDetails;
+    @Column(name = "g_st_details")
+    private String gSTDetails;
 
     @Column(name = "manager_name")
     private String managerName;
@@ -64,6 +64,9 @@ public class WareHouse implements Serializable {
     @Column(name = "is_active")
     private Boolean isActive;
 
+    @Column(name = "ware_house_id")
+    private Long wareHouseId;
+
     @NotNull
     @Column(name = "last_modified", nullable = false)
     private Instant lastModified;
@@ -73,12 +76,21 @@ public class WareHouse implements Serializable {
     private String lastModifiedBy;
 
     @ManyToMany(mappedBy = "wareHouses")
+    @ManyToMany(mappedBy = "securityUsers")
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(
-        value = { "consumptionDetails", "productTransactions", "product", "purchaseOrder", "wareHouses", "securityUsers" },
+        value = { "consumptionDetails", "product", "purchaseOrder", "productTransaction", "wareHouses", "securityUsers" },
         allowSetters = true
     )
     private Set<ProductInventory> productInventories = new HashSet<>();
+
+    @ManyToMany(mappedBy = "wareHouses")
+    @ManyToMany(mappedBy = "securityUsers")
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @JsonIgnoreProperties(value = { "securityPermissions", "securityRoles", "securityUsers", "productInventories" }, allowSetters = true)
+    private Set<SecurityUser> productInventories = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -95,17 +107,17 @@ public class WareHouse implements Serializable {
         this.id = id;
     }
 
-    public String getWareHouseName() {
-        return this.wareHouseName;
+    public String getWhName() {
+        return this.whName;
     }
 
-    public WareHouse wareHouseName(String wareHouseName) {
-        this.setWareHouseName(wareHouseName);
+    public WareHouse whName(String whName) {
+        this.setWhName(whName);
         return this;
     }
 
-    public void setWareHouseName(String wareHouseName) {
-        this.wareHouseName = wareHouseName;
+    public void setWhName(String whName) {
+        this.whName = whName;
     }
 
     public String getAddress() {
@@ -173,17 +185,17 @@ public class WareHouse implements Serializable {
         this.country = country;
     }
 
-    public String getGstDetails() {
-        return this.gstDetails;
+    public String getgSTDetails() {
+        return this.gSTDetails;
     }
 
-    public WareHouse gstDetails(String gstDetails) {
-        this.setGstDetails(gstDetails);
+    public WareHouse gSTDetails(String gSTDetails) {
+        this.setgSTDetails(gSTDetails);
         return this;
     }
 
-    public void setGstDetails(String gstDetails) {
-        this.gstDetails = gstDetails;
+    public void setgSTDetails(String gSTDetails) {
+        this.gSTDetails = gSTDetails;
     }
 
     public String getManagerName() {
@@ -264,6 +276,19 @@ public class WareHouse implements Serializable {
         this.isActive = isActive;
     }
 
+    public Long getWareHouseId() {
+        return this.wareHouseId;
+    }
+
+    public WareHouse wareHouseId(Long wareHouseId) {
+        this.setWareHouseId(wareHouseId);
+        return this;
+    }
+
+    public void setWareHouseId(Long wareHouseId) {
+        this.wareHouseId = wareHouseId;
+    }
+
     public Instant getLastModified() {
         return this.lastModified;
     }
@@ -321,6 +346,37 @@ public class WareHouse implements Serializable {
         return this;
     }
 
+    public Set<SecurityUser> getProductInventories() {
+        return this.productInventories;
+    }
+
+    public void setProductInventories(Set<SecurityUser> securityUsers) {
+        if (this.productInventories != null) {
+            this.productInventories.forEach(i -> i.removeSecurityUser(this));
+        }
+        if (securityUsers != null) {
+            securityUsers.forEach(i -> i.addSecurityUser(this));
+        }
+        this.productInventories = securityUsers;
+    }
+
+    public WareHouse productInventories(Set<SecurityUser> securityUsers) {
+        this.setProductInventories(securityUsers);
+        return this;
+    }
+
+    public WareHouse addProductInventory(SecurityUser securityUser) {
+        this.productInventories.add(securityUser);
+        securityUser.getSecurityUsers().add(this);
+        return this;
+    }
+
+    public WareHouse removeProductInventory(SecurityUser securityUser) {
+        this.productInventories.remove(securityUser);
+        securityUser.getSecurityUsers().remove(this);
+        return this;
+    }
+
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
@@ -345,19 +401,20 @@ public class WareHouse implements Serializable {
     public String toString() {
         return "WareHouse{" +
             "id=" + getId() +
-            ", wareHouseName='" + getWareHouseName() + "'" +
+            ", whName='" + getWhName() + "'" +
             ", address='" + getAddress() + "'" +
             ", pincode=" + getPincode() +
             ", city='" + getCity() + "'" +
             ", state='" + getState() + "'" +
             ", country='" + getCountry() + "'" +
-            ", gstDetails='" + getGstDetails() + "'" +
+            ", gSTDetails='" + getgSTDetails() + "'" +
             ", managerName='" + getManagerName() + "'" +
             ", managerEmail='" + getManagerEmail() + "'" +
             ", managerContact='" + getManagerContact() + "'" +
             ", contact='" + getContact() + "'" +
             ", isDeleted='" + getIsDeleted() + "'" +
             ", isActive='" + getIsActive() + "'" +
+            ", wareHouseId=" + getWareHouseId() +
             ", lastModified='" + getLastModified() + "'" +
             ", lastModifiedBy='" + getLastModifiedBy() + "'" +
             "}";

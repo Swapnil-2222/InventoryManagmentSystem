@@ -14,33 +14,32 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface ProductTransactionRepository
-    extends
-        ProductTransactionRepositoryWithBagRelationships,
-        JpaRepository<ProductTransaction, Long>,
-        JpaSpecificationExecutor<ProductTransaction> {
+    extends JpaRepository<ProductTransaction, Long>, JpaSpecificationExecutor<ProductTransaction> {
     default Optional<ProductTransaction> findOneWithEagerRelationships(Long id) {
-        return this.fetchBagRelationships(this.findOneWithToOneRelationships(id));
+        return this.findOneWithToOneRelationships(id);
     }
 
     default List<ProductTransaction> findAllWithEagerRelationships() {
-        return this.fetchBagRelationships(this.findAllWithToOneRelationships());
+        return this.findAllWithToOneRelationships();
     }
 
     default Page<ProductTransaction> findAllWithEagerRelationships(Pageable pageable) {
-        return this.fetchBagRelationships(this.findAllWithToOneRelationships(pageable));
+        return this.findAllWithToOneRelationships(pageable);
     }
 
     @Query(
-        value = "select distinct productTransaction from ProductTransaction productTransaction left join fetch productTransaction.wareHouse",
+        value = "select distinct productTransaction from ProductTransaction productTransaction left join fetch productTransaction.ecurityUser left join fetch productTransaction.wareHouse",
         countQuery = "select count(distinct productTransaction) from ProductTransaction productTransaction"
     )
     Page<ProductTransaction> findAllWithToOneRelationships(Pageable pageable);
 
-    @Query("select distinct productTransaction from ProductTransaction productTransaction left join fetch productTransaction.wareHouse")
+    @Query(
+        "select distinct productTransaction from ProductTransaction productTransaction left join fetch productTransaction.ecurityUser left join fetch productTransaction.wareHouse"
+    )
     List<ProductTransaction> findAllWithToOneRelationships();
 
     @Query(
-        "select productTransaction from ProductTransaction productTransaction left join fetch productTransaction.wareHouse where productTransaction.id =:id"
+        "select productTransaction from ProductTransaction productTransaction left join fetch productTransaction.ecurityUser left join fetch productTransaction.wareHouse where productTransaction.id =:id"
     )
     Optional<ProductTransaction> findOneWithToOneRelationships(@Param("id") Long id);
 }

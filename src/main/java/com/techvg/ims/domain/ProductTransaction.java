@@ -3,8 +3,6 @@ package com.techvg.ims.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.time.Instant;
-import java.util.HashSet;
-import java.util.Set;
 import javax.persistence.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -52,35 +50,12 @@ public class ProductTransaction implements Serializable {
     private String lastModifiedBy;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "productInventories" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "securityPermissions", "securityRoles", "securityUsers", "productInventories" }, allowSetters = true)
+    private SecurityUser ecurityUser;
+
+    @ManyToOne
+    @JsonIgnoreProperties(value = { "productInventories", "productInventories" }, allowSetters = true)
     private WareHouse wareHouse;
-
-    @ManyToMany
-    @JoinTable(
-        name = "rel_product_transaction__product",
-        joinColumns = @JoinColumn(name = "product_transaction_id"),
-        inverseJoinColumns = @JoinColumn(name = "product_id")
-    )
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(
-        value = { "transferDetails", "purchaseOrderDetails", "categories", "unit", "securityUser", "productTransactions" },
-        allowSetters = true
-    )
-    private Set<Product> products = new HashSet<>();
-
-    @ManyToOne
-    @JsonIgnoreProperties(
-        value = { "consumptionDetails", "productTransactions", "product", "purchaseOrder", "wareHouses", "securityUsers" },
-        allowSetters = true
-    )
-    private ProductInventory productInventory;
-
-    @ManyToOne
-    @JsonIgnoreProperties(
-        value = { "productTransactions", "products", "securityPermissions", "securityRoles", "productInventories" },
-        allowSetters = true
-    )
-    private SecurityUser securityUser;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -214,6 +189,19 @@ public class ProductTransaction implements Serializable {
         this.lastModifiedBy = lastModifiedBy;
     }
 
+    public SecurityUser getEcurityUser() {
+        return this.ecurityUser;
+    }
+
+    public void setEcurityUser(SecurityUser securityUser) {
+        this.ecurityUser = securityUser;
+    }
+
+    public ProductTransaction ecurityUser(SecurityUser securityUser) {
+        this.setEcurityUser(securityUser);
+        return this;
+    }
+
     public WareHouse getWareHouse() {
         return this.wareHouse;
     }
@@ -224,57 +212,6 @@ public class ProductTransaction implements Serializable {
 
     public ProductTransaction wareHouse(WareHouse wareHouse) {
         this.setWareHouse(wareHouse);
-        return this;
-    }
-
-    public Set<Product> getProducts() {
-        return this.products;
-    }
-
-    public void setProducts(Set<Product> products) {
-        this.products = products;
-    }
-
-    public ProductTransaction products(Set<Product> products) {
-        this.setProducts(products);
-        return this;
-    }
-
-    public ProductTransaction addProduct(Product product) {
-        this.products.add(product);
-        product.getProductTransactions().add(this);
-        return this;
-    }
-
-    public ProductTransaction removeProduct(Product product) {
-        this.products.remove(product);
-        product.getProductTransactions().remove(this);
-        return this;
-    }
-
-    public ProductInventory getProductInventory() {
-        return this.productInventory;
-    }
-
-    public void setProductInventory(ProductInventory productInventory) {
-        this.productInventory = productInventory;
-    }
-
-    public ProductTransaction productInventory(ProductInventory productInventory) {
-        this.setProductInventory(productInventory);
-        return this;
-    }
-
-    public SecurityUser getSecurityUser() {
-        return this.securityUser;
-    }
-
-    public void setSecurityUser(SecurityUser securityUser) {
-        this.securityUser = securityUser;
-    }
-
-    public ProductTransaction securityUser(SecurityUser securityUser) {
-        this.setSecurityUser(securityUser);
         return this;
     }
 

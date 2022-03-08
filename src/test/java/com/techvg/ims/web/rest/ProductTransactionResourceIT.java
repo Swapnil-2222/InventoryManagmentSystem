@@ -2,37 +2,27 @@ package com.techvg.ims.web.rest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
-import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.techvg.ims.IntegrationTest;
-import com.techvg.ims.domain.Product;
-import com.techvg.ims.domain.ProductInventory;
 import com.techvg.ims.domain.ProductTransaction;
 import com.techvg.ims.domain.SecurityUser;
 import com.techvg.ims.domain.WareHouse;
 import com.techvg.ims.repository.ProductTransactionRepository;
-import com.techvg.ims.service.ProductTransactionService;
 import com.techvg.ims.service.criteria.ProductTransactionCriteria;
 import com.techvg.ims.service.dto.ProductTransactionDTO;
 import com.techvg.ims.service.mapper.ProductTransactionMapper;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
 import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -42,7 +32,6 @@ import org.springframework.transaction.annotation.Transactional;
  * Integration tests for the {@link ProductTransactionResource} REST controller.
  */
 @IntegrationTest
-@ExtendWith(MockitoExtension.class)
 @AutoConfigureMockMvc
 @WithMockUser
 class ProductTransactionResourceIT {
@@ -87,14 +76,8 @@ class ProductTransactionResourceIT {
     @Autowired
     private ProductTransactionRepository productTransactionRepository;
 
-    @Mock
-    private ProductTransactionRepository productTransactionRepositoryMock;
-
     @Autowired
     private ProductTransactionMapper productTransactionMapper;
-
-    @Mock
-    private ProductTransactionService productTransactionServiceMock;
 
     @Autowired
     private EntityManager em;
@@ -222,24 +205,6 @@ class ProductTransactionResourceIT {
             .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)))
             .andExpect(jsonPath("$.[*].lastModified").value(hasItem(DEFAULT_LAST_MODIFIED.toString())))
             .andExpect(jsonPath("$.[*].lastModifiedBy").value(hasItem(DEFAULT_LAST_MODIFIED_BY)));
-    }
-
-    @SuppressWarnings({ "unchecked" })
-    void getAllProductTransactionsWithEagerRelationshipsIsEnabled() throws Exception {
-        when(productTransactionServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
-
-        restProductTransactionMockMvc.perform(get(ENTITY_API_URL + "?eagerload=true")).andExpect(status().isOk());
-
-        verify(productTransactionServiceMock, times(1)).findAllWithEagerRelationships(any());
-    }
-
-    @SuppressWarnings({ "unchecked" })
-    void getAllProductTransactionsWithEagerRelationshipsIsNotEnabled() throws Exception {
-        when(productTransactionServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
-
-        restProductTransactionMockMvc.perform(get(ENTITY_API_URL + "?eagerload=true")).andExpect(status().isOk());
-
-        verify(productTransactionServiceMock, times(1)).findAllWithEagerRelationships(any());
     }
 
     @Test
@@ -1039,6 +1004,32 @@ class ProductTransactionResourceIT {
 
     @Test
     @Transactional
+    void getAllProductTransactionsByEcurityUserIsEqualToSomething() throws Exception {
+        // Initialize the database
+        productTransactionRepository.saveAndFlush(productTransaction);
+        SecurityUser ecurityUser;
+        if (TestUtil.findAll(em, SecurityUser.class).isEmpty()) {
+            ecurityUser = SecurityUserResourceIT.createEntity(em);
+            em.persist(ecurityUser);
+            em.flush();
+        } else {
+            ecurityUser = TestUtil.findAll(em, SecurityUser.class).get(0);
+        }
+        em.persist(ecurityUser);
+        em.flush();
+        productTransaction.setEcurityUser(ecurityUser);
+        productTransactionRepository.saveAndFlush(productTransaction);
+        Long ecurityUserId = ecurityUser.getId();
+
+        // Get all the productTransactionList where ecurityUser equals to ecurityUserId
+        defaultProductTransactionShouldBeFound("ecurityUserId.equals=" + ecurityUserId);
+
+        // Get all the productTransactionList where ecurityUser equals to (ecurityUserId + 1)
+        defaultProductTransactionShouldNotBeFound("ecurityUserId.equals=" + (ecurityUserId + 1));
+    }
+
+    @Test
+    @Transactional
     void getAllProductTransactionsByWareHouseIsEqualToSomething() throws Exception {
         // Initialize the database
         productTransactionRepository.saveAndFlush(productTransaction);
@@ -1061,84 +1052,6 @@ class ProductTransactionResourceIT {
 
         // Get all the productTransactionList where wareHouse equals to (wareHouseId + 1)
         defaultProductTransactionShouldNotBeFound("wareHouseId.equals=" + (wareHouseId + 1));
-    }
-
-    @Test
-    @Transactional
-    void getAllProductTransactionsByProductIsEqualToSomething() throws Exception {
-        // Initialize the database
-        productTransactionRepository.saveAndFlush(productTransaction);
-        Product product;
-        if (TestUtil.findAll(em, Product.class).isEmpty()) {
-            product = ProductResourceIT.createEntity(em);
-            em.persist(product);
-            em.flush();
-        } else {
-            product = TestUtil.findAll(em, Product.class).get(0);
-        }
-        em.persist(product);
-        em.flush();
-        productTransaction.addProduct(product);
-        productTransactionRepository.saveAndFlush(productTransaction);
-        Long productId = product.getId();
-
-        // Get all the productTransactionList where product equals to productId
-        defaultProductTransactionShouldBeFound("productId.equals=" + productId);
-
-        // Get all the productTransactionList where product equals to (productId + 1)
-        defaultProductTransactionShouldNotBeFound("productId.equals=" + (productId + 1));
-    }
-
-    @Test
-    @Transactional
-    void getAllProductTransactionsByProductInventoryIsEqualToSomething() throws Exception {
-        // Initialize the database
-        productTransactionRepository.saveAndFlush(productTransaction);
-        ProductInventory productInventory;
-        if (TestUtil.findAll(em, ProductInventory.class).isEmpty()) {
-            productInventory = ProductInventoryResourceIT.createEntity(em);
-            em.persist(productInventory);
-            em.flush();
-        } else {
-            productInventory = TestUtil.findAll(em, ProductInventory.class).get(0);
-        }
-        em.persist(productInventory);
-        em.flush();
-        productTransaction.setProductInventory(productInventory);
-        productTransactionRepository.saveAndFlush(productTransaction);
-        Long productInventoryId = productInventory.getId();
-
-        // Get all the productTransactionList where productInventory equals to productInventoryId
-        defaultProductTransactionShouldBeFound("productInventoryId.equals=" + productInventoryId);
-
-        // Get all the productTransactionList where productInventory equals to (productInventoryId + 1)
-        defaultProductTransactionShouldNotBeFound("productInventoryId.equals=" + (productInventoryId + 1));
-    }
-
-    @Test
-    @Transactional
-    void getAllProductTransactionsBySecurityUserIsEqualToSomething() throws Exception {
-        // Initialize the database
-        productTransactionRepository.saveAndFlush(productTransaction);
-        SecurityUser securityUser;
-        if (TestUtil.findAll(em, SecurityUser.class).isEmpty()) {
-            securityUser = SecurityUserResourceIT.createEntity(em);
-            em.persist(securityUser);
-            em.flush();
-        } else {
-            securityUser = TestUtil.findAll(em, SecurityUser.class).get(0);
-        }
-        em.persist(securityUser);
-        em.flush();
-        productTransaction.setSecurityUser(securityUser);
-        productTransactionRepository.saveAndFlush(productTransaction);
-        Long securityUserId = securityUser.getId();
-
-        // Get all the productTransactionList where securityUser equals to securityUserId
-        defaultProductTransactionShouldBeFound("securityUserId.equals=" + securityUserId);
-
-        // Get all the productTransactionList where securityUser equals to (securityUserId + 1)
-        defaultProductTransactionShouldNotBeFound("securityUserId.equals=" + (securityUserId + 1));
     }
 
     /**

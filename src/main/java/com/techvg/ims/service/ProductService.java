@@ -76,6 +76,15 @@ public class ProductService {
     }
 
     /**
+     * Get all the products with eager load of many-to-many relationships.
+     *
+     * @return the list of entities.
+     */
+    public Page<ProductDTO> findAllWithEagerRelationships(Pageable pageable) {
+        return productRepository.findAllWithEagerRelationships(pageable).map(productMapper::toDto);
+    }
+
+    /**
      * Get one product by id.
      *
      * @param id the id of the entity.
@@ -84,7 +93,7 @@ public class ProductService {
     @Transactional(readOnly = true)
     public Optional<ProductDTO> findOne(Long id) {
         log.debug("Request to get Product : {}", id);
-        return productRepository.findById(id).map(productMapper::toDto);
+        return productRepository.findOneWithEagerRelationships(id).map(productMapper::toDto);
     }
 
     /**

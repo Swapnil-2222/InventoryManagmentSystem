@@ -42,11 +42,10 @@
       "freeField1": "Free Field 1",
       "freeField2": "Free Field 2",
       "transferDetails": "Transfer Details",
-      "purchaseOrderDetails": "Purchase Order Details",
       "categories": "Categories",
       "unit": "Unit",
-      "securityUser": "Security User",
-      "productTransaction": "Product Transaction"
+      "ecurityUser": "Ecurity User",
+      "purchaseOrderDetails": "Purchase Order Details"
     }
   }
 }

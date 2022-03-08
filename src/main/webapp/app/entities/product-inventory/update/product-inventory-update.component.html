@@ -234,13 +234,41 @@
         </div>
 
         <div class="row mb-3">
+          <label
+            class="form-label"
+            jhiTranslate="inventoryManagmentSystemApp.productInventory.productTransaction"
+            for="field_productTransaction"
+            >Product Transaction</label
+          >
+          <select
+            class="form-control"
+            id="field_productTransaction"
+            data-cy="productTransaction"
+            name="productTransaction"
+            formControlName="productTransaction"
+          >
+            <option [ngValue]="null"></option>
+            <option
+              [ngValue]="
+                productTransactionOption.id === editForm.get('productTransaction')!.value?.id
+                  ? editForm.get('productTransaction')!.value
+                  : productTransactionOption
+              "
+              *ngFor="let productTransactionOption of productTransactionsSharedCollection; trackBy: trackProductTransactionById"
+            >
+              {{ productTransactionOption.id }}
+            </option>
+          </select>
+        </div>
+
+        <div class="row mb-3">
           <label jhiTranslate="inventoryManagmentSystemApp.productInventory.wareHouse" for="field_wareHouses">Ware House</label>
           <select class="form-control" id="field_wareHouses" data-cy="wareHouse" multiple name="wareHouses" formControlName="wareHouses">
             <option
               [ngValue]="getSelectedWareHouse(wareHouseOption, editForm.get('wareHouses')!.value)"
               *ngFor="let wareHouseOption of wareHousesSharedCollection; trackBy: trackWareHouseById"
             >
-              {{ wareHouseOption.wareHouseName }}
+              {{ wareHouseOption.whName }}
             </option>
           </select>
         </div>

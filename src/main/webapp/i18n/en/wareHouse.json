@@ -18,21 +18,23 @@
         "title": "Ware House"
       },
       "id": "ID",
-      "wareHouseName": "Ware House Name",
+      "whName": "Wh Name",
       "address": "Address",
       "pincode": "Pincode",
       "city": "City",
       "state": "State",
       "country": "Country",
-      "gstDetails": "Gst Details",
+      "gSTDetails": "G ST Details",
       "managerName": "Manager Name",
       "managerEmail": "Manager Email",
       "managerContact": "Manager Contact",
       "contact": "Contact",
       "isDeleted": "Is Deleted",
       "isActive": "Is Active",
+      "wareHouseId": "Ware House Id",
       "lastModified": "Last Modified",
       "lastModifiedBy": "Last Modified By",
+      "productInventory": "Product Inventory",
       "productInventory": "Product Inventory"
     }
   }

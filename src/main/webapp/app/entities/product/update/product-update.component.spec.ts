@@ -8,14 +8,14 @@ import { of, Subject, from } from 'rxjs';
 
 import { ProductService } from '../service/product.service';
 import { IProduct, Product } from '../product.model';
-import { IPurchaseOrderDetails } from 'app/entities/purchase-order-details/purchase-order-details.model';
-import { PurchaseOrderDetailsService } from 'app/entities/purchase-order-details/service/purchase-order-details.service';
 import { ICategories } from 'app/entities/categories/categories.model';
 import { CategoriesService } from 'app/entities/categories/service/categories.service';
 import { IUnit } from 'app/entities/unit/unit.model';
 import { UnitService } from 'app/entities/unit/service/unit.service';
 import { ISecurityUser } from 'app/entities/security-user/security-user.model';
 import { SecurityUserService } from 'app/entities/security-user/service/security-user.service';
+import { IPurchaseOrderDetails } from 'app/entities/purchase-order-details/purchase-order-details.model';
+import { PurchaseOrderDetailsService } from 'app/entities/purchase-order-details/service/purchase-order-details.service';
 
 import { ProductUpdateComponent } from './product-update.component';
 
@@ -24,10 +24,10 @@ describe('Product Management Update Component', () => {
   let fixture: ComponentFixture<ProductUpdateComponent>;
   let activatedRoute: ActivatedRoute;
   let productService: ProductService;
-  let purchaseOrderDetailsService: PurchaseOrderDetailsService;
   let categoriesService: CategoriesService;
   let unitService: UnitService;
   let securityUserService: SecurityUserService;
+  let purchaseOrderDetailsService: PurchaseOrderDetailsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -49,37 +49,15 @@ describe('Product Management Update Component', () => {
     fixture = TestBed.createComponent(ProductUpdateComponent);
     activatedRoute = TestBed.inject(ActivatedRoute);
     productService = TestBed.inject(ProductService);
-    purchaseOrderDetailsService = TestBed.inject(PurchaseOrderDetailsService);
     categoriesService = TestBed.inject(CategoriesService);
     unitService = TestBed.inject(UnitService);
     securityUserService = TestBed.inject(SecurityUserService);
+    purchaseOrderDetailsService = TestBed.inject(PurchaseOrderDetailsService);
 
     comp = fixture.componentInstance;
   });
 
   describe('ngOnInit', () => {
-    it('Should call PurchaseOrderDetails query and add missing value', () => {
-      const product: IProduct = { id: 456 };
-      const purchaseOrderDetails: IPurchaseOrderDetails = { id: 42858 };
-      product.purchaseOrderDetails = purchaseOrderDetails;
-
-      const purchaseOrderDetailsCollection: IPurchaseOrderDetails[] = [{ id: 3458 }];
-      jest.spyOn(purchaseOrderDetailsService, 'query').mockReturnValue(of(new HttpResponse({ body: purchaseOrderDetailsCollection })));
-      const additionalPurchaseOrderDetails = [purchaseOrderDetails];
-      const expectedCollection: IPurchaseOrderDetails[] = [...additionalPurchaseOrderDetails, ...purchaseOrderDetailsCollection];
-      jest.spyOn(purchaseOrderDetailsService, 'addPurchaseOrderDetailsToCollectionIfMissing').mockReturnValue(expectedCollection);
-
-      activatedRoute.data = of({ product });
-      comp.ngOnInit();
-
-      expect(purchaseOrderDetailsService.query).toHaveBeenCalled();
-      expect(purchaseOrderDetailsService.addPurchaseOrderDetailsToCollectionIfMissing).toHaveBeenCalledWith(
-        purchaseOrderDetailsCollection,
-        ...additionalPurchaseOrderDetails
-      );
-      expect(comp.purchaseOrderDetailsSharedCollection).toEqual(expectedCollection);
-    });
-
     it('Should call Categories query and add missing value', () => {
       const product: IProduct = { id: 456 };
       const categories: ICategories = { id: 5037 };
@@ -120,12 +98,12 @@ describe('Product Management Update Component', () => {
 
     it('Should call SecurityUser query and add missing value', () => {
       const product: IProduct = { id: 456 };
-      const securityUser: ISecurityUser = { id: 45888 };
-      product.securityUser = securityUser;
+      const ecurityUser: ISecurityUser = { id: 45888 };
+      product.ecurityUser = ecurityUser;
 
       const securityUserCollection: ISecurityUser[] = [{ id: 71384 }];
       jest.spyOn(securityUserService, 'query').mockReturnValue(of(new HttpResponse({ body: securityUserCollection })));
-      const additionalSecurityUsers = [securityUser];
+      const additionalSecurityUsers = [ecurityUser];
       const expectedCollection: ISecurityUser[] = [...additionalSecurityUsers, ...securityUserCollection];
       jest.spyOn(securityUserService, 'addSecurityUserToCollectionIfMissing').mockReturnValue(expectedCollection);
 
@@ -140,25 +118,47 @@ describe('Product Management Update Component', () => {
       expect(comp.securityUsersSharedCollection).toEqual(expectedCollection);
     });
 
+    it('Should call PurchaseOrderDetails query and add missing value', () => {
+      const product: IProduct = { id: 456 };
+      const purchaseOrderDetails: IPurchaseOrderDetails = { id: 42858 };
+      product.purchaseOrderDetails = purchaseOrderDetails;
+
+      const purchaseOrderDetailsCollection: IPurchaseOrderDetails[] = [{ id: 3458 }];
+      jest.spyOn(purchaseOrderDetailsService, 'query').mockReturnValue(of(new HttpResponse({ body: purchaseOrderDetailsCollection })));
+      const additionalPurchaseOrderDetails = [purchaseOrderDetails];
+      const expectedCollection: IPurchaseOrderDetails[] = [...additionalPurchaseOrderDetails, ...purchaseOrderDetailsCollection];
+      jest.spyOn(purchaseOrderDetailsService, 'addPurchaseOrderDetailsToCollectionIfMissing').mockReturnValue(expectedCollection);
+
+      activatedRoute.data = of({ product });
+      comp.ngOnInit();
+
+      expect(purchaseOrderDetailsService.query).toHaveBeenCalled();
+      expect(purchaseOrderDetailsService.addPurchaseOrderDetailsToCollectionIfMissing).toHaveBeenCalledWith(
+        purchaseOrderDetailsCollection,
+        ...additionalPurchaseOrderDetails
+      );
+      expect(comp.purchaseOrderDetailsSharedCollection).toEqual(expectedCollection);
+    });
+
     it('Should update editForm', () => {
       const product: IProduct = { id: 456 };
-      const purchaseOrderDetails: IPurchaseOrderDetails = { id: 70789 };
-      product.purchaseOrderDetails = purchaseOrderDetails;
       const categories: ICategories = { id: 17858 };
       product.categories = categories;
       const unit: IUnit = { id: 92857 };
       product.unit = unit;
-      const securityUser: ISecurityUser = { id: 56495 };
-      product.securityUser = securityUser;
+      const ecurityUser: ISecurityUser = { id: 56495 };
+      product.ecurityUser = ecurityUser;
+      const purchaseOrderDetails: IPurchaseOrderDetails = { id: 70789 };
+      product.purchaseOrderDetails = purchaseOrderDetails;
 
       activatedRoute.data = of({ product });
       comp.ngOnInit();
 
       expect(comp.editForm.value).toEqual(expect.objectContaining(product));
-      expect(comp.purchaseOrderDetailsSharedCollection).toContain(purchaseOrderDetails);
       expect(comp.categoriesSharedCollection).toContain(categories);
       expect(comp.unitsSharedCollection).toContain(unit);
-      expect(comp.securityUsersSharedCollection).toContain(securityUser);
+      expect(comp.securityUsersSharedCollection).toContain(ecurityUser);
+      expect(comp.purchaseOrderDetailsSharedCollection).toContain(purchaseOrderDetails);
     });
   });
 
@@ -227,14 +227,6 @@ describe('Product Management Update Component', () => {
   });
 
   describe('Tracking relationships identifiers', () => {
-    describe('trackPurchaseOrderDetailsById', () => {
-      it('Should return tracked PurchaseOrderDetails primary key', () => {
-        const entity = { id: 123 };
-        const trackResult = comp.trackPurchaseOrderDetailsById(0, entity);
-        expect(trackResult).toEqual(entity.id);
-      });
-    });
-
     describe('trackCategoriesById', () => {
       it('Should return tracked Categories primary key', () => {
         const entity = { id: 123 };
@@ -255,6 +247,14 @@ describe('Product Management Update Component', () => {
       it('Should return tracked SecurityUser primary key', () => {
         const entity = { id: 123 };
         const trackResult = comp.trackSecurityUserById(0, entity);
+        expect(trackResult).toEqual(entity.id);
+      });
+    });
+
+    describe('trackPurchaseOrderDetailsById', () => {
+      it('Should return tracked PurchaseOrderDetails primary key', () => {
+        const entity = { id: 123 };
+        const trackResult = comp.trackPurchaseOrderDetailsById(0, entity);
         expect(trackResult).toEqual(entity.id);
       });
     });

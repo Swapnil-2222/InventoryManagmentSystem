@@ -1,8 +1,6 @@
 import dayjs from 'dayjs/esm';
-import { IWareHouse } from 'app/entities/ware-house/ware-house.model';
-import { IProduct } from 'app/entities/product/product.model';
-import { IProductInventory } from 'app/entities/product-inventory/product-inventory.model';
 import { ISecurityUser } from 'app/entities/security-user/security-user.model';
+import { IWareHouse } from 'app/entities/ware-house/ware-house.model';
 
 export interface IProductTransaction {
   id?: number;
@@ -15,10 +13,8 @@ export interface IProductTransaction {
   description?: string | null;
   lastModified?: dayjs.Dayjs | null;
   lastModifiedBy?: string | null;
+  ecurityUser?: ISecurityUser | null;
   wareHouse?: IWareHouse | null;
-  products?: IProduct[] | null;
-  productInventory?: IProductInventory | null;
-  securityUser?: ISecurityUser | null;
 }
 
 export class ProductTransaction implements IProductTransaction {
@@ -33,10 +29,8 @@ export class ProductTransaction implements IProductTransaction {
     public description?: string | null,
     public lastModified?: dayjs.Dayjs | null,
     public lastModifiedBy?: string | null,
-    public wareHouse?: IWareHouse | null,
-    public products?: IProduct[] | null,
-    public productInventory?: IProductInventory | null,
-    public securityUser?: ISecurityUser | null
+    public ecurityUser?: ISecurityUser | null,
+    public wareHouse?: IWareHouse | null
   ) {}
 }
 

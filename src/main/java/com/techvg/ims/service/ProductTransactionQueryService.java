@@ -121,39 +121,21 @@ public class ProductTransactionQueryService extends QueryService<ProductTransact
                 specification =
                     specification.and(buildStringSpecification(criteria.getLastModifiedBy(), ProductTransaction_.lastModifiedBy));
             }
+            if (criteria.getEcurityUserId() != null) {
+                specification =
+                    specification.and(
+                        buildSpecification(
+                            criteria.getEcurityUserId(),
+                            root -> root.join(ProductTransaction_.ecurityUser, JoinType.LEFT).get(SecurityUser_.id)
+                        )
+                    );
+            }
             if (criteria.getWareHouseId() != null) {
                 specification =
                     specification.and(
                         buildSpecification(
                             criteria.getWareHouseId(),
                             root -> root.join(ProductTransaction_.wareHouse, JoinType.LEFT).get(WareHouse_.id)
-                        )
-                    );
-            }
-            if (criteria.getProductId() != null) {
-                specification =
-                    specification.and(
-                        buildSpecification(
-                            criteria.getProductId(),
-                            root -> root.join(ProductTransaction_.products, JoinType.LEFT).get(Product_.id)
-                        )
-                    );
-            }
-            if (criteria.getProductInventoryId() != null) {
-                specification =
-                    specification.and(
-                        buildSpecification(
-                            criteria.getProductInventoryId(),
-                            root -> root.join(ProductTransaction_.productInventory, JoinType.LEFT).get(ProductInventory_.id)
-                        )
-                    );
-            }
-            if (criteria.getSecurityUserId() != null) {
-                specification =
-                    specification.and(
-                        buildSpecification(
-                            criteria.getSecurityUserId(),
-                            root -> root.join(ProductTransaction_.securityUser, JoinType.LEFT).get(SecurityUser_.id)
                         )
                     );
             }

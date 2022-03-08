@@ -144,24 +144,6 @@ public class SecurityUserQueryService extends QueryService<SecurityUser> {
             if (criteria.getLastModifiedBy() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getLastModifiedBy(), SecurityUser_.lastModifiedBy));
             }
-            if (criteria.getProductTransactionId() != null) {
-                specification =
-                    specification.and(
-                        buildSpecification(
-                            criteria.getProductTransactionId(),
-                            root -> root.join(SecurityUser_.productTransactions, JoinType.LEFT).get(ProductTransaction_.id)
-                        )
-                    );
-            }
-            if (criteria.getProductId() != null) {
-                specification =
-                    specification.and(
-                        buildSpecification(
-                            criteria.getProductId(),
-                            root -> root.join(SecurityUser_.products, JoinType.LEFT).get(Product_.id)
-                        )
-                    );
-            }
             if (criteria.getSecurityPermissionId() != null) {
                 specification =
                     specification.and(
@@ -177,6 +159,15 @@ public class SecurityUserQueryService extends QueryService<SecurityUser> {
                         buildSpecification(
                             criteria.getSecurityRoleId(),
                             root -> root.join(SecurityUser_.securityRoles, JoinType.LEFT).get(SecurityRole_.id)
+                        )
+                    );
+            }
+            if (criteria.getSecurityUserId() != null) {
+                specification =
+                    specification.and(
+                        buildSpecification(
+                            criteria.getSecurityUserId(),
+                            root -> root.join(SecurityUser_.securityUsers, JoinType.LEFT).get(WareHouse_.id)
                         )
                     );
             }

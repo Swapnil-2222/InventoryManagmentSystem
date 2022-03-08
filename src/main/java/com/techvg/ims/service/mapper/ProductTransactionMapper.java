@@ -2,23 +2,19 @@ package com.techvg.ims.service.mapper;
 
 import com.techvg.ims.domain.ProductTransaction;
 import com.techvg.ims.service.dto.ProductTransactionDTO;
-import java.util.Set;
 import org.mapstruct.*;
 
 /**
  * Mapper for the entity {@link ProductTransaction} and its DTO {@link ProductTransactionDTO}.
  */
-@Mapper(
-    componentModel = "spring",
-    uses = { WareHouseMapper.class, ProductMapper.class, ProductInventoryMapper.class, SecurityUserMapper.class }
-)
+@Mapper(componentModel = "spring", uses = { SecurityUserMapper.class, WareHouseMapper.class })
 public interface ProductTransactionMapper extends EntityMapper<ProductTransactionDTO, ProductTransaction> {
-    @Mapping(target = "wareHouse", source = "wareHouse", qualifiedByName = "wareHouseName")
-    @Mapping(target = "products", source = "products", qualifiedByName = "productNameSet")
-    @Mapping(target = "productInventory", source = "productInventory", qualifiedByName = "id")
-    @Mapping(target = "securityUser", source = "securityUser", qualifiedByName = "id")
+    @Mapping(target = "ecurityUser", source = "ecurityUser", qualifiedByName = "login")
+    @Mapping(target = "wareHouse", source = "wareHouse", qualifiedByName = "whName")
     ProductTransactionDTO toDto(ProductTransaction s);
 
-    @Mapping(target = "removeProduct", ignore = true)
-    ProductTransaction toEntity(ProductTransactionDTO productTransactionDTO);
+    @Named("id")
+    @BeanMapping(ignoreByDefault = true)
+    @Mapping(target = "id", source = "id")
+    ProductTransactionDTO toDtoId(ProductTransaction productTransaction);
 }

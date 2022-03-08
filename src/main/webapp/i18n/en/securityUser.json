@@ -36,10 +36,9 @@
       "otpExpiryTime": "Otp Expiry Time",
       "lastModified": "Last Modified",
       "lastModifiedBy": "Last Modified By",
-      "productTransaction": "Product Transaction",
-      "product": "Product",
       "securityPermission": "Security Permission",
       "securityRole": "Security Role",
+      "securityUser": "Security User",
       "productInventory": "Product Inventory"
     }
   }
