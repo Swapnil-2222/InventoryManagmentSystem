@@ -90,8 +90,8 @@ public class WareHouseQueryService extends QueryService<WareHouse> {
             if (criteria.getId() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getId(), WareHouse_.id));
             }
-            if (criteria.getWareHouseName() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getWareHouseName(), WareHouse_.wareHouseName));
+            if (criteria.getWhName() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getWhName(), WareHouse_.whName));
             }
             if (criteria.getAddress() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getAddress(), WareHouse_.address));
@@ -108,8 +108,8 @@ public class WareHouseQueryService extends QueryService<WareHouse> {
             if (criteria.getCountry() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getCountry(), WareHouse_.country));
             }
-            if (criteria.getGstDetails() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getGstDetails(), WareHouse_.gstDetails));
+            if (criteria.getgSTDetails() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getgSTDetails(), WareHouse_.gSTDetails));
             }
             if (criteria.getManagerName() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getManagerName(), WareHouse_.managerName));
@@ -129,6 +129,9 @@ public class WareHouseQueryService extends QueryService<WareHouse> {
             if (criteria.getIsActive() != null) {
                 specification = specification.and(buildSpecification(criteria.getIsActive(), WareHouse_.isActive));
             }
+            if (criteria.getWareHouseId() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getWareHouseId(), WareHouse_.wareHouseId));
+            }
             if (criteria.getLastModified() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getLastModified(), WareHouse_.lastModified));
             }
@@ -141,6 +144,15 @@ public class WareHouseQueryService extends QueryService<WareHouse> {
                         buildSpecification(
                             criteria.getProductInventoryId(),
                             root -> root.join(WareHouse_.productInventories, JoinType.LEFT).get(ProductInventory_.id)
+                        )
+                    );
+            }
+            if (criteria.getProductInventoryId() != null) {
+                specification =
+                    specification.and(
+                        buildSpecification(
+                            criteria.getProductInventoryId(),
+                            root -> root.join(WareHouse_.productInventories, JoinType.LEFT).get(SecurityUser_.id)
                         )
                     );
             }

@@ -33,8 +33,8 @@
       <thead>
         <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="loadPage()">
           <th scope="col" jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
-          <th scope="col" jhiSortBy="wareHouseName">
-            <span jhiTranslate="inventoryManagmentSystemApp.wareHouse.wareHouseName">Ware House Name</span> <fa-icon icon="sort"></fa-icon>
+          <th scope="col" jhiSortBy="whName">
+            <span jhiTranslate="inventoryManagmentSystemApp.wareHouse.whName">Wh Name</span> <fa-icon icon="sort"></fa-icon>
           </th>
           <th scope="col" jhiSortBy="address">
             <span jhiTranslate="inventoryManagmentSystemApp.wareHouse.address">Address</span> <fa-icon icon="sort"></fa-icon>
@@ -51,8 +51,8 @@
           <th scope="col" jhiSortBy="country">
             <span jhiTranslate="inventoryManagmentSystemApp.wareHouse.country">Country</span> <fa-icon icon="sort"></fa-icon>
           </th>
-          <th scope="col" jhiSortBy="gstDetails">
-            <span jhiTranslate="inventoryManagmentSystemApp.wareHouse.gstDetails">Gst Details</span> <fa-icon icon="sort"></fa-icon>
+          <th scope="col" jhiSortBy="gSTDetails">
+            <span jhiTranslate="inventoryManagmentSystemApp.wareHouse.gSTDetails">G ST Details</span> <fa-icon icon="sort"></fa-icon>
           </th>
           <th scope="col" jhiSortBy="managerName">
             <span jhiTranslate="inventoryManagmentSystemApp.wareHouse.managerName">Manager Name</span> <fa-icon icon="sort"></fa-icon>
@@ -72,6 +72,9 @@
           <th scope="col" jhiSortBy="isActive">
             <span jhiTranslate="inventoryManagmentSystemApp.wareHouse.isActive">Is Active</span> <fa-icon icon="sort"></fa-icon>
           </th>
+          <th scope="col" jhiSortBy="wareHouseId">
+            <span jhiTranslate="inventoryManagmentSystemApp.wareHouse.wareHouseId">Ware House Id</span> <fa-icon icon="sort"></fa-icon>
+          </th>
           <th scope="col" jhiSortBy="lastModified">
             <span jhiTranslate="inventoryManagmentSystemApp.wareHouse.lastModified">Last Modified</span> <fa-icon icon="sort"></fa-icon>
           </th>
@@ -87,19 +90,20 @@
           <td>
             <a [routerLink]="['/ware-house', wareHouse.id, 'view']">{{ wareHouse.id }}</a>
           </td>
-          <td>{{ wareHouse.wareHouseName }}</td>
+          <td>{{ wareHouse.whName }}</td>
           <td>{{ wareHouse.address }}</td>
           <td>{{ wareHouse.pincode }}</td>
           <td>{{ wareHouse.city }}</td>
           <td>{{ wareHouse.state }}</td>
           <td>{{ wareHouse.country }}</td>
-          <td>{{ wareHouse.gstDetails }}</td>
+          <td>{{ wareHouse.gSTDetails }}</td>
           <td>{{ wareHouse.managerName }}</td>
           <td>{{ wareHouse.managerEmail }}</td>
           <td>{{ wareHouse.managerContact }}</td>
           <td>{{ wareHouse.contact }}</td>
           <td>{{ wareHouse.isDeleted }}</td>
           <td>{{ wareHouse.isActive }}</td>
+          <td>{{ wareHouse.wareHouseId }}</td>
           <td>{{ wareHouse.lastModified | formatMediumDatetime }}</td>
           <td>{{ wareHouse.lastModifiedBy }}</td>
           <td class="text-end">

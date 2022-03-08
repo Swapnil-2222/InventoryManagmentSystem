@@ -1,0 +1,64 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="notification">
+      <h2 data-cy="notificationDetailsHeading">
+        <span jhiTranslate="inventoryManagmentSystemApp.notification.detail.title">Notification</span>
+      </h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ notification.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="inventoryManagmentSystemApp.notification.massage">Massage</span></dt>
+        <dd>
+          <span>{{ notification.massage }}</span>
+        </dd>
+        <dt><span jhiTranslate="inventoryManagmentSystemApp.notification.notificationType">Notification Type</span></dt>
+        <dd>
+          <span jhiTranslate="{{ 'inventoryManagmentSystemApp.NotificationType.' + notification.notificationType }}">{{
+            notification.notificationType
+          }}</span>
+        </dd>
+        <dt><span jhiTranslate="inventoryManagmentSystemApp.notification.isActionRequired">Is Action Required</span></dt>
+        <dd>
+          <span>{{ notification.isActionRequired }}</span>
+        </dd>
+        <dt><span jhiTranslate="inventoryManagmentSystemApp.notification.lastModified">Last Modified</span></dt>
+        <dd>
+          <span>{{ notification.lastModified | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="inventoryManagmentSystemApp.notification.lastModifiedBy">Last Modified By</span></dt>
+        <dd>
+          <span>{{ notification.lastModifiedBy }}</span>
+        </dd>
+        <dt><span jhiTranslate="inventoryManagmentSystemApp.notification.ecurityUser">Ecurity User</span></dt>
+        <dd>
+          <div *ngIf="notification.ecurityUser">
+            <a [routerLink]="['/security-user', notification.ecurityUser?.id, 'view']">{{ notification.ecurityUser?.login }}</a>
+          </div>
+        </dd>
+        <dt><span jhiTranslate="inventoryManagmentSystemApp.notification.wareHouse">Ware House</span></dt>
+        <dd>
+          <div *ngIf="notification.wareHouse">
+            <a [routerLink]="['/ware-house', notification.wareHouse?.id, 'view']">{{ notification.wareHouse?.whName }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/notification', notification.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

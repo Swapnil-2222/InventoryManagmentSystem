@@ -52,33 +52,16 @@
         <dd>
           <span>{{ productTransaction.lastModifiedBy }}</span>
         </dd>
+        <dt><span jhiTranslate="inventoryManagmentSystemApp.productTransaction.ecurityUser">Ecurity User</span></dt>
+        <dd>
+          <div *ngIf="productTransaction.ecurityUser">
+            <a [routerLink]="['/security-user', productTransaction.ecurityUser?.id, 'view']">{{ productTransaction.ecurityUser?.login }}</a>
+          </div>
+        </dd>
         <dt><span jhiTranslate="inventoryManagmentSystemApp.productTransaction.wareHouse">Ware House</span></dt>
         <dd>
           <div *ngIf="productTransaction.wareHouse">
-            <a [routerLink]="['/ware-house', productTransaction.wareHouse?.id, 'view']">{{
-              productTransaction.wareHouse?.wareHouseName
-            }}</a>
-          </div>
-        </dd>
-        <dt><span jhiTranslate="inventoryManagmentSystemApp.productTransaction.product">Product</span></dt>
-        <dd>
-          <span *ngFor="let product of productTransaction.products; let last = last">
-            <a [routerLink]="['/product', product?.id, 'view']">{{ product.productName }}</a
-            >{{ last ? '' : ', ' }}
-          </span>
-        </dd>
-        <dt><span jhiTranslate="inventoryManagmentSystemApp.productTransaction.productInventory">Product Inventory</span></dt>
-        <dd>
-          <div *ngIf="productTransaction.productInventory">
-            <a [routerLink]="['/product-inventory', productTransaction.productInventory?.id, 'view']">{{
-              productTransaction.productInventory?.id
-            }}</a>
-          </div>
-        </dd>
-        <dt><span jhiTranslate="inventoryManagmentSystemApp.productTransaction.securityUser">Security User</span></dt>
-        <dd>
-          <div *ngIf="productTransaction.securityUser">
-            <a [routerLink]="['/security-user', productTransaction.securityUser?.id, 'view']">{{ productTransaction.securityUser?.id }}</a>
+            <a [routerLink]="['/ware-house', productTransaction.wareHouse?.id, 'view']">{{ productTransaction.wareHouse?.whName }}</a>
           </div>
         </dd>
       </dl>

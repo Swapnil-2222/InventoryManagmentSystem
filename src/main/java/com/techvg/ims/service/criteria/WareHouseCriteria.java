@@ -29,7 +29,7 @@ public class WareHouseCriteria implements Serializable, Criteria {
 
     private LongFilter id;
 
-    private StringFilter wareHouseName;
+    private StringFilter whName;
 
     private StringFilter address;
 
@@ -41,7 +41,7 @@ public class WareHouseCriteria implements Serializable, Criteria {
 
     private StringFilter country;
 
-    private StringFilter gstDetails;
+    private StringFilter gSTDetails;
 
     private StringFilter managerName;
 
@@ -55,9 +55,13 @@ public class WareHouseCriteria implements Serializable, Criteria {
 
     private BooleanFilter isActive;
 
+    private LongFilter wareHouseId;
+
     private InstantFilter lastModified;
 
     private StringFilter lastModifiedBy;
+
+    private LongFilter productInventoryId;
 
     private LongFilter productInventoryId;
 
@@ -67,21 +71,23 @@ public class WareHouseCriteria implements Serializable, Criteria {
 
     public WareHouseCriteria(WareHouseCriteria other) {
         this.id = other.id == null ? null : other.id.copy();
-        this.wareHouseName = other.wareHouseName == null ? null : other.wareHouseName.copy();
+        this.whName = other.whName == null ? null : other.whName.copy();
         this.address = other.address == null ? null : other.address.copy();
         this.pincode = other.pincode == null ? null : other.pincode.copy();
         this.city = other.city == null ? null : other.city.copy();
         this.state = other.state == null ? null : other.state.copy();
         this.country = other.country == null ? null : other.country.copy();
-        this.gstDetails = other.gstDetails == null ? null : other.gstDetails.copy();
+        this.gSTDetails = other.gSTDetails == null ? null : other.gSTDetails.copy();
         this.managerName = other.managerName == null ? null : other.managerName.copy();
         this.managerEmail = other.managerEmail == null ? null : other.managerEmail.copy();
         this.managerContact = other.managerContact == null ? null : other.managerContact.copy();
         this.contact = other.contact == null ? null : other.contact.copy();
         this.isDeleted = other.isDeleted == null ? null : other.isDeleted.copy();
         this.isActive = other.isActive == null ? null : other.isActive.copy();
+        this.wareHouseId = other.wareHouseId == null ? null : other.wareHouseId.copy();
         this.lastModified = other.lastModified == null ? null : other.lastModified.copy();
         this.lastModifiedBy = other.lastModifiedBy == null ? null : other.lastModifiedBy.copy();
+        this.productInventoryId = other.productInventoryId == null ? null : other.productInventoryId.copy();
         this.productInventoryId = other.productInventoryId == null ? null : other.productInventoryId.copy();
         this.distinct = other.distinct;
     }
@@ -106,19 +112,19 @@ public class WareHouseCriteria implements Serializable, Criteria {
         this.id = id;
     }
 
-    public StringFilter getWareHouseName() {
-        return wareHouseName;
+    public StringFilter getWhName() {
+        return whName;
     }
 
-    public StringFilter wareHouseName() {
-        if (wareHouseName == null) {
-            wareHouseName = new StringFilter();
+    public StringFilter whName() {
+        if (whName == null) {
+            whName = new StringFilter();
         }
-        return wareHouseName;
+        return whName;
     }
 
-    public void setWareHouseName(StringFilter wareHouseName) {
-        this.wareHouseName = wareHouseName;
+    public void setWhName(StringFilter whName) {
+        this.whName = whName;
     }
 
     public StringFilter getAddress() {
@@ -196,19 +202,19 @@ public class WareHouseCriteria implements Serializable, Criteria {
         this.country = country;
     }
 
-    public StringFilter getGstDetails() {
-        return gstDetails;
+    public StringFilter getgSTDetails() {
+        return gSTDetails;
     }
 
-    public StringFilter gstDetails() {
-        if (gstDetails == null) {
-            gstDetails = new StringFilter();
+    public StringFilter gSTDetails() {
+        if (gSTDetails == null) {
+            gSTDetails = new StringFilter();
         }
-        return gstDetails;
+        return gSTDetails;
     }
 
-    public void setGstDetails(StringFilter gstDetails) {
-        this.gstDetails = gstDetails;
+    public void setgSTDetails(StringFilter gSTDetails) {
+        this.gSTDetails = gSTDetails;
     }
 
     public StringFilter getManagerName() {
@@ -301,6 +307,21 @@ public class WareHouseCriteria implements Serializable, Criteria {
         this.isActive = isActive;
     }
 
+    public LongFilter getWareHouseId() {
+        return wareHouseId;
+    }
+
+    public LongFilter wareHouseId() {
+        if (wareHouseId == null) {
+            wareHouseId = new LongFilter();
+        }
+        return wareHouseId;
+    }
+
+    public void setWareHouseId(LongFilter wareHouseId) {
+        this.wareHouseId = wareHouseId;
+    }
+
     public InstantFilter getLastModified() {
         return lastModified;
     }
@@ -346,6 +367,21 @@ public class WareHouseCriteria implements Serializable, Criteria {
         this.productInventoryId = productInventoryId;
     }
 
+    public LongFilter getProductInventoryId() {
+        return productInventoryId;
+    }
+
+    public LongFilter productInventoryId() {
+        if (productInventoryId == null) {
+            productInventoryId = new LongFilter();
+        }
+        return productInventoryId;
+    }
+
+    public void setProductInventoryId(LongFilter productInventoryId) {
+        this.productInventoryId = productInventoryId;
+    }
+
     public Boolean getDistinct() {
         return distinct;
     }
@@ -365,21 +401,23 @@ public class WareHouseCriteria implements Serializable, Criteria {
         final WareHouseCriteria that = (WareHouseCriteria) o;
         return (
             Objects.equals(id, that.id) &&
-            Objects.equals(wareHouseName, that.wareHouseName) &&
+            Objects.equals(whName, that.whName) &&
             Objects.equals(address, that.address) &&
             Objects.equals(pincode, that.pincode) &&
             Objects.equals(city, that.city) &&
             Objects.equals(state, that.state) &&
             Objects.equals(country, that.country) &&
-            Objects.equals(gstDetails, that.gstDetails) &&
+            Objects.equals(gSTDetails, that.gSTDetails) &&
             Objects.equals(managerName, that.managerName) &&
             Objects.equals(managerEmail, that.managerEmail) &&
             Objects.equals(managerContact, that.managerContact) &&
             Objects.equals(contact, that.contact) &&
             Objects.equals(isDeleted, that.isDeleted) &&
             Objects.equals(isActive, that.isActive) &&
+            Objects.equals(wareHouseId, that.wareHouseId) &&
             Objects.equals(lastModified, that.lastModified) &&
             Objects.equals(lastModifiedBy, that.lastModifiedBy) &&
+            Objects.equals(productInventoryId, that.productInventoryId) &&
             Objects.equals(productInventoryId, that.productInventoryId) &&
             Objects.equals(distinct, that.distinct)
         );
@@ -389,21 +427,23 @@ public class WareHouseCriteria implements Serializable, Criteria {
     public int hashCode() {
         return Objects.hash(
             id,
-            wareHouseName,
+            whName,
             address,
             pincode,
             city,
             state,
             country,
-            gstDetails,
+            gSTDetails,
             managerName,
             managerEmail,
             managerContact,
             contact,
             isDeleted,
             isActive,
+            wareHouseId,
             lastModified,
             lastModifiedBy,
+            productInventoryId,
             productInventoryId,
             distinct
         );
@@ -414,21 +454,23 @@ public class WareHouseCriteria implements Serializable, Criteria {
     public String toString() {
         return "WareHouseCriteria{" +
             (id != null ? "id=" + id + ", " : "") +
-            (wareHouseName != null ? "wareHouseName=" + wareHouseName + ", " : "") +
+            (whName != null ? "whName=" + whName + ", " : "") +
             (address != null ? "address=" + address + ", " : "") +
             (pincode != null ? "pincode=" + pincode + ", " : "") +
             (city != null ? "city=" + city + ", " : "") +
             (state != null ? "state=" + state + ", " : "") +
             (country != null ? "country=" + country + ", " : "") +
-            (gstDetails != null ? "gstDetails=" + gstDetails + ", " : "") +
+            (gSTDetails != null ? "gSTDetails=" + gSTDetails + ", " : "") +
             (managerName != null ? "managerName=" + managerName + ", " : "") +
             (managerEmail != null ? "managerEmail=" + managerEmail + ", " : "") +
             (managerContact != null ? "managerContact=" + managerContact + ", " : "") +
             (contact != null ? "contact=" + contact + ", " : "") +
             (isDeleted != null ? "isDeleted=" + isDeleted + ", " : "") +
             (isActive != null ? "isActive=" + isActive + ", " : "") +
+            (wareHouseId != null ? "wareHouseId=" + wareHouseId + ", " : "") +
             (lastModified != null ? "lastModified=" + lastModified + ", " : "") +
             (lastModifiedBy != null ? "lastModifiedBy=" + lastModifiedBy + ", " : "") +
+            (productInventoryId != null ? "productInventoryId=" + productInventoryId + ", " : "") +
             (productInventoryId != null ? "productInventoryId=" + productInventoryId + ", " : "") +
             (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";

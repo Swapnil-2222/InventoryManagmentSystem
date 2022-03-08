@@ -100,6 +100,11 @@ import { RouterModule } from '@angular/router';
         data: { pageTitle: 'inventoryManagmentSystemApp.userAccess.home.title' },
         loadChildren: () => import('./user-access/user-access.module').then(m => m.UserAccessModule),
       },
+      {
+        path: 'notification',
+        data: { pageTitle: 'inventoryManagmentSystemApp.notification.home.title' },
+        loadChildren: () => import('./notification/notification.module').then(m => m.NotificationModule),
+      },
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ]),
   ],

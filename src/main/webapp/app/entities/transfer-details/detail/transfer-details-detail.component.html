@@ -55,7 +55,7 @@
         <dt><span jhiTranslate="inventoryManagmentSystemApp.transferDetails.wareHouse">Ware House</span></dt>
         <dd>
           <div *ngIf="transferDetails.wareHouse">
-            <a [routerLink]="['/ware-house', transferDetails.wareHouse?.id, 'view']">{{ transferDetails.wareHouse?.wareHouseName }}</a>
+            <a [routerLink]="['/ware-house', transferDetails.wareHouse?.id, 'view']">{{ transferDetails.wareHouse?.whName }}</a>
           </div>
         </dd>
         <dt><span jhiTranslate="inventoryManagmentSystemApp.transferDetails.product">Product</span></dt>

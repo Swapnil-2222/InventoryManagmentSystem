@@ -49,30 +49,17 @@
   "readOnly": false,
   "relationships": [
     {
-      "otherEntityField": "wareHouseName",
+      "otherEntityField": "login",
+      "otherEntityName": "securityUser",
+      "otherEntityRelationshipName": "productTransaction",
+      "relationshipName": "ecurityUser",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "whName",
       "otherEntityName": "wareHouse",
       "otherEntityRelationshipName": "productTransaction",
       "relationshipName": "wareHouse",
-      "relationshipType": "many-to-one"
-    },
-    {
-      "otherEntityField": "productName",
-      "otherEntityName": "product",
-      "otherEntityRelationshipName": "productTransaction",
-      "ownerSide": true,
-      "relationshipName": "product",
-      "relationshipType": "many-to-many"
-    },
-    {
-      "otherEntityName": "productInventory",
-      "otherEntityRelationshipName": "productTransaction",
-      "relationshipName": "productInventory",
-      "relationshipType": "many-to-one"
-    },
-    {
-      "otherEntityName": "securityUser",
-      "otherEntityRelationshipName": "productTransaction",
-      "relationshipName": "securityUser",
       "relationshipType": "many-to-one"
     }
   ],

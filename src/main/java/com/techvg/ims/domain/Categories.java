@@ -1,10 +1,7 @@
 package com.techvg.ims.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.time.Instant;
-import java.util.HashSet;
-import java.util.Set;
 import javax.persistence.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -44,14 +41,6 @@ public class Categories implements Serializable {
 
     @Column(name = "is_active")
     private Boolean isActive;
-
-    @OneToMany(mappedBy = "categories")
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(
-        value = { "transferDetails", "purchaseOrderDetails", "categories", "unit", "securityUser", "productTransactions" },
-        allowSetters = true
-    )
-    private Set<Product> products = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -157,37 +146,6 @@ public class Categories implements Serializable {
 
     public void setIsActive(Boolean isActive) {
         this.isActive = isActive;
-    }
-
-    public Set<Product> getProducts() {
-        return this.products;
-    }
-
-    public void setProducts(Set<Product> products) {
-        if (this.products != null) {
-            this.products.forEach(i -> i.setCategories(null));
-        }
-        if (products != null) {
-            products.forEach(i -> i.setCategories(this));
-        }
-        this.products = products;
-    }
-
-    public Categories products(Set<Product> products) {
-        this.setProducts(products);
-        return this;
-    }
-
-    public Categories addProduct(Product product) {
-        this.products.add(product);
-        product.setCategories(this);
-        return this;
-    }
-
-    public Categories removeProduct(Product product) {
-        this.products.remove(product);
-        product.setCategories(null);
-        return this;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

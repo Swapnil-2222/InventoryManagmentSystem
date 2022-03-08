@@ -1,10 +1,9 @@
 import dayjs from 'dayjs/esm';
 import { ITransferDetails } from 'app/entities/transfer-details/transfer-details.model';
-import { IPurchaseOrderDetails } from 'app/entities/purchase-order-details/purchase-order-details.model';
 import { ICategories } from 'app/entities/categories/categories.model';
 import { IUnit } from 'app/entities/unit/unit.model';
 import { ISecurityUser } from 'app/entities/security-user/security-user.model';
-import { IProductTransaction } from 'app/entities/product-transaction/product-transaction.model';
+import { IPurchaseOrderDetails } from 'app/entities/purchase-order-details/purchase-order-details.model';
 import { ProductType } from 'app/entities/enumerations/product-type.model';
 
 export interface IProduct {
@@ -34,11 +33,10 @@ export interface IProduct {
   freeField1?: string | null;
   freeField2?: string | null;
   transferDetails?: ITransferDetails[] | null;
-  purchaseOrderDetails?: IPurchaseOrderDetails | null;
   categories?: ICategories | null;
   unit?: IUnit | null;
-  securityUser?: ISecurityUser | null;
-  productTransactions?: IProductTransaction[] | null;
+  ecurityUser?: ISecurityUser | null;
+  purchaseOrderDetails?: IPurchaseOrderDetails | null;
 }
 
 export class Product implements IProduct {
@@ -69,11 +67,10 @@ export class Product implements IProduct {
     public freeField1?: string | null,
     public freeField2?: string | null,
     public transferDetails?: ITransferDetails[] | null,
-    public purchaseOrderDetails?: IPurchaseOrderDetails | null,
     public categories?: ICategories | null,
     public unit?: IUnit | null,
-    public securityUser?: ISecurityUser | null,
-    public productTransactions?: IProductTransaction[] | null
+    public ecurityUser?: ISecurityUser | null,
+    public purchaseOrderDetails?: IPurchaseOrderDetails | null
   ) {
     this.isDeleted = this.isDeleted ?? false;
     this.isActive = this.isActive ?? false;

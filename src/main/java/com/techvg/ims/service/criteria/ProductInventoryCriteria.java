@@ -59,11 +59,11 @@ public class ProductInventoryCriteria implements Serializable, Criteria {
 
     private LongFilter consumptionDetailsId;
 
-    private LongFilter productTransactionId;
-
     private LongFilter productId;
 
     private LongFilter purchaseOrderId;
+
+    private LongFilter productTransactionId;
 
     private LongFilter wareHouseId;
 
@@ -90,9 +90,9 @@ public class ProductInventoryCriteria implements Serializable, Criteria {
         this.isDeleted = other.isDeleted == null ? null : other.isDeleted.copy();
         this.isActive = other.isActive == null ? null : other.isActive.copy();
         this.consumptionDetailsId = other.consumptionDetailsId == null ? null : other.consumptionDetailsId.copy();
-        this.productTransactionId = other.productTransactionId == null ? null : other.productTransactionId.copy();
         this.productId = other.productId == null ? null : other.productId.copy();
         this.purchaseOrderId = other.purchaseOrderId == null ? null : other.purchaseOrderId.copy();
+        this.productTransactionId = other.productTransactionId == null ? null : other.productTransactionId.copy();
         this.wareHouseId = other.wareHouseId == null ? null : other.wareHouseId.copy();
         this.securityUserId = other.securityUserId == null ? null : other.securityUserId.copy();
         this.distinct = other.distinct;
@@ -343,21 +343,6 @@ public class ProductInventoryCriteria implements Serializable, Criteria {
         this.consumptionDetailsId = consumptionDetailsId;
     }
 
-    public LongFilter getProductTransactionId() {
-        return productTransactionId;
-    }
-
-    public LongFilter productTransactionId() {
-        if (productTransactionId == null) {
-            productTransactionId = new LongFilter();
-        }
-        return productTransactionId;
-    }
-
-    public void setProductTransactionId(LongFilter productTransactionId) {
-        this.productTransactionId = productTransactionId;
-    }
-
     public LongFilter getProductId() {
         return productId;
     }
@@ -386,6 +371,21 @@ public class ProductInventoryCriteria implements Serializable, Criteria {
 
     public void setPurchaseOrderId(LongFilter purchaseOrderId) {
         this.purchaseOrderId = purchaseOrderId;
+    }
+
+    public LongFilter getProductTransactionId() {
+        return productTransactionId;
+    }
+
+    public LongFilter productTransactionId() {
+        if (productTransactionId == null) {
+            productTransactionId = new LongFilter();
+        }
+        return productTransactionId;
+    }
+
+    public void setProductTransactionId(LongFilter productTransactionId) {
+        this.productTransactionId = productTransactionId;
     }
 
     public LongFilter getWareHouseId() {
@@ -452,9 +452,9 @@ public class ProductInventoryCriteria implements Serializable, Criteria {
             Objects.equals(isDeleted, that.isDeleted) &&
             Objects.equals(isActive, that.isActive) &&
             Objects.equals(consumptionDetailsId, that.consumptionDetailsId) &&
-            Objects.equals(productTransactionId, that.productTransactionId) &&
             Objects.equals(productId, that.productId) &&
             Objects.equals(purchaseOrderId, that.purchaseOrderId) &&
+            Objects.equals(productTransactionId, that.productTransactionId) &&
             Objects.equals(wareHouseId, that.wareHouseId) &&
             Objects.equals(securityUserId, that.securityUserId) &&
             Objects.equals(distinct, that.distinct)
@@ -480,9 +480,9 @@ public class ProductInventoryCriteria implements Serializable, Criteria {
             isDeleted,
             isActive,
             consumptionDetailsId,
-            productTransactionId,
             productId,
             purchaseOrderId,
+            productTransactionId,
             wareHouseId,
             securityUserId,
             distinct
@@ -509,9 +509,9 @@ public class ProductInventoryCriteria implements Serializable, Criteria {
             (isDeleted != null ? "isDeleted=" + isDeleted + ", " : "") +
             (isActive != null ? "isActive=" + isActive + ", " : "") +
             (consumptionDetailsId != null ? "consumptionDetailsId=" + consumptionDetailsId + ", " : "") +
-            (productTransactionId != null ? "productTransactionId=" + productTransactionId + ", " : "") +
             (productId != null ? "productId=" + productId + ", " : "") +
             (purchaseOrderId != null ? "purchaseOrderId=" + purchaseOrderId + ", " : "") +
+            (productTransactionId != null ? "productTransactionId=" + productTransactionId + ", " : "") +
             (wareHouseId != null ? "wareHouseId=" + wareHouseId + ", " : "") +
             (securityUserId != null ? "securityUserId=" + securityUserId + ", " : "") +
             (distinct != null ? "distinct=" + distinct + ", " : "") +

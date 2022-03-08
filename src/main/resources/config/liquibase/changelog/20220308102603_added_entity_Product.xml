@@ -86,16 +86,16 @@
             <column name="free_field_2" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="purchase_order_details_id" type="bigint">
-                <constraints nullable="true" />
-            </column>
             <column name="categories_id" type="bigint">
                 <constraints nullable="true" />
             </column>
             <column name="unit_id" type="bigint">
                 <constraints nullable="true" />
             </column>
-            <column name="security_user_id" type="bigint">
+            <column name="ecurity_user_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+            <column name="purchase_order_details_id" type="bigint">
                 <constraints nullable="true" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->

@@ -14,6 +14,8 @@ import { ISecurityPermission } from 'app/entities/security-permission/security-p
 import { SecurityPermissionService } from 'app/entities/security-permission/service/security-permission.service';
 import { ISecurityRole } from 'app/entities/security-role/security-role.model';
 import { SecurityRoleService } from 'app/entities/security-role/service/security-role.service';
+import { IWareHouse } from 'app/entities/ware-house/ware-house.model';
+import { WareHouseService } from 'app/entities/ware-house/service/ware-house.service';
 
 @Component({
   selector: 'jhi-security-user-update',
@@ -24,6 +26,7 @@ export class SecurityUserUpdateComponent implements OnInit {
 
   securityPermissionsSharedCollection: ISecurityPermission[] = [];
   securityRolesSharedCollection: ISecurityRole[] = [];
+  wareHousesSharedCollection: IWareHouse[] = [];
 
   editForm = this.fb.group({
     id: [],
@@ -47,12 +50,14 @@ export class SecurityUserUpdateComponent implements OnInit {
     lastModifiedBy: [],
     securityPermissions: [],
     securityRoles: [],
+    securityUsers: [],
   });
 
   constructor(
     protected securityUserService: SecurityUserService,
     protected securityPermissionService: SecurityPermissionService,
     protected securityRoleService: SecurityRoleService,
+    protected wareHouseService: WareHouseService,
     protected activatedRoute: ActivatedRoute,
     protected fb: FormBuilder
   ) {}
@@ -94,6 +99,10 @@ export class SecurityUserUpdateComponent implements OnInit {
     return item.id!;
   }
 
+  trackWareHouseById(index: number, item: IWareHouse): number {
+    return item.id!;
+  }
+
   getSelectedSecurityPermission(option: ISecurityPermission, selectedVals?: ISecurityPermission[]): ISecurityPermission {
     if (selectedVals) {
       for (const selectedVal of selectedVals) {
@@ -106,6 +115,17 @@ export class SecurityUserUpdateComponent implements OnInit {
   }
 
   getSelectedSecurityRole(option: ISecurityRole, selectedVals?: ISecurityRole[]): ISecurityRole {
+    if (selectedVals) {
+      for (const selectedVal of selectedVals) {
+        if (option.id === selectedVal.id) {
+          return selectedVal;
+        }
+      }
+    }
+    return option;
+  }
+
+  getSelectedWareHouse(option: IWareHouse, selectedVals?: IWareHouse[]): IWareHouse {
     if (selectedVals) {
       for (const selectedVal of selectedVals) {
         if (option.id === selectedVal.id) {
@@ -158,6 +178,7 @@ export class SecurityUserUpdateComponent implements OnInit {
       lastModifiedBy: securityUser.lastModifiedBy,
       securityPermissions: securityUser.securityPermissions,
       securityRoles: securityUser.securityRoles,
+      securityUsers: securityUser.securityUsers,
     });
 
     this.securityPermissionsSharedCollection = this.securityPermissionService.addSecurityPermissionToCollectionIfMissing(
@@ -167,6 +188,10 @@ export class SecurityUserUpdateComponent implements OnInit {
     this.securityRolesSharedCollection = this.securityRoleService.addSecurityRoleToCollectionIfMissing(
       this.securityRolesSharedCollection,
       ...(securityUser.securityRoles ?? [])
+    );
+    this.wareHousesSharedCollection = this.wareHouseService.addWareHouseToCollectionIfMissing(
+      this.wareHousesSharedCollection,
+      ...(securityUser.securityUsers ?? [])
     );
   }
 
@@ -193,6 +218,16 @@ export class SecurityUserUpdateComponent implements OnInit {
         )
       )
       .subscribe((securityRoles: ISecurityRole[]) => (this.securityRolesSharedCollection = securityRoles));
+
+    this.wareHouseService
+      .query()
+      .pipe(map((res: HttpResponse<IWareHouse[]>) => res.body ?? []))
+      .pipe(
+        map((wareHouses: IWareHouse[]) =>
+          this.wareHouseService.addWareHouseToCollectionIfMissing(wareHouses, ...(this.editForm.get('securityUsers')!.value ?? []))
+        )
+      )
+      .subscribe((wareHouses: IWareHouse[]) => (this.wareHousesSharedCollection = wareHouses));
   }
 
   protected createFromForm(): ISecurityUser {
@@ -223,6 +258,7 @@ export class SecurityUserUpdateComponent implements OnInit {
       lastModifiedBy: this.editForm.get(['lastModifiedBy'])!.value,
       securityPermissions: this.editForm.get(['securityPermissions'])!.value,
       securityRoles: this.editForm.get(['securityRoles'])!.value,
+      securityUsers: this.editForm.get(['securityUsers'])!.value,
     };
   }
 }

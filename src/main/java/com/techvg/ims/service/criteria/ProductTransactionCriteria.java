@@ -47,13 +47,9 @@ public class ProductTransactionCriteria implements Serializable, Criteria {
 
     private StringFilter lastModifiedBy;
 
+    private LongFilter ecurityUserId;
+
     private LongFilter wareHouseId;
-
-    private LongFilter productId;
-
-    private LongFilter productInventoryId;
-
-    private LongFilter securityUserId;
 
     private Boolean distinct;
 
@@ -70,10 +66,8 @@ public class ProductTransactionCriteria implements Serializable, Criteria {
         this.description = other.description == null ? null : other.description.copy();
         this.lastModified = other.lastModified == null ? null : other.lastModified.copy();
         this.lastModifiedBy = other.lastModifiedBy == null ? null : other.lastModifiedBy.copy();
+        this.ecurityUserId = other.ecurityUserId == null ? null : other.ecurityUserId.copy();
         this.wareHouseId = other.wareHouseId == null ? null : other.wareHouseId.copy();
-        this.productId = other.productId == null ? null : other.productId.copy();
-        this.productInventoryId = other.productInventoryId == null ? null : other.productInventoryId.copy();
-        this.securityUserId = other.securityUserId == null ? null : other.securityUserId.copy();
         this.distinct = other.distinct;
     }
 
@@ -232,6 +226,21 @@ public class ProductTransactionCriteria implements Serializable, Criteria {
         this.lastModifiedBy = lastModifiedBy;
     }
 
+    public LongFilter getEcurityUserId() {
+        return ecurityUserId;
+    }
+
+    public LongFilter ecurityUserId() {
+        if (ecurityUserId == null) {
+            ecurityUserId = new LongFilter();
+        }
+        return ecurityUserId;
+    }
+
+    public void setEcurityUserId(LongFilter ecurityUserId) {
+        this.ecurityUserId = ecurityUserId;
+    }
+
     public LongFilter getWareHouseId() {
         return wareHouseId;
     }
@@ -245,51 +254,6 @@ public class ProductTransactionCriteria implements Serializable, Criteria {
 
     public void setWareHouseId(LongFilter wareHouseId) {
         this.wareHouseId = wareHouseId;
-    }
-
-    public LongFilter getProductId() {
-        return productId;
-    }
-
-    public LongFilter productId() {
-        if (productId == null) {
-            productId = new LongFilter();
-        }
-        return productId;
-    }
-
-    public void setProductId(LongFilter productId) {
-        this.productId = productId;
-    }
-
-    public LongFilter getProductInventoryId() {
-        return productInventoryId;
-    }
-
-    public LongFilter productInventoryId() {
-        if (productInventoryId == null) {
-            productInventoryId = new LongFilter();
-        }
-        return productInventoryId;
-    }
-
-    public void setProductInventoryId(LongFilter productInventoryId) {
-        this.productInventoryId = productInventoryId;
-    }
-
-    public LongFilter getSecurityUserId() {
-        return securityUserId;
-    }
-
-    public LongFilter securityUserId() {
-        if (securityUserId == null) {
-            securityUserId = new LongFilter();
-        }
-        return securityUserId;
-    }
-
-    public void setSecurityUserId(LongFilter securityUserId) {
-        this.securityUserId = securityUserId;
     }
 
     public Boolean getDistinct() {
@@ -320,10 +284,8 @@ public class ProductTransactionCriteria implements Serializable, Criteria {
             Objects.equals(description, that.description) &&
             Objects.equals(lastModified, that.lastModified) &&
             Objects.equals(lastModifiedBy, that.lastModifiedBy) &&
+            Objects.equals(ecurityUserId, that.ecurityUserId) &&
             Objects.equals(wareHouseId, that.wareHouseId) &&
-            Objects.equals(productId, that.productId) &&
-            Objects.equals(productInventoryId, that.productInventoryId) &&
-            Objects.equals(securityUserId, that.securityUserId) &&
             Objects.equals(distinct, that.distinct)
         );
     }
@@ -341,10 +303,8 @@ public class ProductTransactionCriteria implements Serializable, Criteria {
             description,
             lastModified,
             lastModifiedBy,
+            ecurityUserId,
             wareHouseId,
-            productId,
-            productInventoryId,
-            securityUserId,
             distinct
         );
     }
@@ -363,10 +323,8 @@ public class ProductTransactionCriteria implements Serializable, Criteria {
             (description != null ? "description=" + description + ", " : "") +
             (lastModified != null ? "lastModified=" + lastModified + ", " : "") +
             (lastModifiedBy != null ? "lastModifiedBy=" + lastModifiedBy + ", " : "") +
+            (ecurityUserId != null ? "ecurityUserId=" + ecurityUserId + ", " : "") +
             (wareHouseId != null ? "wareHouseId=" + wareHouseId + ", " : "") +
-            (productId != null ? "productId=" + productId + ", " : "") +
-            (productInventoryId != null ? "productInventoryId=" + productInventoryId + ", " : "") +
-            (securityUserId != null ? "securityUserId=" + securityUserId + ", " : "") +
             (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";
     }

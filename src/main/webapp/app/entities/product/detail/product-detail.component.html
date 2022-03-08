@@ -109,14 +109,6 @@
         <dd>
           <span>{{ product.freeField2 }}</span>
         </dd>
-        <dt><span jhiTranslate="inventoryManagmentSystemApp.product.purchaseOrderDetails">Purchase Order Details</span></dt>
-        <dd>
-          <div *ngIf="product.purchaseOrderDetails">
-            <a [routerLink]="['/purchase-order-details', product.purchaseOrderDetails?.id, 'view']">{{
-              product.purchaseOrderDetails?.id
-            }}</a>
-          </div>
-        </dd>
         <dt><span jhiTranslate="inventoryManagmentSystemApp.product.categories">Categories</span></dt>
         <dd>
           <div *ngIf="product.categories">
@@ -129,10 +121,18 @@
             <a [routerLink]="['/unit', product.unit?.id, 'view']">{{ product.unit?.id }}</a>
           </div>
         </dd>
-        <dt><span jhiTranslate="inventoryManagmentSystemApp.product.securityUser">Security User</span></dt>
+        <dt><span jhiTranslate="inventoryManagmentSystemApp.product.ecurityUser">Ecurity User</span></dt>
         <dd>
-          <div *ngIf="product.securityUser">
-            <a [routerLink]="['/security-user', product.securityUser?.id, 'view']">{{ product.securityUser?.id }}</a>
+          <div *ngIf="product.ecurityUser">
+            <a [routerLink]="['/security-user', product.ecurityUser?.id, 'view']">{{ product.ecurityUser?.login }}</a>
+          </div>
+        </dd>
+        <dt><span jhiTranslate="inventoryManagmentSystemApp.product.purchaseOrderDetails">Purchase Order Details</span></dt>
+        <dd>
+          <div *ngIf="product.purchaseOrderDetails">
+            <a [routerLink]="['/purchase-order-details', product.purchaseOrderDetails?.id, 'view']">{{
+              product.purchaseOrderDetails?.id
+            }}</a>
           </div>
         </dd>
       </dl>

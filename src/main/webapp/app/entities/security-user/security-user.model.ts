@@ -1,8 +1,7 @@
 import dayjs from 'dayjs/esm';
-import { IProductTransaction } from 'app/entities/product-transaction/product-transaction.model';
-import { IProduct } from 'app/entities/product/product.model';
 import { ISecurityPermission } from 'app/entities/security-permission/security-permission.model';
 import { ISecurityRole } from 'app/entities/security-role/security-role.model';
+import { IWareHouse } from 'app/entities/ware-house/ware-house.model';
 import { IProductInventory } from 'app/entities/product-inventory/product-inventory.model';
 
 export interface ISecurityUser {
@@ -25,10 +24,9 @@ export interface ISecurityUser {
   otpExpiryTime?: dayjs.Dayjs | null;
   lastModified?: dayjs.Dayjs | null;
   lastModifiedBy?: string | null;
-  productTransactions?: IProductTransaction[] | null;
-  products?: IProduct[] | null;
   securityPermissions?: ISecurityPermission[] | null;
   securityRoles?: ISecurityRole[] | null;
+  securityUsers?: IWareHouse[] | null;
   productInventories?: IProductInventory[] | null;
 }
 
@@ -53,10 +51,9 @@ export class SecurityUser implements ISecurityUser {
     public otpExpiryTime?: dayjs.Dayjs | null,
     public lastModified?: dayjs.Dayjs | null,
     public lastModifiedBy?: string | null,
-    public productTransactions?: IProductTransaction[] | null,
-    public products?: IProduct[] | null,
     public securityPermissions?: ISecurityPermission[] | null,
     public securityRoles?: ISecurityRole[] | null,
+    public securityUsers?: IWareHouse[] | null,
     public productInventories?: IProductInventory[] | null
   ) {
     this.activated = this.activated ?? false;

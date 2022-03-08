@@ -7,12 +7,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.techvg.ims.IntegrationTest;
-import com.techvg.ims.domain.Product;
 import com.techvg.ims.domain.ProductInventory;
-import com.techvg.ims.domain.ProductTransaction;
 import com.techvg.ims.domain.SecurityPermission;
 import com.techvg.ims.domain.SecurityRole;
 import com.techvg.ims.domain.SecurityUser;
+import com.techvg.ims.domain.WareHouse;
 import com.techvg.ims.repository.SecurityUserRepository;
 import com.techvg.ims.service.SecurityUserService;
 import com.techvg.ims.service.criteria.SecurityUserCriteria;
@@ -1710,58 +1709,6 @@ class SecurityUserResourceIT {
 
     @Test
     @Transactional
-    void getAllSecurityUsersByProductTransactionIsEqualToSomething() throws Exception {
-        // Initialize the database
-        securityUserRepository.saveAndFlush(securityUser);
-        ProductTransaction productTransaction;
-        if (TestUtil.findAll(em, ProductTransaction.class).isEmpty()) {
-            productTransaction = ProductTransactionResourceIT.createEntity(em);
-            em.persist(productTransaction);
-            em.flush();
-        } else {
-            productTransaction = TestUtil.findAll(em, ProductTransaction.class).get(0);
-        }
-        em.persist(productTransaction);
-        em.flush();
-        securityUser.addProductTransaction(productTransaction);
-        securityUserRepository.saveAndFlush(securityUser);
-        Long productTransactionId = productTransaction.getId();
-
-        // Get all the securityUserList where productTransaction equals to productTransactionId
-        defaultSecurityUserShouldBeFound("productTransactionId.equals=" + productTransactionId);
-
-        // Get all the securityUserList where productTransaction equals to (productTransactionId + 1)
-        defaultSecurityUserShouldNotBeFound("productTransactionId.equals=" + (productTransactionId + 1));
-    }
-
-    @Test
-    @Transactional
-    void getAllSecurityUsersByProductIsEqualToSomething() throws Exception {
-        // Initialize the database
-        securityUserRepository.saveAndFlush(securityUser);
-        Product product;
-        if (TestUtil.findAll(em, Product.class).isEmpty()) {
-            product = ProductResourceIT.createEntity(em);
-            em.persist(product);
-            em.flush();
-        } else {
-            product = TestUtil.findAll(em, Product.class).get(0);
-        }
-        em.persist(product);
-        em.flush();
-        securityUser.addProduct(product);
-        securityUserRepository.saveAndFlush(securityUser);
-        Long productId = product.getId();
-
-        // Get all the securityUserList where product equals to productId
-        defaultSecurityUserShouldBeFound("productId.equals=" + productId);
-
-        // Get all the securityUserList where product equals to (productId + 1)
-        defaultSecurityUserShouldNotBeFound("productId.equals=" + (productId + 1));
-    }
-
-    @Test
-    @Transactional
     void getAllSecurityUsersBySecurityPermissionIsEqualToSomething() throws Exception {
         // Initialize the database
         securityUserRepository.saveAndFlush(securityUser);
@@ -1810,6 +1757,32 @@ class SecurityUserResourceIT {
 
         // Get all the securityUserList where securityRole equals to (securityRoleId + 1)
         defaultSecurityUserShouldNotBeFound("securityRoleId.equals=" + (securityRoleId + 1));
+    }
+
+    @Test
+    @Transactional
+    void getAllSecurityUsersBySecurityUserIsEqualToSomething() throws Exception {
+        // Initialize the database
+        securityUserRepository.saveAndFlush(securityUser);
+        WareHouse securityUser;
+        if (TestUtil.findAll(em, WareHouse.class).isEmpty()) {
+            securityUser = WareHouseResourceIT.createEntity(em);
+            em.persist(securityUser);
+            em.flush();
+        } else {
+            securityUser = TestUtil.findAll(em, WareHouse.class).get(0);
+        }
+        em.persist(securityUser);
+        em.flush();
+        securityUser.addSecurityUser(securityUser);
+        securityUserRepository.saveAndFlush(securityUser);
+        Long securityUserId = securityUser.getId();
+
+        // Get all the securityUserList where securityUser equals to securityUserId
+        defaultSecurityUserShouldBeFound("securityUserId.equals=" + securityUserId);
+
+        // Get all the securityUserList where securityUser equals to (securityUserId + 1)
+        defaultSecurityUserShouldNotBeFound("securityUserId.equals=" + (securityUserId + 1));
     }
 
     @Test

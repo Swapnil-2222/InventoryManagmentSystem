@@ -165,15 +165,6 @@ public class ProductQueryService extends QueryService<Product> {
                         )
                     );
             }
-            if (criteria.getPurchaseOrderDetailsId() != null) {
-                specification =
-                    specification.and(
-                        buildSpecification(
-                            criteria.getPurchaseOrderDetailsId(),
-                            root -> root.join(Product_.purchaseOrderDetails, JoinType.LEFT).get(PurchaseOrderDetails_.id)
-                        )
-                    );
-            }
             if (criteria.getCategoriesId() != null) {
                 specification =
                     specification.and(
@@ -189,21 +180,21 @@ public class ProductQueryService extends QueryService<Product> {
                         buildSpecification(criteria.getUnitId(), root -> root.join(Product_.unit, JoinType.LEFT).get(Unit_.id))
                     );
             }
-            if (criteria.getSecurityUserId() != null) {
+            if (criteria.getEcurityUserId() != null) {
                 specification =
                     specification.and(
                         buildSpecification(
-                            criteria.getSecurityUserId(),
-                            root -> root.join(Product_.securityUser, JoinType.LEFT).get(SecurityUser_.id)
+                            criteria.getEcurityUserId(),
+                            root -> root.join(Product_.ecurityUser, JoinType.LEFT).get(SecurityUser_.id)
                         )
                     );
             }
-            if (criteria.getProductTransactionId() != null) {
+            if (criteria.getPurchaseOrderDetailsId() != null) {
                 specification =
                     specification.and(
                         buildSpecification(
-                            criteria.getProductTransactionId(),
-                            root -> root.join(Product_.productTransactions, JoinType.LEFT).get(ProductTransaction_.id)
+                            criteria.getPurchaseOrderDetailsId(),
+                            root -> root.join(Product_.purchaseOrderDetails, JoinType.LEFT).get(PurchaseOrderDetails_.id)
                         )
                     );
             }

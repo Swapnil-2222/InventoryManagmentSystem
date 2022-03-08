@@ -6,7 +6,7 @@
   "entityTableName": "ware_house",
   "fields": [
     {
-      "fieldName": "wareHouseName",
+      "fieldName": "whName",
       "fieldType": "String"
     },
     {
@@ -30,7 +30,7 @@
       "fieldType": "String"
     },
     {
-      "fieldName": "gstDetails",
+      "fieldName": "gSTDetails",
       "fieldType": "String"
     },
     {
@@ -58,6 +58,10 @@
       "fieldType": "Boolean"
     },
     {
+      "fieldName": "wareHouseId",
+      "fieldType": "Long"
+    },
+    {
       "fieldName": "lastModified",
       "fieldType": "Instant",
       "fieldValidateRules": ["required"]
@@ -77,6 +81,13 @@
     {
       "otherEntityName": "productInventory",
       "otherEntityRelationshipName": "wareHouse",
+      "ownerSide": false,
+      "relationshipName": "productInventory",
+      "relationshipType": "many-to-many"
+    },
+    {
+      "otherEntityName": "securityUser",
+      "otherEntityRelationshipName": "securityUser",
       "ownerSide": false,
       "relationshipName": "productInventory",
       "relationshipType": "many-to-many"

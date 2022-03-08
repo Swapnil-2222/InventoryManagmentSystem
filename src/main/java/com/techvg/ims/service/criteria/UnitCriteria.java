@@ -43,8 +43,6 @@ public class UnitCriteria implements Serializable, Criteria {
 
     private BooleanFilter isActive;
 
-    private LongFilter productId;
-
     private Boolean distinct;
 
     public UnitCriteria() {}
@@ -58,7 +56,6 @@ public class UnitCriteria implements Serializable, Criteria {
         this.lastModifiedBy = other.lastModifiedBy == null ? null : other.lastModifiedBy.copy();
         this.isDeleted = other.isDeleted == null ? null : other.isDeleted.copy();
         this.isActive = other.isActive == null ? null : other.isActive.copy();
-        this.productId = other.productId == null ? null : other.productId.copy();
         this.distinct = other.distinct;
     }
 
@@ -187,21 +184,6 @@ public class UnitCriteria implements Serializable, Criteria {
         this.isActive = isActive;
     }
 
-    public LongFilter getProductId() {
-        return productId;
-    }
-
-    public LongFilter productId() {
-        if (productId == null) {
-            productId = new LongFilter();
-        }
-        return productId;
-    }
-
-    public void setProductId(LongFilter productId) {
-        this.productId = productId;
-    }
-
     public Boolean getDistinct() {
         return distinct;
     }
@@ -228,14 +210,13 @@ public class UnitCriteria implements Serializable, Criteria {
             Objects.equals(lastModifiedBy, that.lastModifiedBy) &&
             Objects.equals(isDeleted, that.isDeleted) &&
             Objects.equals(isActive, that.isActive) &&
-            Objects.equals(productId, that.productId) &&
             Objects.equals(distinct, that.distinct)
         );
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, unitName, shortName, freeField1, lastModified, lastModifiedBy, isDeleted, isActive, productId, distinct);
+        return Objects.hash(id, unitName, shortName, freeField1, lastModified, lastModifiedBy, isDeleted, isActive, distinct);
     }
 
     // prettier-ignore
@@ -250,7 +231,6 @@ public class UnitCriteria implements Serializable, Criteria {
             (lastModifiedBy != null ? "lastModifiedBy=" + lastModifiedBy + ", " : "") +
             (isDeleted != null ? "isDeleted=" + isDeleted + ", " : "") +
             (isActive != null ? "isActive=" + isActive + ", " : "") +
-            (productId != null ? "productId=" + productId + ", " : "") +
             (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";
     }

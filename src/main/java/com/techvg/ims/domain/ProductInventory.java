@@ -71,21 +71,17 @@ public class ProductInventory implements Serializable {
     @JsonIgnoreProperties(value = { "securityUser", "project", "productInventory" }, allowSetters = true)
     private Set<ConsumptionDetails> consumptionDetails = new HashSet<>();
 
-    @OneToMany(mappedBy = "productInventory")
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "wareHouse", "products", "productInventory", "securityUser" }, allowSetters = true)
-    private Set<ProductTransaction> productTransactions = new HashSet<>();
-
     @ManyToOne
-    @JsonIgnoreProperties(
-        value = { "transferDetails", "purchaseOrderDetails", "categories", "unit", "securityUser", "productTransactions" },
-        allowSetters = true
-    )
+    @JsonIgnoreProperties(value = { "transferDetails", "categories", "unit", "ecurityUser", "purchaseOrderDetails" }, allowSetters = true)
     private Product product;
 
     @ManyToOne
     @JsonIgnoreProperties(value = { "purchaseOrderDetails", "goodReciveds", "securityUser", "productInventories" }, allowSetters = true)
     private PurchaseOrder purchaseOrder;
+
+    @ManyToOne
+    @JsonIgnoreProperties(value = { "ecurityUser", "wareHouse" }, allowSetters = true)
+    private ProductTransaction productTransaction;
 
     @ManyToMany
     @JoinTable(
@@ -94,7 +90,7 @@ public class ProductInventory implements Serializable {
         inverseJoinColumns = @JoinColumn(name = "ware_house_id")
     )
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "productInventories" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "productInventories", "productInventories" }, allowSetters = true)
     private Set<WareHouse> wareHouses = new HashSet<>();
 
     @ManyToMany
@@ -104,10 +100,7 @@ public class ProductInventory implements Serializable {
         inverseJoinColumns = @JoinColumn(name = "security_user_id")
     )
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(
-        value = { "productTransactions", "products", "securityPermissions", "securityRoles", "productInventories" },
-        allowSetters = true
-    )
+    @JsonIgnoreProperties(value = { "securityPermissions", "securityRoles", "securityUsers", "productInventories" }, allowSetters = true)
     private Set<SecurityUser> securityUsers = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -338,37 +331,6 @@ public class ProductInventory implements Serializable {
         return this;
     }
 
-    public Set<ProductTransaction> getProductTransactions() {
-        return this.productTransactions;
-    }
-
-    public void setProductTransactions(Set<ProductTransaction> productTransactions) {
-        if (this.productTransactions != null) {
-            this.productTransactions.forEach(i -> i.setProductInventory(null));
-        }
-        if (productTransactions != null) {
-            productTransactions.forEach(i -> i.setProductInventory(this));
-        }
-        this.productTransactions = productTransactions;
-    }
-
-    public ProductInventory productTransactions(Set<ProductTransaction> productTransactions) {
-        this.setProductTransactions(productTransactions);
-        return this;
-    }
-
-    public ProductInventory addProductTransaction(ProductTransaction productTransaction) {
-        this.productTransactions.add(productTransaction);
-        productTransaction.setProductInventory(this);
-        return this;
-    }
-
-    public ProductInventory removeProductTransaction(ProductTransaction productTransaction) {
-        this.productTransactions.remove(productTransaction);
-        productTransaction.setProductInventory(null);
-        return this;
-    }
-
     public Product getProduct() {
         return this.product;
     }
@@ -392,6 +354,19 @@ public class ProductInventory implements Serializable {
 
     public ProductInventory purchaseOrder(PurchaseOrder purchaseOrder) {
         this.setPurchaseOrder(purchaseOrder);
+        return this;
+    }
+
+    public ProductTransaction getProductTransaction() {
+        return this.productTransaction;
+    }
+
+    public void setProductTransaction(ProductTransaction productTransaction) {
+        this.productTransaction = productTransaction;
+    }
+
+    public ProductInventory productTransaction(ProductTransaction productTransaction) {
+        this.setProductTransaction(productTransaction);
         return this;
     }
 

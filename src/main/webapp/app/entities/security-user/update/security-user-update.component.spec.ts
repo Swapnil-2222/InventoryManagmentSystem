@@ -12,6 +12,8 @@ import { ISecurityPermission } from 'app/entities/security-permission/security-p
 import { SecurityPermissionService } from 'app/entities/security-permission/service/security-permission.service';
 import { ISecurityRole } from 'app/entities/security-role/security-role.model';
 import { SecurityRoleService } from 'app/entities/security-role/service/security-role.service';
+import { IWareHouse } from 'app/entities/ware-house/ware-house.model';
+import { WareHouseService } from 'app/entities/ware-house/service/ware-house.service';
 
 import { SecurityUserUpdateComponent } from './security-user-update.component';
 
@@ -22,6 +24,7 @@ describe('SecurityUser Management Update Component', () => {
   let securityUserService: SecurityUserService;
   let securityPermissionService: SecurityPermissionService;
   let securityRoleService: SecurityRoleService;
+  let wareHouseService: WareHouseService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -45,6 +48,7 @@ describe('SecurityUser Management Update Component', () => {
     securityUserService = TestBed.inject(SecurityUserService);
     securityPermissionService = TestBed.inject(SecurityPermissionService);
     securityRoleService = TestBed.inject(SecurityRoleService);
+    wareHouseService = TestBed.inject(WareHouseService);
 
     comp = fixture.componentInstance;
   });
@@ -94,12 +98,33 @@ describe('SecurityUser Management Update Component', () => {
       expect(comp.securityRolesSharedCollection).toEqual(expectedCollection);
     });
 
+    it('Should call WareHouse query and add missing value', () => {
+      const securityUser: ISecurityUser = { id: 456 };
+      const securityUsers: IWareHouse[] = [{ id: 56439 }];
+      securityUser.securityUsers = securityUsers;
+
+      const wareHouseCollection: IWareHouse[] = [{ id: 78835 }];
+      jest.spyOn(wareHouseService, 'query').mockReturnValue(of(new HttpResponse({ body: wareHouseCollection })));
+      const additionalWareHouses = [...securityUsers];
+      const expectedCollection: IWareHouse[] = [...additionalWareHouses, ...wareHouseCollection];
+      jest.spyOn(wareHouseService, 'addWareHouseToCollectionIfMissing').mockReturnValue(expectedCollection);
+
+      activatedRoute.data = of({ securityUser });
+      comp.ngOnInit();
+
+      expect(wareHouseService.query).toHaveBeenCalled();
+      expect(wareHouseService.addWareHouseToCollectionIfMissing).toHaveBeenCalledWith(wareHouseCollection, ...additionalWareHouses);
+      expect(comp.wareHousesSharedCollection).toEqual(expectedCollection);
+    });
+
     it('Should update editForm', () => {
       const securityUser: ISecurityUser = { id: 456 };
       const securityPermissions: ISecurityPermission = { id: 79826 };
       securityUser.securityPermissions = [securityPermissions];
       const securityRoles: ISecurityRole = { id: 91779 };
       securityUser.securityRoles = [securityRoles];
+      const securityUsers: IWareHouse = { id: 58136 };
+      securityUser.securityUsers = [securityUsers];
 
       activatedRoute.data = of({ securityUser });
       comp.ngOnInit();
@@ -107,6 +132,7 @@ describe('SecurityUser Management Update Component', () => {
       expect(comp.editForm.value).toEqual(expect.objectContaining(securityUser));
       expect(comp.securityPermissionsSharedCollection).toContain(securityPermissions);
       expect(comp.securityRolesSharedCollection).toContain(securityRoles);
+      expect(comp.wareHousesSharedCollection).toContain(securityUsers);
     });
   });
 
@@ -190,6 +216,14 @@ describe('SecurityUser Management Update Component', () => {
         expect(trackResult).toEqual(entity.id);
       });
     });
+
+    describe('trackWareHouseById', () => {
+      it('Should return tracked WareHouse primary key', () => {
+        const entity = { id: 123 };
+        const trackResult = comp.trackWareHouseById(0, entity);
+        expect(trackResult).toEqual(entity.id);
+      });
+    });
   });
 
   describe('Getting selected relationships', () => {
@@ -240,6 +274,32 @@ describe('SecurityUser Management Update Component', () => {
         const option = { id: 123 };
         const selected = { id: 456 };
         const result = comp.getSelectedSecurityRole(option, [selected]);
+        expect(result === option).toEqual(true);
+        expect(result === selected).toEqual(false);
+      });
+    });
+
+    describe('getSelectedWareHouse', () => {
+      it('Should return option if no WareHouse is selected', () => {
+        const option = { id: 123 };
+        const result = comp.getSelectedWareHouse(option);
+        expect(result === option).toEqual(true);
+      });
+
+      it('Should return selected WareHouse for according option', () => {
+        const option = { id: 123 };
+        const selected = { id: 123 };
+        const selected2 = { id: 456 };
+        const result = comp.getSelectedWareHouse(option, [selected2, selected]);
+        expect(result === selected).toEqual(true);
+        expect(result === selected2).toEqual(false);
+        expect(result === option).toEqual(false);
+      });
+
+      it('Should return option if this WareHouse is not selected', () => {
+        const option = { id: 123 };
+        const selected = { id: 456 };
+        const result = comp.getSelectedWareHouse(option, [selected]);
         expect(result === option).toEqual(true);
         expect(result === selected).toEqual(false);
       });

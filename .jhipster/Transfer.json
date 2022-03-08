@@ -71,7 +71,7 @@
       "relationshipType": "many-to-one"
     },
     {
-      "otherEntityField": "wareHouseName",
+      "otherEntityField": "whName",
       "otherEntityName": "wareHouse",
       "otherEntityRelationshipName": "transfer",
       "relationshipName": "wareHouse",

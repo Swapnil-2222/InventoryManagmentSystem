@@ -7,6 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.techvg.ims.IntegrationTest;
 import com.techvg.ims.domain.ProductInventory;
+import com.techvg.ims.domain.SecurityUser;
 import com.techvg.ims.domain.WareHouse;
 import com.techvg.ims.repository.WareHouseRepository;
 import com.techvg.ims.service.criteria.WareHouseCriteria;
@@ -35,8 +36,8 @@ import org.springframework.transaction.annotation.Transactional;
 @WithMockUser
 class WareHouseResourceIT {
 
-    private static final String DEFAULT_WARE_HOUSE_NAME = "AAAAAAAAAA";
-    private static final String UPDATED_WARE_HOUSE_NAME = "BBBBBBBBBB";
+    private static final String DEFAULT_WH_NAME = "AAAAAAAAAA";
+    private static final String UPDATED_WH_NAME = "BBBBBBBBBB";
 
     private static final String DEFAULT_ADDRESS = "AAAAAAAAAA";
     private static final String UPDATED_ADDRESS = "BBBBBBBBBB";
@@ -54,8 +55,8 @@ class WareHouseResourceIT {
     private static final String DEFAULT_COUNTRY = "AAAAAAAAAA";
     private static final String UPDATED_COUNTRY = "BBBBBBBBBB";
 
-    private static final String DEFAULT_GST_DETAILS = "AAAAAAAAAA";
-    private static final String UPDATED_GST_DETAILS = "BBBBBBBBBB";
+    private static final String DEFAULT_G_ST_DETAILS = "AAAAAAAAAA";
+    private static final String UPDATED_G_ST_DETAILS = "BBBBBBBBBB";
 
     private static final String DEFAULT_MANAGER_NAME = "AAAAAAAAAA";
     private static final String UPDATED_MANAGER_NAME = "BBBBBBBBBB";
@@ -74,6 +75,10 @@ class WareHouseResourceIT {
 
     private static final Boolean DEFAULT_IS_ACTIVE = false;
     private static final Boolean UPDATED_IS_ACTIVE = true;
+
+    private static final Long DEFAULT_WARE_HOUSE_ID = 1L;
+    private static final Long UPDATED_WARE_HOUSE_ID = 2L;
+    private static final Long SMALLER_WARE_HOUSE_ID = 1L - 1L;
 
     private static final Instant DEFAULT_LAST_MODIFIED = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_LAST_MODIFIED = Instant.now().truncatedTo(ChronoUnit.MILLIS);
@@ -109,19 +114,20 @@ class WareHouseResourceIT {
      */
     public static WareHouse createEntity(EntityManager em) {
         WareHouse wareHouse = new WareHouse()
-            .wareHouseName(DEFAULT_WARE_HOUSE_NAME)
+            .whName(DEFAULT_WH_NAME)
             .address(DEFAULT_ADDRESS)
             .pincode(DEFAULT_PINCODE)
             .city(DEFAULT_CITY)
             .state(DEFAULT_STATE)
             .country(DEFAULT_COUNTRY)
-            .gstDetails(DEFAULT_GST_DETAILS)
+            .gSTDetails(DEFAULT_G_ST_DETAILS)
             .managerName(DEFAULT_MANAGER_NAME)
             .managerEmail(DEFAULT_MANAGER_EMAIL)
             .managerContact(DEFAULT_MANAGER_CONTACT)
             .contact(DEFAULT_CONTACT)
             .isDeleted(DEFAULT_IS_DELETED)
             .isActive(DEFAULT_IS_ACTIVE)
+            .wareHouseId(DEFAULT_WARE_HOUSE_ID)
             .lastModified(DEFAULT_LAST_MODIFIED)
             .lastModifiedBy(DEFAULT_LAST_MODIFIED_BY);
         return wareHouse;
@@ -135,19 +141,20 @@ class WareHouseResourceIT {
      */
     public static WareHouse createUpdatedEntity(EntityManager em) {
         WareHouse wareHouse = new WareHouse()
-            .wareHouseName(UPDATED_WARE_HOUSE_NAME)
+            .whName(UPDATED_WH_NAME)
             .address(UPDATED_ADDRESS)
             .pincode(UPDATED_PINCODE)
             .city(UPDATED_CITY)
             .state(UPDATED_STATE)
             .country(UPDATED_COUNTRY)
-            .gstDetails(UPDATED_GST_DETAILS)
+            .gSTDetails(UPDATED_G_ST_DETAILS)
             .managerName(UPDATED_MANAGER_NAME)
             .managerEmail(UPDATED_MANAGER_EMAIL)
             .managerContact(UPDATED_MANAGER_CONTACT)
             .contact(UPDATED_CONTACT)
             .isDeleted(UPDATED_IS_DELETED)
             .isActive(UPDATED_IS_ACTIVE)
+            .wareHouseId(UPDATED_WARE_HOUSE_ID)
             .lastModified(UPDATED_LAST_MODIFIED)
             .lastModifiedBy(UPDATED_LAST_MODIFIED_BY);
         return wareHouse;
@@ -172,19 +179,20 @@ class WareHouseResourceIT {
         List<WareHouse> wareHouseList = wareHouseRepository.findAll();
         assertThat(wareHouseList).hasSize(databaseSizeBeforeCreate + 1);
         WareHouse testWareHouse = wareHouseList.get(wareHouseList.size() - 1);
-        assertThat(testWareHouse.getWareHouseName()).isEqualTo(DEFAULT_WARE_HOUSE_NAME);
+        assertThat(testWareHouse.getWhName()).isEqualTo(DEFAULT_WH_NAME);
         assertThat(testWareHouse.getAddress()).isEqualTo(DEFAULT_ADDRESS);
         assertThat(testWareHouse.getPincode()).isEqualTo(DEFAULT_PINCODE);
         assertThat(testWareHouse.getCity()).isEqualTo(DEFAULT_CITY);
         assertThat(testWareHouse.getState()).isEqualTo(DEFAULT_STATE);
         assertThat(testWareHouse.getCountry()).isEqualTo(DEFAULT_COUNTRY);
-        assertThat(testWareHouse.getGstDetails()).isEqualTo(DEFAULT_GST_DETAILS);
+        assertThat(testWareHouse.getgSTDetails()).isEqualTo(DEFAULT_G_ST_DETAILS);
         assertThat(testWareHouse.getManagerName()).isEqualTo(DEFAULT_MANAGER_NAME);
         assertThat(testWareHouse.getManagerEmail()).isEqualTo(DEFAULT_MANAGER_EMAIL);
         assertThat(testWareHouse.getManagerContact()).isEqualTo(DEFAULT_MANAGER_CONTACT);
         assertThat(testWareHouse.getContact()).isEqualTo(DEFAULT_CONTACT);
         assertThat(testWareHouse.getIsDeleted()).isEqualTo(DEFAULT_IS_DELETED);
         assertThat(testWareHouse.getIsActive()).isEqualTo(DEFAULT_IS_ACTIVE);
+        assertThat(testWareHouse.getWareHouseId()).isEqualTo(DEFAULT_WARE_HOUSE_ID);
         assertThat(testWareHouse.getLastModified()).isEqualTo(DEFAULT_LAST_MODIFIED);
         assertThat(testWareHouse.getLastModifiedBy()).isEqualTo(DEFAULT_LAST_MODIFIED_BY);
     }
@@ -256,19 +264,20 @@ class WareHouseResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(wareHouse.getId().intValue())))
-            .andExpect(jsonPath("$.[*].wareHouseName").value(hasItem(DEFAULT_WARE_HOUSE_NAME)))
+            .andExpect(jsonPath("$.[*].whName").value(hasItem(DEFAULT_WH_NAME)))
             .andExpect(jsonPath("$.[*].address").value(hasItem(DEFAULT_ADDRESS)))
             .andExpect(jsonPath("$.[*].pincode").value(hasItem(DEFAULT_PINCODE)))
             .andExpect(jsonPath("$.[*].city").value(hasItem(DEFAULT_CITY)))
             .andExpect(jsonPath("$.[*].state").value(hasItem(DEFAULT_STATE)))
             .andExpect(jsonPath("$.[*].country").value(hasItem(DEFAULT_COUNTRY)))
-            .andExpect(jsonPath("$.[*].gstDetails").value(hasItem(DEFAULT_GST_DETAILS)))
+            .andExpect(jsonPath("$.[*].gSTDetails").value(hasItem(DEFAULT_G_ST_DETAILS)))
             .andExpect(jsonPath("$.[*].managerName").value(hasItem(DEFAULT_MANAGER_NAME)))
             .andExpect(jsonPath("$.[*].managerEmail").value(hasItem(DEFAULT_MANAGER_EMAIL)))
             .andExpect(jsonPath("$.[*].managerContact").value(hasItem(DEFAULT_MANAGER_CONTACT)))
             .andExpect(jsonPath("$.[*].contact").value(hasItem(DEFAULT_CONTACT)))
             .andExpect(jsonPath("$.[*].isDeleted").value(hasItem(DEFAULT_IS_DELETED.booleanValue())))
             .andExpect(jsonPath("$.[*].isActive").value(hasItem(DEFAULT_IS_ACTIVE.booleanValue())))
+            .andExpect(jsonPath("$.[*].wareHouseId").value(hasItem(DEFAULT_WARE_HOUSE_ID.intValue())))
             .andExpect(jsonPath("$.[*].lastModified").value(hasItem(DEFAULT_LAST_MODIFIED.toString())))
             .andExpect(jsonPath("$.[*].lastModifiedBy").value(hasItem(DEFAULT_LAST_MODIFIED_BY)));
     }
@@ -285,19 +294,20 @@ class WareHouseResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(wareHouse.getId().intValue()))
-            .andExpect(jsonPath("$.wareHouseName").value(DEFAULT_WARE_HOUSE_NAME))
+            .andExpect(jsonPath("$.whName").value(DEFAULT_WH_NAME))
             .andExpect(jsonPath("$.address").value(DEFAULT_ADDRESS))
             .andExpect(jsonPath("$.pincode").value(DEFAULT_PINCODE))
             .andExpect(jsonPath("$.city").value(DEFAULT_CITY))
             .andExpect(jsonPath("$.state").value(DEFAULT_STATE))
             .andExpect(jsonPath("$.country").value(DEFAULT_COUNTRY))
-            .andExpect(jsonPath("$.gstDetails").value(DEFAULT_GST_DETAILS))
+            .andExpect(jsonPath("$.gSTDetails").value(DEFAULT_G_ST_DETAILS))
             .andExpect(jsonPath("$.managerName").value(DEFAULT_MANAGER_NAME))
             .andExpect(jsonPath("$.managerEmail").value(DEFAULT_MANAGER_EMAIL))
             .andExpect(jsonPath("$.managerContact").value(DEFAULT_MANAGER_CONTACT))
             .andExpect(jsonPath("$.contact").value(DEFAULT_CONTACT))
             .andExpect(jsonPath("$.isDeleted").value(DEFAULT_IS_DELETED.booleanValue()))
             .andExpect(jsonPath("$.isActive").value(DEFAULT_IS_ACTIVE.booleanValue()))
+            .andExpect(jsonPath("$.wareHouseId").value(DEFAULT_WARE_HOUSE_ID.intValue()))
             .andExpect(jsonPath("$.lastModified").value(DEFAULT_LAST_MODIFIED.toString()))
             .andExpect(jsonPath("$.lastModifiedBy").value(DEFAULT_LAST_MODIFIED_BY));
     }
@@ -322,80 +332,80 @@ class WareHouseResourceIT {
 
     @Test
     @Transactional
-    void getAllWareHousesByWareHouseNameIsEqualToSomething() throws Exception {
+    void getAllWareHousesByWhNameIsEqualToSomething() throws Exception {
         // Initialize the database
         wareHouseRepository.saveAndFlush(wareHouse);
 
-        // Get all the wareHouseList where wareHouseName equals to DEFAULT_WARE_HOUSE_NAME
-        defaultWareHouseShouldBeFound("wareHouseName.equals=" + DEFAULT_WARE_HOUSE_NAME);
+        // Get all the wareHouseList where whName equals to DEFAULT_WH_NAME
+        defaultWareHouseShouldBeFound("whName.equals=" + DEFAULT_WH_NAME);
 
-        // Get all the wareHouseList where wareHouseName equals to UPDATED_WARE_HOUSE_NAME
-        defaultWareHouseShouldNotBeFound("wareHouseName.equals=" + UPDATED_WARE_HOUSE_NAME);
+        // Get all the wareHouseList where whName equals to UPDATED_WH_NAME
+        defaultWareHouseShouldNotBeFound("whName.equals=" + UPDATED_WH_NAME);
     }
 
     @Test
     @Transactional
-    void getAllWareHousesByWareHouseNameIsNotEqualToSomething() throws Exception {
+    void getAllWareHousesByWhNameIsNotEqualToSomething() throws Exception {
         // Initialize the database
         wareHouseRepository.saveAndFlush(wareHouse);
 
-        // Get all the wareHouseList where wareHouseName not equals to DEFAULT_WARE_HOUSE_NAME
-        defaultWareHouseShouldNotBeFound("wareHouseName.notEquals=" + DEFAULT_WARE_HOUSE_NAME);
+        // Get all the wareHouseList where whName not equals to DEFAULT_WH_NAME
+        defaultWareHouseShouldNotBeFound("whName.notEquals=" + DEFAULT_WH_NAME);
 
-        // Get all the wareHouseList where wareHouseName not equals to UPDATED_WARE_HOUSE_NAME
-        defaultWareHouseShouldBeFound("wareHouseName.notEquals=" + UPDATED_WARE_HOUSE_NAME);
+        // Get all the wareHouseList where whName not equals to UPDATED_WH_NAME
+        defaultWareHouseShouldBeFound("whName.notEquals=" + UPDATED_WH_NAME);
     }
 
     @Test
     @Transactional
-    void getAllWareHousesByWareHouseNameIsInShouldWork() throws Exception {
+    void getAllWareHousesByWhNameIsInShouldWork() throws Exception {
         // Initialize the database
         wareHouseRepository.saveAndFlush(wareHouse);
 
-        // Get all the wareHouseList where wareHouseName in DEFAULT_WARE_HOUSE_NAME or UPDATED_WARE_HOUSE_NAME
-        defaultWareHouseShouldBeFound("wareHouseName.in=" + DEFAULT_WARE_HOUSE_NAME + "," + UPDATED_WARE_HOUSE_NAME);
+        // Get all the wareHouseList where whName in DEFAULT_WH_NAME or UPDATED_WH_NAME
+        defaultWareHouseShouldBeFound("whName.in=" + DEFAULT_WH_NAME + "," + UPDATED_WH_NAME);
 
-        // Get all the wareHouseList where wareHouseName equals to UPDATED_WARE_HOUSE_NAME
-        defaultWareHouseShouldNotBeFound("wareHouseName.in=" + UPDATED_WARE_HOUSE_NAME);
+        // Get all the wareHouseList where whName equals to UPDATED_WH_NAME
+        defaultWareHouseShouldNotBeFound("whName.in=" + UPDATED_WH_NAME);
     }
 
     @Test
     @Transactional
-    void getAllWareHousesByWareHouseNameIsNullOrNotNull() throws Exception {
+    void getAllWareHousesByWhNameIsNullOrNotNull() throws Exception {
         // Initialize the database
         wareHouseRepository.saveAndFlush(wareHouse);
 
-        // Get all the wareHouseList where wareHouseName is not null
-        defaultWareHouseShouldBeFound("wareHouseName.specified=true");
+        // Get all the wareHouseList where whName is not null
+        defaultWareHouseShouldBeFound("whName.specified=true");
 
-        // Get all the wareHouseList where wareHouseName is null
-        defaultWareHouseShouldNotBeFound("wareHouseName.specified=false");
+        // Get all the wareHouseList where whName is null
+        defaultWareHouseShouldNotBeFound("whName.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllWareHousesByWareHouseNameContainsSomething() throws Exception {
+    void getAllWareHousesByWhNameContainsSomething() throws Exception {
         // Initialize the database
         wareHouseRepository.saveAndFlush(wareHouse);
 
-        // Get all the wareHouseList where wareHouseName contains DEFAULT_WARE_HOUSE_NAME
-        defaultWareHouseShouldBeFound("wareHouseName.contains=" + DEFAULT_WARE_HOUSE_NAME);
+        // Get all the wareHouseList where whName contains DEFAULT_WH_NAME
+        defaultWareHouseShouldBeFound("whName.contains=" + DEFAULT_WH_NAME);
 
-        // Get all the wareHouseList where wareHouseName contains UPDATED_WARE_HOUSE_NAME
-        defaultWareHouseShouldNotBeFound("wareHouseName.contains=" + UPDATED_WARE_HOUSE_NAME);
+        // Get all the wareHouseList where whName contains UPDATED_WH_NAME
+        defaultWareHouseShouldNotBeFound("whName.contains=" + UPDATED_WH_NAME);
     }
 
     @Test
     @Transactional
-    void getAllWareHousesByWareHouseNameNotContainsSomething() throws Exception {
+    void getAllWareHousesByWhNameNotContainsSomething() throws Exception {
         // Initialize the database
         wareHouseRepository.saveAndFlush(wareHouse);
 
-        // Get all the wareHouseList where wareHouseName does not contain DEFAULT_WARE_HOUSE_NAME
-        defaultWareHouseShouldNotBeFound("wareHouseName.doesNotContain=" + DEFAULT_WARE_HOUSE_NAME);
+        // Get all the wareHouseList where whName does not contain DEFAULT_WH_NAME
+        defaultWareHouseShouldNotBeFound("whName.doesNotContain=" + DEFAULT_WH_NAME);
 
-        // Get all the wareHouseList where wareHouseName does not contain UPDATED_WARE_HOUSE_NAME
-        defaultWareHouseShouldBeFound("wareHouseName.doesNotContain=" + UPDATED_WARE_HOUSE_NAME);
+        // Get all the wareHouseList where whName does not contain UPDATED_WH_NAME
+        defaultWareHouseShouldBeFound("whName.doesNotContain=" + UPDATED_WH_NAME);
     }
 
     @Test
@@ -816,80 +826,80 @@ class WareHouseResourceIT {
 
     @Test
     @Transactional
-    void getAllWareHousesByGstDetailsIsEqualToSomething() throws Exception {
+    void getAllWareHousesBygSTDetailsIsEqualToSomething() throws Exception {
         // Initialize the database
         wareHouseRepository.saveAndFlush(wareHouse);
 
-        // Get all the wareHouseList where gstDetails equals to DEFAULT_GST_DETAILS
-        defaultWareHouseShouldBeFound("gstDetails.equals=" + DEFAULT_GST_DETAILS);
+        // Get all the wareHouseList where gSTDetails equals to DEFAULT_G_ST_DETAILS
+        defaultWareHouseShouldBeFound("gSTDetails.equals=" + DEFAULT_G_ST_DETAILS);
 
-        // Get all the wareHouseList where gstDetails equals to UPDATED_GST_DETAILS
-        defaultWareHouseShouldNotBeFound("gstDetails.equals=" + UPDATED_GST_DETAILS);
+        // Get all the wareHouseList where gSTDetails equals to UPDATED_G_ST_DETAILS
+        defaultWareHouseShouldNotBeFound("gSTDetails.equals=" + UPDATED_G_ST_DETAILS);
     }
 
     @Test
     @Transactional
-    void getAllWareHousesByGstDetailsIsNotEqualToSomething() throws Exception {
+    void getAllWareHousesBygSTDetailsIsNotEqualToSomething() throws Exception {
         // Initialize the database
         wareHouseRepository.saveAndFlush(wareHouse);
 
-        // Get all the wareHouseList where gstDetails not equals to DEFAULT_GST_DETAILS
-        defaultWareHouseShouldNotBeFound("gstDetails.notEquals=" + DEFAULT_GST_DETAILS);
+        // Get all the wareHouseList where gSTDetails not equals to DEFAULT_G_ST_DETAILS
+        defaultWareHouseShouldNotBeFound("gSTDetails.notEquals=" + DEFAULT_G_ST_DETAILS);
 
-        // Get all the wareHouseList where gstDetails not equals to UPDATED_GST_DETAILS
-        defaultWareHouseShouldBeFound("gstDetails.notEquals=" + UPDATED_GST_DETAILS);
+        // Get all the wareHouseList where gSTDetails not equals to UPDATED_G_ST_DETAILS
+        defaultWareHouseShouldBeFound("gSTDetails.notEquals=" + UPDATED_G_ST_DETAILS);
     }
 
     @Test
     @Transactional
-    void getAllWareHousesByGstDetailsIsInShouldWork() throws Exception {
+    void getAllWareHousesBygSTDetailsIsInShouldWork() throws Exception {
         // Initialize the database
         wareHouseRepository.saveAndFlush(wareHouse);
 
-        // Get all the wareHouseList where gstDetails in DEFAULT_GST_DETAILS or UPDATED_GST_DETAILS
-        defaultWareHouseShouldBeFound("gstDetails.in=" + DEFAULT_GST_DETAILS + "," + UPDATED_GST_DETAILS);
+        // Get all the wareHouseList where gSTDetails in DEFAULT_G_ST_DETAILS or UPDATED_G_ST_DETAILS
+        defaultWareHouseShouldBeFound("gSTDetails.in=" + DEFAULT_G_ST_DETAILS + "," + UPDATED_G_ST_DETAILS);
 
-        // Get all the wareHouseList where gstDetails equals to UPDATED_GST_DETAILS
-        defaultWareHouseShouldNotBeFound("gstDetails.in=" + UPDATED_GST_DETAILS);
+        // Get all the wareHouseList where gSTDetails equals to UPDATED_G_ST_DETAILS
+        defaultWareHouseShouldNotBeFound("gSTDetails.in=" + UPDATED_G_ST_DETAILS);
     }
 
     @Test
     @Transactional
-    void getAllWareHousesByGstDetailsIsNullOrNotNull() throws Exception {
+    void getAllWareHousesBygSTDetailsIsNullOrNotNull() throws Exception {
         // Initialize the database
         wareHouseRepository.saveAndFlush(wareHouse);
 
-        // Get all the wareHouseList where gstDetails is not null
-        defaultWareHouseShouldBeFound("gstDetails.specified=true");
+        // Get all the wareHouseList where gSTDetails is not null
+        defaultWareHouseShouldBeFound("gSTDetails.specified=true");
 
-        // Get all the wareHouseList where gstDetails is null
-        defaultWareHouseShouldNotBeFound("gstDetails.specified=false");
+        // Get all the wareHouseList where gSTDetails is null
+        defaultWareHouseShouldNotBeFound("gSTDetails.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllWareHousesByGstDetailsContainsSomething() throws Exception {
+    void getAllWareHousesBygSTDetailsContainsSomething() throws Exception {
         // Initialize the database
         wareHouseRepository.saveAndFlush(wareHouse);
 
-        // Get all the wareHouseList where gstDetails contains DEFAULT_GST_DETAILS
-        defaultWareHouseShouldBeFound("gstDetails.contains=" + DEFAULT_GST_DETAILS);
+        // Get all the wareHouseList where gSTDetails contains DEFAULT_G_ST_DETAILS
+        defaultWareHouseShouldBeFound("gSTDetails.contains=" + DEFAULT_G_ST_DETAILS);
 
-        // Get all the wareHouseList where gstDetails contains UPDATED_GST_DETAILS
-        defaultWareHouseShouldNotBeFound("gstDetails.contains=" + UPDATED_GST_DETAILS);
+        // Get all the wareHouseList where gSTDetails contains UPDATED_G_ST_DETAILS
+        defaultWareHouseShouldNotBeFound("gSTDetails.contains=" + UPDATED_G_ST_DETAILS);
     }
 
     @Test
     @Transactional
-    void getAllWareHousesByGstDetailsNotContainsSomething() throws Exception {
+    void getAllWareHousesBygSTDetailsNotContainsSomething() throws Exception {
         // Initialize the database
         wareHouseRepository.saveAndFlush(wareHouse);
 
-        // Get all the wareHouseList where gstDetails does not contain DEFAULT_GST_DETAILS
-        defaultWareHouseShouldNotBeFound("gstDetails.doesNotContain=" + DEFAULT_GST_DETAILS);
+        // Get all the wareHouseList where gSTDetails does not contain DEFAULT_G_ST_DETAILS
+        defaultWareHouseShouldNotBeFound("gSTDetails.doesNotContain=" + DEFAULT_G_ST_DETAILS);
 
-        // Get all the wareHouseList where gstDetails does not contain UPDATED_GST_DETAILS
-        defaultWareHouseShouldBeFound("gstDetails.doesNotContain=" + UPDATED_GST_DETAILS);
+        // Get all the wareHouseList where gSTDetails does not contain UPDATED_G_ST_DETAILS
+        defaultWareHouseShouldBeFound("gSTDetails.doesNotContain=" + UPDATED_G_ST_DETAILS);
     }
 
     @Test
@@ -1310,6 +1320,110 @@ class WareHouseResourceIT {
 
     @Test
     @Transactional
+    void getAllWareHousesByWareHouseIdIsEqualToSomething() throws Exception {
+        // Initialize the database
+        wareHouseRepository.saveAndFlush(wareHouse);
+
+        // Get all the wareHouseList where wareHouseId equals to DEFAULT_WARE_HOUSE_ID
+        defaultWareHouseShouldBeFound("wareHouseId.equals=" + DEFAULT_WARE_HOUSE_ID);
+
+        // Get all the wareHouseList where wareHouseId equals to UPDATED_WARE_HOUSE_ID
+        defaultWareHouseShouldNotBeFound("wareHouseId.equals=" + UPDATED_WARE_HOUSE_ID);
+    }
+
+    @Test
+    @Transactional
+    void getAllWareHousesByWareHouseIdIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        wareHouseRepository.saveAndFlush(wareHouse);
+
+        // Get all the wareHouseList where wareHouseId not equals to DEFAULT_WARE_HOUSE_ID
+        defaultWareHouseShouldNotBeFound("wareHouseId.notEquals=" + DEFAULT_WARE_HOUSE_ID);
+
+        // Get all the wareHouseList where wareHouseId not equals to UPDATED_WARE_HOUSE_ID
+        defaultWareHouseShouldBeFound("wareHouseId.notEquals=" + UPDATED_WARE_HOUSE_ID);
+    }
+
+    @Test
+    @Transactional
+    void getAllWareHousesByWareHouseIdIsInShouldWork() throws Exception {
+        // Initialize the database
+        wareHouseRepository.saveAndFlush(wareHouse);
+
+        // Get all the wareHouseList where wareHouseId in DEFAULT_WARE_HOUSE_ID or UPDATED_WARE_HOUSE_ID
+        defaultWareHouseShouldBeFound("wareHouseId.in=" + DEFAULT_WARE_HOUSE_ID + "," + UPDATED_WARE_HOUSE_ID);
+
+        // Get all the wareHouseList where wareHouseId equals to UPDATED_WARE_HOUSE_ID
+        defaultWareHouseShouldNotBeFound("wareHouseId.in=" + UPDATED_WARE_HOUSE_ID);
+    }
+
+    @Test
+    @Transactional
+    void getAllWareHousesByWareHouseIdIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        wareHouseRepository.saveAndFlush(wareHouse);
+
+        // Get all the wareHouseList where wareHouseId is not null
+        defaultWareHouseShouldBeFound("wareHouseId.specified=true");
+
+        // Get all the wareHouseList where wareHouseId is null
+        defaultWareHouseShouldNotBeFound("wareHouseId.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllWareHousesByWareHouseIdIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        wareHouseRepository.saveAndFlush(wareHouse);
+
+        // Get all the wareHouseList where wareHouseId is greater than or equal to DEFAULT_WARE_HOUSE_ID
+        defaultWareHouseShouldBeFound("wareHouseId.greaterThanOrEqual=" + DEFAULT_WARE_HOUSE_ID);
+
+        // Get all the wareHouseList where wareHouseId is greater than or equal to UPDATED_WARE_HOUSE_ID
+        defaultWareHouseShouldNotBeFound("wareHouseId.greaterThanOrEqual=" + UPDATED_WARE_HOUSE_ID);
+    }
+
+    @Test
+    @Transactional
+    void getAllWareHousesByWareHouseIdIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        wareHouseRepository.saveAndFlush(wareHouse);
+
+        // Get all the wareHouseList where wareHouseId is less than or equal to DEFAULT_WARE_HOUSE_ID
+        defaultWareHouseShouldBeFound("wareHouseId.lessThanOrEqual=" + DEFAULT_WARE_HOUSE_ID);
+
+        // Get all the wareHouseList where wareHouseId is less than or equal to SMALLER_WARE_HOUSE_ID
+        defaultWareHouseShouldNotBeFound("wareHouseId.lessThanOrEqual=" + SMALLER_WARE_HOUSE_ID);
+    }
+
+    @Test
+    @Transactional
+    void getAllWareHousesByWareHouseIdIsLessThanSomething() throws Exception {
+        // Initialize the database
+        wareHouseRepository.saveAndFlush(wareHouse);
+
+        // Get all the wareHouseList where wareHouseId is less than DEFAULT_WARE_HOUSE_ID
+        defaultWareHouseShouldNotBeFound("wareHouseId.lessThan=" + DEFAULT_WARE_HOUSE_ID);
+
+        // Get all the wareHouseList where wareHouseId is less than UPDATED_WARE_HOUSE_ID
+        defaultWareHouseShouldBeFound("wareHouseId.lessThan=" + UPDATED_WARE_HOUSE_ID);
+    }
+
+    @Test
+    @Transactional
+    void getAllWareHousesByWareHouseIdIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        wareHouseRepository.saveAndFlush(wareHouse);
+
+        // Get all the wareHouseList where wareHouseId is greater than DEFAULT_WARE_HOUSE_ID
+        defaultWareHouseShouldNotBeFound("wareHouseId.greaterThan=" + DEFAULT_WARE_HOUSE_ID);
+
+        // Get all the wareHouseList where wareHouseId is greater than SMALLER_WARE_HOUSE_ID
+        defaultWareHouseShouldBeFound("wareHouseId.greaterThan=" + SMALLER_WARE_HOUSE_ID);
+    }
+
+    @Test
+    @Transactional
     void getAllWareHousesByLastModifiedIsEqualToSomething() throws Exception {
         // Initialize the database
         wareHouseRepository.saveAndFlush(wareHouse);
@@ -1464,6 +1578,32 @@ class WareHouseResourceIT {
         defaultWareHouseShouldNotBeFound("productInventoryId.equals=" + (productInventoryId + 1));
     }
 
+    @Test
+    @Transactional
+    void getAllWareHousesByProductInventoryIsEqualToSomething() throws Exception {
+        // Initialize the database
+        wareHouseRepository.saveAndFlush(wareHouse);
+        SecurityUser productInventory;
+        if (TestUtil.findAll(em, SecurityUser.class).isEmpty()) {
+            productInventory = SecurityUserResourceIT.createEntity(em);
+            em.persist(productInventory);
+            em.flush();
+        } else {
+            productInventory = TestUtil.findAll(em, SecurityUser.class).get(0);
+        }
+        em.persist(productInventory);
+        em.flush();
+        wareHouse.addProductInventory(productInventory);
+        wareHouseRepository.saveAndFlush(wareHouse);
+        Long productInventoryId = productInventory.getId();
+
+        // Get all the wareHouseList where productInventory equals to productInventoryId
+        defaultWareHouseShouldBeFound("productInventoryId.equals=" + productInventoryId);
+
+        // Get all the wareHouseList where productInventory equals to (productInventoryId + 1)
+        defaultWareHouseShouldNotBeFound("productInventoryId.equals=" + (productInventoryId + 1));
+    }
+
     /**
      * Executes the search, and checks that the default entity is returned.
      */
@@ -1473,19 +1613,20 @@ class WareHouseResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(wareHouse.getId().intValue())))
-            .andExpect(jsonPath("$.[*].wareHouseName").value(hasItem(DEFAULT_WARE_HOUSE_NAME)))
+            .andExpect(jsonPath("$.[*].whName").value(hasItem(DEFAULT_WH_NAME)))
             .andExpect(jsonPath("$.[*].address").value(hasItem(DEFAULT_ADDRESS)))
             .andExpect(jsonPath("$.[*].pincode").value(hasItem(DEFAULT_PINCODE)))
             .andExpect(jsonPath("$.[*].city").value(hasItem(DEFAULT_CITY)))
             .andExpect(jsonPath("$.[*].state").value(hasItem(DEFAULT_STATE)))
             .andExpect(jsonPath("$.[*].country").value(hasItem(DEFAULT_COUNTRY)))
-            .andExpect(jsonPath("$.[*].gstDetails").value(hasItem(DEFAULT_GST_DETAILS)))
+            .andExpect(jsonPath("$.[*].gSTDetails").value(hasItem(DEFAULT_G_ST_DETAILS)))
             .andExpect(jsonPath("$.[*].managerName").value(hasItem(DEFAULT_MANAGER_NAME)))
             .andExpect(jsonPath("$.[*].managerEmail").value(hasItem(DEFAULT_MANAGER_EMAIL)))
             .andExpect(jsonPath("$.[*].managerContact").value(hasItem(DEFAULT_MANAGER_CONTACT)))
             .andExpect(jsonPath("$.[*].contact").value(hasItem(DEFAULT_CONTACT)))
             .andExpect(jsonPath("$.[*].isDeleted").value(hasItem(DEFAULT_IS_DELETED.booleanValue())))
             .andExpect(jsonPath("$.[*].isActive").value(hasItem(DEFAULT_IS_ACTIVE.booleanValue())))
+            .andExpect(jsonPath("$.[*].wareHouseId").value(hasItem(DEFAULT_WARE_HOUSE_ID.intValue())))
             .andExpect(jsonPath("$.[*].lastModified").value(hasItem(DEFAULT_LAST_MODIFIED.toString())))
             .andExpect(jsonPath("$.[*].lastModifiedBy").value(hasItem(DEFAULT_LAST_MODIFIED_BY)));
 
@@ -1536,19 +1677,20 @@ class WareHouseResourceIT {
         // Disconnect from session so that the updates on updatedWareHouse are not directly saved in db
         em.detach(updatedWareHouse);
         updatedWareHouse
-            .wareHouseName(UPDATED_WARE_HOUSE_NAME)
+            .whName(UPDATED_WH_NAME)
             .address(UPDATED_ADDRESS)
             .pincode(UPDATED_PINCODE)
             .city(UPDATED_CITY)
             .state(UPDATED_STATE)
             .country(UPDATED_COUNTRY)
-            .gstDetails(UPDATED_GST_DETAILS)
+            .gSTDetails(UPDATED_G_ST_DETAILS)
             .managerName(UPDATED_MANAGER_NAME)
             .managerEmail(UPDATED_MANAGER_EMAIL)
             .managerContact(UPDATED_MANAGER_CONTACT)
             .contact(UPDATED_CONTACT)
             .isDeleted(UPDATED_IS_DELETED)
             .isActive(UPDATED_IS_ACTIVE)
+            .wareHouseId(UPDATED_WARE_HOUSE_ID)
             .lastModified(UPDATED_LAST_MODIFIED)
             .lastModifiedBy(UPDATED_LAST_MODIFIED_BY);
         WareHouseDTO wareHouseDTO = wareHouseMapper.toDto(updatedWareHouse);
@@ -1565,19 +1707,20 @@ class WareHouseResourceIT {
         List<WareHouse> wareHouseList = wareHouseRepository.findAll();
         assertThat(wareHouseList).hasSize(databaseSizeBeforeUpdate);
         WareHouse testWareHouse = wareHouseList.get(wareHouseList.size() - 1);
-        assertThat(testWareHouse.getWareHouseName()).isEqualTo(UPDATED_WARE_HOUSE_NAME);
+        assertThat(testWareHouse.getWhName()).isEqualTo(UPDATED_WH_NAME);
         assertThat(testWareHouse.getAddress()).isEqualTo(UPDATED_ADDRESS);
         assertThat(testWareHouse.getPincode()).isEqualTo(UPDATED_PINCODE);
         assertThat(testWareHouse.getCity()).isEqualTo(UPDATED_CITY);
         assertThat(testWareHouse.getState()).isEqualTo(UPDATED_STATE);
         assertThat(testWareHouse.getCountry()).isEqualTo(UPDATED_COUNTRY);
-        assertThat(testWareHouse.getGstDetails()).isEqualTo(UPDATED_GST_DETAILS);
+        assertThat(testWareHouse.getgSTDetails()).isEqualTo(UPDATED_G_ST_DETAILS);
         assertThat(testWareHouse.getManagerName()).isEqualTo(UPDATED_MANAGER_NAME);
         assertThat(testWareHouse.getManagerEmail()).isEqualTo(UPDATED_MANAGER_EMAIL);
         assertThat(testWareHouse.getManagerContact()).isEqualTo(UPDATED_MANAGER_CONTACT);
         assertThat(testWareHouse.getContact()).isEqualTo(UPDATED_CONTACT);
         assertThat(testWareHouse.getIsDeleted()).isEqualTo(UPDATED_IS_DELETED);
         assertThat(testWareHouse.getIsActive()).isEqualTo(UPDATED_IS_ACTIVE);
+        assertThat(testWareHouse.getWareHouseId()).isEqualTo(UPDATED_WARE_HOUSE_ID);
         assertThat(testWareHouse.getLastModified()).isEqualTo(UPDATED_LAST_MODIFIED);
         assertThat(testWareHouse.getLastModifiedBy()).isEqualTo(UPDATED_LAST_MODIFIED_BY);
     }
@@ -1660,13 +1803,13 @@ class WareHouseResourceIT {
         partialUpdatedWareHouse.setId(wareHouse.getId());
 
         partialUpdatedWareHouse
-            .wareHouseName(UPDATED_WARE_HOUSE_NAME)
-            .gstDetails(UPDATED_GST_DETAILS)
+            .whName(UPDATED_WH_NAME)
+            .gSTDetails(UPDATED_G_ST_DETAILS)
             .managerName(UPDATED_MANAGER_NAME)
             .managerContact(UPDATED_MANAGER_CONTACT)
             .isActive(UPDATED_IS_ACTIVE)
-            .lastModified(UPDATED_LAST_MODIFIED)
-            .lastModifiedBy(UPDATED_LAST_MODIFIED_BY);
+            .wareHouseId(UPDATED_WARE_HOUSE_ID)
+            .lastModified(UPDATED_LAST_MODIFIED);
 
         restWareHouseMockMvc
             .perform(
@@ -1680,21 +1823,22 @@ class WareHouseResourceIT {
         List<WareHouse> wareHouseList = wareHouseRepository.findAll();
         assertThat(wareHouseList).hasSize(databaseSizeBeforeUpdate);
         WareHouse testWareHouse = wareHouseList.get(wareHouseList.size() - 1);
-        assertThat(testWareHouse.getWareHouseName()).isEqualTo(UPDATED_WARE_HOUSE_NAME);
+        assertThat(testWareHouse.getWhName()).isEqualTo(UPDATED_WH_NAME);
         assertThat(testWareHouse.getAddress()).isEqualTo(DEFAULT_ADDRESS);
         assertThat(testWareHouse.getPincode()).isEqualTo(DEFAULT_PINCODE);
         assertThat(testWareHouse.getCity()).isEqualTo(DEFAULT_CITY);
         assertThat(testWareHouse.getState()).isEqualTo(DEFAULT_STATE);
         assertThat(testWareHouse.getCountry()).isEqualTo(DEFAULT_COUNTRY);
-        assertThat(testWareHouse.getGstDetails()).isEqualTo(UPDATED_GST_DETAILS);
+        assertThat(testWareHouse.getgSTDetails()).isEqualTo(UPDATED_G_ST_DETAILS);
         assertThat(testWareHouse.getManagerName()).isEqualTo(UPDATED_MANAGER_NAME);
         assertThat(testWareHouse.getManagerEmail()).isEqualTo(DEFAULT_MANAGER_EMAIL);
         assertThat(testWareHouse.getManagerContact()).isEqualTo(UPDATED_MANAGER_CONTACT);
         assertThat(testWareHouse.getContact()).isEqualTo(DEFAULT_CONTACT);
         assertThat(testWareHouse.getIsDeleted()).isEqualTo(DEFAULT_IS_DELETED);
         assertThat(testWareHouse.getIsActive()).isEqualTo(UPDATED_IS_ACTIVE);
+        assertThat(testWareHouse.getWareHouseId()).isEqualTo(UPDATED_WARE_HOUSE_ID);
         assertThat(testWareHouse.getLastModified()).isEqualTo(UPDATED_LAST_MODIFIED);
-        assertThat(testWareHouse.getLastModifiedBy()).isEqualTo(UPDATED_LAST_MODIFIED_BY);
+        assertThat(testWareHouse.getLastModifiedBy()).isEqualTo(DEFAULT_LAST_MODIFIED_BY);
     }
 
     @Test
@@ -1710,19 +1854,20 @@ class WareHouseResourceIT {
         partialUpdatedWareHouse.setId(wareHouse.getId());
 
         partialUpdatedWareHouse
-            .wareHouseName(UPDATED_WARE_HOUSE_NAME)
+            .whName(UPDATED_WH_NAME)
             .address(UPDATED_ADDRESS)
             .pincode(UPDATED_PINCODE)
             .city(UPDATED_CITY)
             .state(UPDATED_STATE)
             .country(UPDATED_COUNTRY)
-            .gstDetails(UPDATED_GST_DETAILS)
+            .gSTDetails(UPDATED_G_ST_DETAILS)
             .managerName(UPDATED_MANAGER_NAME)
             .managerEmail(UPDATED_MANAGER_EMAIL)
             .managerContact(UPDATED_MANAGER_CONTACT)
             .contact(UPDATED_CONTACT)
             .isDeleted(UPDATED_IS_DELETED)
             .isActive(UPDATED_IS_ACTIVE)
+            .wareHouseId(UPDATED_WARE_HOUSE_ID)
             .lastModified(UPDATED_LAST_MODIFIED)
             .lastModifiedBy(UPDATED_LAST_MODIFIED_BY);
 
@@ -1738,19 +1883,20 @@ class WareHouseResourceIT {
         List<WareHouse> wareHouseList = wareHouseRepository.findAll();
         assertThat(wareHouseList).hasSize(databaseSizeBeforeUpdate);
         WareHouse testWareHouse = wareHouseList.get(wareHouseList.size() - 1);
-        assertThat(testWareHouse.getWareHouseName()).isEqualTo(UPDATED_WARE_HOUSE_NAME);
+        assertThat(testWareHouse.getWhName()).isEqualTo(UPDATED_WH_NAME);
         assertThat(testWareHouse.getAddress()).isEqualTo(UPDATED_ADDRESS);
         assertThat(testWareHouse.getPincode()).isEqualTo(UPDATED_PINCODE);
         assertThat(testWareHouse.getCity()).isEqualTo(UPDATED_CITY);
         assertThat(testWareHouse.getState()).isEqualTo(UPDATED_STATE);
         assertThat(testWareHouse.getCountry()).isEqualTo(UPDATED_COUNTRY);
-        assertThat(testWareHouse.getGstDetails()).isEqualTo(UPDATED_GST_DETAILS);
+        assertThat(testWareHouse.getgSTDetails()).isEqualTo(UPDATED_G_ST_DETAILS);
         assertThat(testWareHouse.getManagerName()).isEqualTo(UPDATED_MANAGER_NAME);
         assertThat(testWareHouse.getManagerEmail()).isEqualTo(UPDATED_MANAGER_EMAIL);
         assertThat(testWareHouse.getManagerContact()).isEqualTo(UPDATED_MANAGER_CONTACT);
         assertThat(testWareHouse.getContact()).isEqualTo(UPDATED_CONTACT);
         assertThat(testWareHouse.getIsDeleted()).isEqualTo(UPDATED_IS_DELETED);
         assertThat(testWareHouse.getIsActive()).isEqualTo(UPDATED_IS_ACTIVE);
+        assertThat(testWareHouse.getWareHouseId()).isEqualTo(UPDATED_WARE_HOUSE_ID);
         assertThat(testWareHouse.getLastModified()).isEqualTo(UPDATED_LAST_MODIFIED);
         assertThat(testWareHouse.getLastModifiedBy()).isEqualTo(UPDATED_LAST_MODIFIED_BY);
     }

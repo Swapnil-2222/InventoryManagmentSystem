@@ -63,7 +63,7 @@
           <th scope="col" jhiSortBy="isActive">
             <span jhiTranslate="inventoryManagmentSystemApp.transferDetails.isActive">Is Active</span> <fa-icon icon="sort"></fa-icon>
           </th>
-          <th scope="col" jhiSortBy="wareHouse.wareHouseName">
+          <th scope="col" jhiSortBy="wareHouse.whName">
             <span jhiTranslate="inventoryManagmentSystemApp.transferDetails.wareHouse">Ware House</span> <fa-icon icon="sort"></fa-icon>
           </th>
           <th scope="col" jhiSortBy="product.id">
@@ -91,7 +91,7 @@
           <td>{{ transferDetails.isActive }}</td>
           <td>
             <div *ngIf="transferDetails.wareHouse">
-              <a [routerLink]="['/ware-house', transferDetails.wareHouse?.id, 'view']">{{ transferDetails.wareHouse?.wareHouseName }}</a>
+              <a [routerLink]="['/ware-house', transferDetails.wareHouse?.id, 'view']">{{ transferDetails.wareHouse?.whName }}</a>
             </div>
           </td>
           <td>

@@ -12,7 +12,7 @@ public class WareHouseDTO implements Serializable {
 
     private Long id;
 
-    private String wareHouseName;
+    private String whName;
 
     private String address;
 
@@ -24,7 +24,7 @@ public class WareHouseDTO implements Serializable {
 
     private String country;
 
-    private String gstDetails;
+    private String gSTDetails;
 
     private String managerName;
 
@@ -37,6 +37,8 @@ public class WareHouseDTO implements Serializable {
     private Boolean isDeleted;
 
     private Boolean isActive;
+
+    private Long wareHouseId;
 
     @NotNull
     private Instant lastModified;
@@ -52,12 +54,12 @@ public class WareHouseDTO implements Serializable {
         this.id = id;
     }
 
-    public String getWareHouseName() {
-        return wareHouseName;
+    public String getWhName() {
+        return whName;
     }
 
-    public void setWareHouseName(String wareHouseName) {
-        this.wareHouseName = wareHouseName;
+    public void setWhName(String whName) {
+        this.whName = whName;
     }
 
     public String getAddress() {
@@ -100,12 +102,12 @@ public class WareHouseDTO implements Serializable {
         this.country = country;
     }
 
-    public String getGstDetails() {
-        return gstDetails;
+    public String getgSTDetails() {
+        return gSTDetails;
     }
 
-    public void setGstDetails(String gstDetails) {
-        this.gstDetails = gstDetails;
+    public void setgSTDetails(String gSTDetails) {
+        this.gSTDetails = gSTDetails;
     }
 
     public String getManagerName() {
@@ -156,6 +158,14 @@ public class WareHouseDTO implements Serializable {
         this.isActive = isActive;
     }
 
+    public Long getWareHouseId() {
+        return wareHouseId;
+    }
+
+    public void setWareHouseId(Long wareHouseId) {
+        this.wareHouseId = wareHouseId;
+    }
+
     public Instant getLastModified() {
         return lastModified;
     }
@@ -198,19 +208,20 @@ public class WareHouseDTO implements Serializable {
     public String toString() {
         return "WareHouseDTO{" +
             "id=" + getId() +
-            ", wareHouseName='" + getWareHouseName() + "'" +
+            ", whName='" + getWhName() + "'" +
             ", address='" + getAddress() + "'" +
             ", pincode=" + getPincode() +
             ", city='" + getCity() + "'" +
             ", state='" + getState() + "'" +
             ", country='" + getCountry() + "'" +
-            ", gstDetails='" + getGstDetails() + "'" +
+            ", gSTDetails='" + getgSTDetails() + "'" +
             ", managerName='" + getManagerName() + "'" +
             ", managerEmail='" + getManagerEmail() + "'" +
             ", managerContact='" + getManagerContact() + "'" +
             ", contact='" + getContact() + "'" +
             ", isDeleted='" + getIsDeleted() + "'" +
             ", isActive='" + getIsActive() + "'" +
+            ", wareHouseId=" + getWareHouseId() +
             ", lastModified='" + getLastModified() + "'" +
             ", lastModifiedBy='" + getLastModifiedBy() + "'" +
             "}";

@@ -2,7 +2,6 @@ package com.techvg.ims.service.mapper;
 
 import com.techvg.ims.domain.Product;
 import com.techvg.ims.service.dto.ProductDTO;
-import java.util.Set;
 import org.mapstruct.*;
 
 /**
@@ -10,13 +9,13 @@ import org.mapstruct.*;
  */
 @Mapper(
     componentModel = "spring",
-    uses = { PurchaseOrderDetailsMapper.class, CategoriesMapper.class, UnitMapper.class, SecurityUserMapper.class }
+    uses = { CategoriesMapper.class, UnitMapper.class, SecurityUserMapper.class, PurchaseOrderDetailsMapper.class }
 )
 public interface ProductMapper extends EntityMapper<ProductDTO, Product> {
-    @Mapping(target = "purchaseOrderDetails", source = "purchaseOrderDetails", qualifiedByName = "id")
     @Mapping(target = "categories", source = "categories", qualifiedByName = "id")
     @Mapping(target = "unit", source = "unit", qualifiedByName = "id")
-    @Mapping(target = "securityUser", source = "securityUser", qualifiedByName = "id")
+    @Mapping(target = "ecurityUser", source = "ecurityUser", qualifiedByName = "login")
+    @Mapping(target = "purchaseOrderDetails", source = "purchaseOrderDetails", qualifiedByName = "id")
     ProductDTO toDto(Product s);
 
     @Named("id")
@@ -29,10 +28,4 @@ public interface ProductMapper extends EntityMapper<ProductDTO, Product> {
     @Mapping(target = "id", source = "id")
     @Mapping(target = "productName", source = "productName")
     ProductDTO toDtoProductName(Product product);
-
-    @Named("productNameSet")
-    @BeanMapping(ignoreByDefault = true)
-    @Mapping(target = "id", source = "id")
-    @Mapping(target = "productName", source = "productName")
-    Set<ProductDTO> toDtoProductNameSet(Set<Product> product);
 }
