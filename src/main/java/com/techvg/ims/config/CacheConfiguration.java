@@ -93,6 +93,8 @@ public class CacheConfiguration {
             createCache(cm, com.techvg.ims.domain.SecurityPermission.class.getName() + ".securityRoles");
             createCache(cm, com.techvg.ims.domain.SecurityPermission.class.getName() + ".securityUsers");
             createCache(cm, com.techvg.ims.domain.UserAccess.class.getName());
+            createCache(cm, com.techvg.ims.domain.SecurityUser.class.getName() + ".securityUsers");
+            createCache(cm, com.techvg.ims.domain.Notification.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }

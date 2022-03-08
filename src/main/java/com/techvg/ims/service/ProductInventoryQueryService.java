@@ -146,15 +146,6 @@ public class ProductInventoryQueryService extends QueryService<ProductInventory>
                         )
                     );
             }
-            if (criteria.getProductTransactionId() != null) {
-                specification =
-                    specification.and(
-                        buildSpecification(
-                            criteria.getProductTransactionId(),
-                            root -> root.join(ProductInventory_.productTransactions, JoinType.LEFT).get(ProductTransaction_.id)
-                        )
-                    );
-            }
             if (criteria.getProductId() != null) {
                 specification =
                     specification.and(
@@ -170,6 +161,15 @@ public class ProductInventoryQueryService extends QueryService<ProductInventory>
                         buildSpecification(
                             criteria.getPurchaseOrderId(),
                             root -> root.join(ProductInventory_.purchaseOrder, JoinType.LEFT).get(PurchaseOrder_.id)
+                        )
+                    );
+            }
+            if (criteria.getProductTransactionId() != null) {
+                specification =
+                    specification.and(
+                        buildSpecification(
+                            criteria.getProductTransactionId(),
+                            root -> root.join(ProductInventory_.productTransaction, JoinType.LEFT).get(ProductTransaction_.id)
                         )
                     );
             }

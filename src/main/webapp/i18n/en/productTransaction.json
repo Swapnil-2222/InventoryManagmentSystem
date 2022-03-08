@@ -27,10 +27,8 @@
       "description": "Description",
       "lastModified": "Last Modified",
       "lastModifiedBy": "Last Modified By",
-      "wareHouse": "Ware House",
-      "product": "Product",
-      "productInventory": "Product Inventory",
-      "securityUser": "Security User"
+      "ecurityUser": "Ecurity User",
+      "wareHouse": "Ware House"
     }
   }
 }

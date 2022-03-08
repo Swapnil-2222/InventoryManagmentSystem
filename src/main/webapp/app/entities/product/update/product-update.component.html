@@ -310,31 +310,6 @@
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" jhiTranslate="inventoryManagmentSystemApp.product.purchaseOrderDetails" for="field_purchaseOrderDetails"
-            >Purchase Order Details</label
-          >
-          <select
-            class="form-control"
-            id="field_purchaseOrderDetails"
-            data-cy="purchaseOrderDetails"
-            name="purchaseOrderDetails"
-            formControlName="purchaseOrderDetails"
-          >
-            <option [ngValue]="null"></option>
-            <option
-              [ngValue]="
-                purchaseOrderDetailsOption.id === editForm.get('purchaseOrderDetails')!.value?.id
-                  ? editForm.get('purchaseOrderDetails')!.value
-                  : purchaseOrderDetailsOption
-              "
-              *ngFor="let purchaseOrderDetailsOption of purchaseOrderDetailsSharedCollection; trackBy: trackPurchaseOrderDetailsById"
-            >
-              {{ purchaseOrderDetailsOption.id }}
-            </option>
-          </select>
-        </div>
-
-        <div class="row mb-3">
           <label class="form-label" jhiTranslate="inventoryManagmentSystemApp.product.categories" for="field_categories">Categories</label>
           <select class="form-control" id="field_categories" data-cy="categories" name="categories" formControlName="categories">
             <option [ngValue]="null"></option>
@@ -363,18 +338,43 @@
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" jhiTranslate="inventoryManagmentSystemApp.product.securityUser" for="field_securityUser"
-            >Security User</label
+          <label class="form-label" jhiTranslate="inventoryManagmentSystemApp.product.ecurityUser" for="field_ecurityUser"
+            >Ecurity User</label
           >
-          <select class="form-control" id="field_securityUser" data-cy="securityUser" name="securityUser" formControlName="securityUser">
+          <select class="form-control" id="field_ecurityUser" data-cy="ecurityUser" name="ecurityUser" formControlName="ecurityUser">
             <option [ngValue]="null"></option>
             <option
               [ngValue]="
-                securityUserOption.id === editForm.get('securityUser')!.value?.id ? editForm.get('securityUser')!.value : securityUserOption
+                securityUserOption.id === editForm.get('ecurityUser')!.value?.id ? editForm.get('ecurityUser')!.value : securityUserOption
               "
               *ngFor="let securityUserOption of securityUsersSharedCollection; trackBy: trackSecurityUserById"
             >
-              {{ securityUserOption.id }}
+              {{ securityUserOption.login }}
+            </option>
+          </select>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="inventoryManagmentSystemApp.product.purchaseOrderDetails" for="field_purchaseOrderDetails"
+            >Purchase Order Details</label
+          >
+          <select
+            class="form-control"
+            id="field_purchaseOrderDetails"
+            data-cy="purchaseOrderDetails"
+            name="purchaseOrderDetails"
+            formControlName="purchaseOrderDetails"
+          >
+            <option [ngValue]="null"></option>
+            <option
+              [ngValue]="
+                purchaseOrderDetailsOption.id === editForm.get('purchaseOrderDetails')!.value?.id
+                  ? editForm.get('purchaseOrderDetails')!.value
+                  : purchaseOrderDetailsOption
+              "
+              *ngFor="let purchaseOrderDetailsOption of purchaseOrderDetailsSharedCollection; trackBy: trackPurchaseOrderDetailsById"
+            >
+              {{ purchaseOrderDetailsOption.id }}
             </option>
           </select>
         </div>

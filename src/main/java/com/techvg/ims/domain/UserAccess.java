@@ -40,10 +40,7 @@ public class UserAccess implements Serializable {
     private String lastModifiedBy;
 
     @ManyToOne
-    @JsonIgnoreProperties(
-        value = { "productTransactions", "products", "securityPermissions", "securityRoles", "productInventories" },
-        allowSetters = true
-    )
+    @JsonIgnoreProperties(value = { "securityPermissions", "securityRoles", "securityUsers", "productInventories" }, allowSetters = true)
     private SecurityUser securityUser;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

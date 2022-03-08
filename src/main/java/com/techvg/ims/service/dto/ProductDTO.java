@@ -61,13 +61,13 @@ public class ProductDTO implements Serializable {
 
     private String freeField2;
 
-    private PurchaseOrderDetailsDTO purchaseOrderDetails;
-
     private CategoriesDTO categories;
 
     private UnitDTO unit;
 
-    private SecurityUserDTO securityUser;
+    private SecurityUserDTO ecurityUser;
+
+    private PurchaseOrderDetailsDTO purchaseOrderDetails;
 
     public Long getId() {
         return id;
@@ -269,14 +269,6 @@ public class ProductDTO implements Serializable {
         this.freeField2 = freeField2;
     }
 
-    public PurchaseOrderDetailsDTO getPurchaseOrderDetails() {
-        return purchaseOrderDetails;
-    }
-
-    public void setPurchaseOrderDetails(PurchaseOrderDetailsDTO purchaseOrderDetails) {
-        this.purchaseOrderDetails = purchaseOrderDetails;
-    }
-
     public CategoriesDTO getCategories() {
         return categories;
     }
@@ -293,12 +285,20 @@ public class ProductDTO implements Serializable {
         this.unit = unit;
     }
 
-    public SecurityUserDTO getSecurityUser() {
-        return securityUser;
+    public SecurityUserDTO getEcurityUser() {
+        return ecurityUser;
     }
 
-    public void setSecurityUser(SecurityUserDTO securityUser) {
-        this.securityUser = securityUser;
+    public void setEcurityUser(SecurityUserDTO ecurityUser) {
+        this.ecurityUser = ecurityUser;
+    }
+
+    public PurchaseOrderDetailsDTO getPurchaseOrderDetails() {
+        return purchaseOrderDetails;
+    }
+
+    public void setPurchaseOrderDetails(PurchaseOrderDetailsDTO purchaseOrderDetails) {
+        this.purchaseOrderDetails = purchaseOrderDetails;
     }
 
     @Override
@@ -350,10 +350,10 @@ public class ProductDTO implements Serializable {
             ", lastModifiedBy='" + getLastModifiedBy() + "'" +
             ", freeField1='" + getFreeField1() + "'" +
             ", freeField2='" + getFreeField2() + "'" +
-            ", purchaseOrderDetails=" + getPurchaseOrderDetails() +
             ", categories=" + getCategories() +
             ", unit=" + getUnit() +
-            ", securityUser=" + getSecurityUser() +
+            ", ecurityUser=" + getEcurityUser() +
+            ", purchaseOrderDetails=" + getPurchaseOrderDetails() +
             "}";
     }
 }

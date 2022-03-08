@@ -93,15 +93,13 @@ public class ProductCriteria implements Serializable, Criteria {
 
     private LongFilter transferDetailsId;
 
-    private LongFilter purchaseOrderDetailsId;
-
     private LongFilter categoriesId;
 
     private LongFilter unitId;
 
-    private LongFilter securityUserId;
+    private LongFilter ecurityUserId;
 
-    private LongFilter productTransactionId;
+    private LongFilter purchaseOrderDetailsId;
 
     private Boolean distinct;
 
@@ -132,11 +130,10 @@ public class ProductCriteria implements Serializable, Criteria {
         this.freeField1 = other.freeField1 == null ? null : other.freeField1.copy();
         this.freeField2 = other.freeField2 == null ? null : other.freeField2.copy();
         this.transferDetailsId = other.transferDetailsId == null ? null : other.transferDetailsId.copy();
-        this.purchaseOrderDetailsId = other.purchaseOrderDetailsId == null ? null : other.purchaseOrderDetailsId.copy();
         this.categoriesId = other.categoriesId == null ? null : other.categoriesId.copy();
         this.unitId = other.unitId == null ? null : other.unitId.copy();
-        this.securityUserId = other.securityUserId == null ? null : other.securityUserId.copy();
-        this.productTransactionId = other.productTransactionId == null ? null : other.productTransactionId.copy();
+        this.ecurityUserId = other.ecurityUserId == null ? null : other.ecurityUserId.copy();
+        this.purchaseOrderDetailsId = other.purchaseOrderDetailsId == null ? null : other.purchaseOrderDetailsId.copy();
         this.distinct = other.distinct;
     }
 
@@ -505,21 +502,6 @@ public class ProductCriteria implements Serializable, Criteria {
         this.transferDetailsId = transferDetailsId;
     }
 
-    public LongFilter getPurchaseOrderDetailsId() {
-        return purchaseOrderDetailsId;
-    }
-
-    public LongFilter purchaseOrderDetailsId() {
-        if (purchaseOrderDetailsId == null) {
-            purchaseOrderDetailsId = new LongFilter();
-        }
-        return purchaseOrderDetailsId;
-    }
-
-    public void setPurchaseOrderDetailsId(LongFilter purchaseOrderDetailsId) {
-        this.purchaseOrderDetailsId = purchaseOrderDetailsId;
-    }
-
     public LongFilter getCategoriesId() {
         return categoriesId;
     }
@@ -550,34 +532,34 @@ public class ProductCriteria implements Serializable, Criteria {
         this.unitId = unitId;
     }
 
-    public LongFilter getSecurityUserId() {
-        return securityUserId;
+    public LongFilter getEcurityUserId() {
+        return ecurityUserId;
     }
 
-    public LongFilter securityUserId() {
-        if (securityUserId == null) {
-            securityUserId = new LongFilter();
+    public LongFilter ecurityUserId() {
+        if (ecurityUserId == null) {
+            ecurityUserId = new LongFilter();
         }
-        return securityUserId;
+        return ecurityUserId;
     }
 
-    public void setSecurityUserId(LongFilter securityUserId) {
-        this.securityUserId = securityUserId;
+    public void setEcurityUserId(LongFilter ecurityUserId) {
+        this.ecurityUserId = ecurityUserId;
     }
 
-    public LongFilter getProductTransactionId() {
-        return productTransactionId;
+    public LongFilter getPurchaseOrderDetailsId() {
+        return purchaseOrderDetailsId;
     }
 
-    public LongFilter productTransactionId() {
-        if (productTransactionId == null) {
-            productTransactionId = new LongFilter();
+    public LongFilter purchaseOrderDetailsId() {
+        if (purchaseOrderDetailsId == null) {
+            purchaseOrderDetailsId = new LongFilter();
         }
-        return productTransactionId;
+        return purchaseOrderDetailsId;
     }
 
-    public void setProductTransactionId(LongFilter productTransactionId) {
-        this.productTransactionId = productTransactionId;
+    public void setPurchaseOrderDetailsId(LongFilter purchaseOrderDetailsId) {
+        this.purchaseOrderDetailsId = purchaseOrderDetailsId;
     }
 
     public Boolean getDistinct() {
@@ -622,11 +604,10 @@ public class ProductCriteria implements Serializable, Criteria {
             Objects.equals(freeField1, that.freeField1) &&
             Objects.equals(freeField2, that.freeField2) &&
             Objects.equals(transferDetailsId, that.transferDetailsId) &&
-            Objects.equals(purchaseOrderDetailsId, that.purchaseOrderDetailsId) &&
             Objects.equals(categoriesId, that.categoriesId) &&
             Objects.equals(unitId, that.unitId) &&
-            Objects.equals(securityUserId, that.securityUserId) &&
-            Objects.equals(productTransactionId, that.productTransactionId) &&
+            Objects.equals(ecurityUserId, that.ecurityUserId) &&
+            Objects.equals(purchaseOrderDetailsId, that.purchaseOrderDetailsId) &&
             Objects.equals(distinct, that.distinct)
         );
     }
@@ -658,11 +639,10 @@ public class ProductCriteria implements Serializable, Criteria {
             freeField1,
             freeField2,
             transferDetailsId,
-            purchaseOrderDetailsId,
             categoriesId,
             unitId,
-            securityUserId,
-            productTransactionId,
+            ecurityUserId,
+            purchaseOrderDetailsId,
             distinct
         );
     }
@@ -695,11 +675,10 @@ public class ProductCriteria implements Serializable, Criteria {
             (freeField1 != null ? "freeField1=" + freeField1 + ", " : "") +
             (freeField2 != null ? "freeField2=" + freeField2 + ", " : "") +
             (transferDetailsId != null ? "transferDetailsId=" + transferDetailsId + ", " : "") +
-            (purchaseOrderDetailsId != null ? "purchaseOrderDetailsId=" + purchaseOrderDetailsId + ", " : "") +
             (categoriesId != null ? "categoriesId=" + categoriesId + ", " : "") +
             (unitId != null ? "unitId=" + unitId + ", " : "") +
-            (securityUserId != null ? "securityUserId=" + securityUserId + ", " : "") +
-            (productTransactionId != null ? "productTransactionId=" + productTransactionId + ", " : "") +
+            (ecurityUserId != null ? "ecurityUserId=" + ecurityUserId + ", " : "") +
+            (purchaseOrderDetailsId != null ? "purchaseOrderDetailsId=" + purchaseOrderDetailsId + ", " : "") +
             (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";
     }

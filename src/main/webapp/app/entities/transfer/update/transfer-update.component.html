@@ -150,7 +150,7 @@
               [ngValue]="wareHouseOption.id === editForm.get('wareHouse')!.value?.id ? editForm.get('wareHouse')!.value : wareHouseOption"
               *ngFor="let wareHouseOption of wareHousesSharedCollection; trackBy: trackWareHouseById"
             >
-              {{ wareHouseOption.wareHouseName }}
+              {{ wareHouseOption.whName }}
             </option>
           </select>
         </div>

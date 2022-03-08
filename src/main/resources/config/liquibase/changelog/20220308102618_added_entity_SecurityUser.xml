@@ -98,6 +98,17 @@
         </createTable>
 
         <addPrimaryKey columnNames="security_user_id, security_role_id" tableName="rel_security_user__security_role"/>
+
+        <createTable tableName="rel_security_user__security_user">
+            <column name="security_user_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="security_user_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="security_user_id, security_user_id" tableName="rel_security_user__security_user"/>
     </changeSet>
 
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->

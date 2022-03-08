@@ -8,12 +8,6 @@
     -->
     <changeSet id="20220308102603-2" author="jhipster">
 
-        <addForeignKeyConstraint baseColumnNames="purchase_order_details_id"
-                                 baseTableName="product"
-                                 constraintName="fk_product__purchase_order_details_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="purchase_order_details"/>
-
         <addForeignKeyConstraint baseColumnNames="categories_id"
                                  baseTableName="product"
                                  constraintName="fk_product__categories_id"
@@ -26,10 +20,16 @@
                                  referencedColumnNames="id"
                                  referencedTableName="unit"/>
 
-        <addForeignKeyConstraint baseColumnNames="security_user_id"
+        <addForeignKeyConstraint baseColumnNames="ecurity_user_id"
                                  baseTableName="product"
-                                 constraintName="fk_product__security_user_id"
+                                 constraintName="fk_product__ecurity_user_id"
                                  referencedColumnNames="id"
                                  referencedTableName="security_user"/>
+
+        <addForeignKeyConstraint baseColumnNames="purchase_order_details_id"
+                                 baseTableName="product"
+                                 constraintName="fk_product__purchase_order_details_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="purchase_order_details"/>
     </changeSet>
 </databaseChangeLog>

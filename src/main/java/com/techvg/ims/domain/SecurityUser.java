@@ -82,19 +82,6 @@ public class SecurityUser implements Serializable {
     @Column(name = "last_modified_by")
     private String lastModifiedBy;
 
-    @OneToMany(mappedBy = "securityUser")
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "wareHouse", "products", "productInventory", "securityUser" }, allowSetters = true)
-    private Set<ProductTransaction> productTransactions = new HashSet<>();
-
-    @OneToMany(mappedBy = "securityUser")
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(
-        value = { "transferDetails", "purchaseOrderDetails", "categories", "unit", "securityUser", "productTransactions" },
-        allowSetters = true
-    )
-    private Set<Product> products = new HashSet<>();
-
     @ManyToMany
     @JoinTable(
         name = "rel_security_user__security_permission",
@@ -115,10 +102,20 @@ public class SecurityUser implements Serializable {
     @JsonIgnoreProperties(value = { "securityPermissions", "securityUsers" }, allowSetters = true)
     private Set<SecurityRole> securityRoles = new HashSet<>();
 
+    @ManyToMany
+    @JoinTable(
+        name = "rel_security_user__security_user",
+        joinColumns = @JoinColumn(name = "security_user_id"),
+        inverseJoinColumns = @JoinColumn(name = "security_user_id")
+    )
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @JsonIgnoreProperties(value = { "productInventories", "productInventories" }, allowSetters = true)
+    private Set<WareHouse> securityUsers = new HashSet<>();
+
     @ManyToMany(mappedBy = "securityUsers")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(
-        value = { "consumptionDetails", "productTransactions", "product", "purchaseOrder", "wareHouses", "securityUsers" },
+        value = { "consumptionDetails", "product", "purchaseOrder", "productTransaction", "wareHouses", "securityUsers" },
         allowSetters = true
     )
     private Set<ProductInventory> productInventories = new HashSet<>();
@@ -372,68 +369,6 @@ public class SecurityUser implements Serializable {
         this.lastModifiedBy = lastModifiedBy;
     }
 
-    public Set<ProductTransaction> getProductTransactions() {
-        return this.productTransactions;
-    }
-
-    public void setProductTransactions(Set<ProductTransaction> productTransactions) {
-        if (this.productTransactions != null) {
-            this.productTransactions.forEach(i -> i.setSecurityUser(null));
-        }
-        if (productTransactions != null) {
-            productTransactions.forEach(i -> i.setSecurityUser(this));
-        }
-        this.productTransactions = productTransactions;
-    }
-
-    public SecurityUser productTransactions(Set<ProductTransaction> productTransactions) {
-        this.setProductTransactions(productTransactions);
-        return this;
-    }
-
-    public SecurityUser addProductTransaction(ProductTransaction productTransaction) {
-        this.productTransactions.add(productTransaction);
-        productTransaction.setSecurityUser(this);
-        return this;
-    }
-
-    public SecurityUser removeProductTransaction(ProductTransaction productTransaction) {
-        this.productTransactions.remove(productTransaction);
-        productTransaction.setSecurityUser(null);
-        return this;
-    }
-
-    public Set<Product> getProducts() {
-        return this.products;
-    }
-
-    public void setProducts(Set<Product> products) {
-        if (this.products != null) {
-            this.products.forEach(i -> i.setSecurityUser(null));
-        }
-        if (products != null) {
-            products.forEach(i -> i.setSecurityUser(this));
-        }
-        this.products = products;
-    }
-
-    public SecurityUser products(Set<Product> products) {
-        this.setProducts(products);
-        return this;
-    }
-
-    public SecurityUser addProduct(Product product) {
-        this.products.add(product);
-        product.setSecurityUser(this);
-        return this;
-    }
-
-    public SecurityUser removeProduct(Product product) {
-        this.products.remove(product);
-        product.setSecurityUser(null);
-        return this;
-    }
-
     public Set<SecurityPermission> getSecurityPermissions() {
         return this.securityPermissions;
     }
@@ -481,6 +416,31 @@ public class SecurityUser implements Serializable {
     public SecurityUser removeSecurityRole(SecurityRole securityRole) {
         this.securityRoles.remove(securityRole);
         securityRole.getSecurityUsers().remove(this);
+        return this;
+    }
+
+    public Set<WareHouse> getSecurityUsers() {
+        return this.securityUsers;
+    }
+
+    public void setSecurityUsers(Set<WareHouse> wareHouses) {
+        this.securityUsers = wareHouses;
+    }
+
+    public SecurityUser securityUsers(Set<WareHouse> wareHouses) {
+        this.setSecurityUsers(wareHouses);
+        return this;
+    }
+
+    public SecurityUser addSecurityUser(WareHouse wareHouse) {
+        this.securityUsers.add(wareHouse);
+        wareHouse.getProductInventories().add(this);
+        return this;
+    }
+
+    public SecurityUser removeSecurityUser(WareHouse wareHouse) {
+        this.securityUsers.remove(wareHouse);
+        wareHouse.getProductInventories().remove(this);
         return this;
     }
 

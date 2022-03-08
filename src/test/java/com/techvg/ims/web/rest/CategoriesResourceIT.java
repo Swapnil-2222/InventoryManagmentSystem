@@ -7,7 +7,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.techvg.ims.IntegrationTest;
 import com.techvg.ims.domain.Categories;
-import com.techvg.ims.domain.Product;
 import com.techvg.ims.repository.CategoriesRepository;
 import com.techvg.ims.service.criteria.CategoriesCriteria;
 import com.techvg.ims.service.dto.CategoriesDTO;
@@ -685,32 +684,6 @@ class CategoriesResourceIT {
 
         // Get all the categoriesList where isActive is null
         defaultCategoriesShouldNotBeFound("isActive.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllCategoriesByProductIsEqualToSomething() throws Exception {
-        // Initialize the database
-        categoriesRepository.saveAndFlush(categories);
-        Product product;
-        if (TestUtil.findAll(em, Product.class).isEmpty()) {
-            product = ProductResourceIT.createEntity(em);
-            em.persist(product);
-            em.flush();
-        } else {
-            product = TestUtil.findAll(em, Product.class).get(0);
-        }
-        em.persist(product);
-        em.flush();
-        categories.addProduct(product);
-        categoriesRepository.saveAndFlush(categories);
-        Long productId = product.getId();
-
-        // Get all the categoriesList where product equals to productId
-        defaultCategoriesShouldBeFound("productId.equals=" + productId);
-
-        // Get all the categoriesList where product equals to (productId + 1)
-        defaultCategoriesShouldNotBeFound("productId.equals=" + (productId + 1));
     }
 
     /**

@@ -25,19 +25,20 @@ describe('WareHouse Service', () => {
 
     elemDefault = {
       id: 0,
-      wareHouseName: 'AAAAAAA',
+      whName: 'AAAAAAA',
       address: 'AAAAAAA',
       pincode: 0,
       city: 'AAAAAAA',
       state: 'AAAAAAA',
       country: 'AAAAAAA',
-      gstDetails: 'AAAAAAA',
+      gSTDetails: 'AAAAAAA',
       managerName: 'AAAAAAA',
       managerEmail: 'AAAAAAA',
       managerContact: 'AAAAAAA',
       contact: 'AAAAAAA',
       isDeleted: false,
       isActive: false,
+      wareHouseId: 0,
       lastModified: currentDate,
       lastModifiedBy: 'AAAAAAA',
     };
@@ -86,19 +87,20 @@ describe('WareHouse Service', () => {
       const returnedFromService = Object.assign(
         {
           id: 1,
-          wareHouseName: 'BBBBBB',
+          whName: 'BBBBBB',
           address: 'BBBBBB',
           pincode: 1,
           city: 'BBBBBB',
           state: 'BBBBBB',
           country: 'BBBBBB',
-          gstDetails: 'BBBBBB',
+          gSTDetails: 'BBBBBB',
           managerName: 'BBBBBB',
           managerEmail: 'BBBBBB',
           managerContact: 'BBBBBB',
           contact: 'BBBBBB',
           isDeleted: true,
           isActive: true,
+          wareHouseId: 1,
           lastModified: currentDate.format(DATE_TIME_FORMAT),
           lastModifiedBy: 'BBBBBB',
         },
@@ -122,12 +124,13 @@ describe('WareHouse Service', () => {
     it('should partial update a WareHouse', () => {
       const patchObject = Object.assign(
         {
-          wareHouseName: 'BBBBBB',
+          whName: 'BBBBBB',
           address: 'BBBBBB',
           pincode: 1,
           state: 'BBBBBB',
           managerName: 'BBBBBB',
           managerContact: 'BBBBBB',
+          lastModified: currentDate.format(DATE_TIME_FORMAT),
           lastModifiedBy: 'BBBBBB',
         },
         new WareHouse()
@@ -153,19 +156,20 @@ describe('WareHouse Service', () => {
       const returnedFromService = Object.assign(
         {
           id: 1,
-          wareHouseName: 'BBBBBB',
+          whName: 'BBBBBB',
           address: 'BBBBBB',
           pincode: 1,
           city: 'BBBBBB',
           state: 'BBBBBB',
           country: 'BBBBBB',
-          gstDetails: 'BBBBBB',
+          gSTDetails: 'BBBBBB',
           managerName: 'BBBBBB',
           managerEmail: 'BBBBBB',
           managerContact: 'BBBBBB',
           contact: 'BBBBBB',
           isDeleted: true,
           isActive: true,
+          wareHouseId: 1,
           lastModified: currentDate.format(DATE_TIME_FORMAT),
           lastModifiedBy: 'BBBBBB',
         },
@@ -224,7 +228,7 @@ describe('WareHouse Service', () => {
       });
 
       it('should add only unique WareHouse to an array', () => {
-        const wareHouseArray: IWareHouse[] = [{ id: 123 }, { id: 456 }, { id: 75386 }];
+        const wareHouseArray: IWareHouse[] = [{ id: 123 }, { id: 456 }, { id: 39263 }];
         const wareHouseCollection: IWareHouse[] = [{ id: 123 }];
         expectedResult = service.addWareHouseToCollectionIfMissing(wareHouseCollection, ...wareHouseArray);
         expect(expectedResult).toHaveLength(3);

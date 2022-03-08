@@ -71,19 +71,20 @@ class WareHouseGatlingTest extends Simulation {
             .post("/api/ware-houses")
             .headers(headers_http_authenticated)
             .body(StringBody("""{
-                "wareHouseName":"SAMPLE_TEXT"
+                "whName":"SAMPLE_TEXT"
                 , "address":"SAMPLE_TEXT"
                 , "pincode":"0"
                 , "city":"SAMPLE_TEXT"
                 , "state":"SAMPLE_TEXT"
                 , "country":"SAMPLE_TEXT"
-                , "gstDetails":"SAMPLE_TEXT"
+                , "gSTDetails":"SAMPLE_TEXT"
                 , "managerName":"SAMPLE_TEXT"
                 , "managerEmail":"SAMPLE_TEXT"
                 , "managerContact":"SAMPLE_TEXT"
                 , "contact":"SAMPLE_TEXT"
                 , "isDeleted":null
                 , "isActive":null
+                , "wareHouseId":"0"
                 , "lastModified":"2020-01-01T00:00:00.000Z"
                 , "lastModifiedBy":"SAMPLE_TEXT"
                 }""")).asJson

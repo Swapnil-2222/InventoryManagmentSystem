@@ -112,12 +112,6 @@ public class CategoriesQueryService extends QueryService<Categories> {
             if (criteria.getIsActive() != null) {
                 specification = specification.and(buildSpecification(criteria.getIsActive(), Categories_.isActive));
             }
-            if (criteria.getProductId() != null) {
-                specification =
-                    specification.and(
-                        buildSpecification(criteria.getProductId(), root -> root.join(Categories_.products, JoinType.LEFT).get(Product_.id))
-                    );
-            }
         }
         return specification;
     }

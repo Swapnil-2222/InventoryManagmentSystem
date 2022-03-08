@@ -57,6 +57,8 @@ public class SecurityUserDTO implements Serializable {
 
     private Set<SecurityRoleDTO> securityRoles = new HashSet<>();
 
+    private Set<WareHouseDTO> securityUsers = new HashSet<>();
+
     public Long getId() {
         return id;
     }
@@ -225,6 +227,14 @@ public class SecurityUserDTO implements Serializable {
         this.securityRoles = securityRoles;
     }
 
+    public Set<WareHouseDTO> getSecurityUsers() {
+        return securityUsers;
+    }
+
+    public void setSecurityUsers(Set<WareHouseDTO> securityUsers) {
+        this.securityUsers = securityUsers;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -271,6 +281,7 @@ public class SecurityUserDTO implements Serializable {
             ", lastModifiedBy='" + getLastModifiedBy() + "'" +
             ", securityPermissions=" + getSecurityPermissions() +
             ", securityRoles=" + getSecurityRoles() +
+            ", securityUsers=" + getSecurityUsers() +
             "}";
     }
 }

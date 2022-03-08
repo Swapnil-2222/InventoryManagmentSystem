@@ -111,12 +111,6 @@ public class UnitQueryService extends QueryService<Unit> {
             if (criteria.getIsActive() != null) {
                 specification = specification.and(buildSpecification(criteria.getIsActive(), Unit_.isActive));
             }
-            if (criteria.getProductId() != null) {
-                specification =
-                    specification.and(
-                        buildSpecification(criteria.getProductId(), root -> root.join(Unit_.products, JoinType.LEFT).get(Product_.id))
-                    );
-            }
         }
         return specification;
     }

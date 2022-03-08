@@ -12,6 +12,8 @@ import { IProduct } from 'app/entities/product/product.model';
 import { ProductService } from 'app/entities/product/service/product.service';
 import { IPurchaseOrder } from 'app/entities/purchase-order/purchase-order.model';
 import { PurchaseOrderService } from 'app/entities/purchase-order/service/purchase-order.service';
+import { IProductTransaction } from 'app/entities/product-transaction/product-transaction.model';
+import { ProductTransactionService } from 'app/entities/product-transaction/service/product-transaction.service';
 import { IWareHouse } from 'app/entities/ware-house/ware-house.model';
 import { WareHouseService } from 'app/entities/ware-house/service/ware-house.service';
 import { ISecurityUser } from 'app/entities/security-user/security-user.model';
@@ -26,6 +28,7 @@ describe('ProductInventory Management Update Component', () => {
   let productInventoryService: ProductInventoryService;
   let productService: ProductService;
   let purchaseOrderService: PurchaseOrderService;
+  let productTransactionService: ProductTransactionService;
   let wareHouseService: WareHouseService;
   let securityUserService: SecurityUserService;
 
@@ -51,6 +54,7 @@ describe('ProductInventory Management Update Component', () => {
     productInventoryService = TestBed.inject(ProductInventoryService);
     productService = TestBed.inject(ProductService);
     purchaseOrderService = TestBed.inject(PurchaseOrderService);
+    productTransactionService = TestBed.inject(ProductTransactionService);
     wareHouseService = TestBed.inject(WareHouseService);
     securityUserService = TestBed.inject(SecurityUserService);
 
@@ -97,6 +101,28 @@ describe('ProductInventory Management Update Component', () => {
         ...additionalPurchaseOrders
       );
       expect(comp.purchaseOrdersSharedCollection).toEqual(expectedCollection);
+    });
+
+    it('Should call ProductTransaction query and add missing value', () => {
+      const productInventory: IProductInventory = { id: 456 };
+      const productTransaction: IProductTransaction = { id: 72208 };
+      productInventory.productTransaction = productTransaction;
+
+      const productTransactionCollection: IProductTransaction[] = [{ id: 72035 }];
+      jest.spyOn(productTransactionService, 'query').mockReturnValue(of(new HttpResponse({ body: productTransactionCollection })));
+      const additionalProductTransactions = [productTransaction];
+      const expectedCollection: IProductTransaction[] = [...additionalProductTransactions, ...productTransactionCollection];
+      jest.spyOn(productTransactionService, 'addProductTransactionToCollectionIfMissing').mockReturnValue(expectedCollection);
+
+      activatedRoute.data = of({ productInventory });
+      comp.ngOnInit();
+
+      expect(productTransactionService.query).toHaveBeenCalled();
+      expect(productTransactionService.addProductTransactionToCollectionIfMissing).toHaveBeenCalledWith(
+        productTransactionCollection,
+        ...additionalProductTransactions
+      );
+      expect(comp.productTransactionsSharedCollection).toEqual(expectedCollection);
     });
 
     it('Should call WareHouse query and add missing value', () => {
@@ -146,6 +172,8 @@ describe('ProductInventory Management Update Component', () => {
       productInventory.product = product;
       const purchaseOrder: IPurchaseOrder = { id: 56675 };
       productInventory.purchaseOrder = purchaseOrder;
+      const productTransaction: IProductTransaction = { id: 26716 };
+      productInventory.productTransaction = productTransaction;
       const wareHouses: IWareHouse = { id: 51611 };
       productInventory.wareHouses = [wareHouses];
       const securityUsers: ISecurityUser = { id: 64290 };
@@ -157,6 +185,7 @@ describe('ProductInventory Management Update Component', () => {
       expect(comp.editForm.value).toEqual(expect.objectContaining(productInventory));
       expect(comp.productsSharedCollection).toContain(product);
       expect(comp.purchaseOrdersSharedCollection).toContain(purchaseOrder);
+      expect(comp.productTransactionsSharedCollection).toContain(productTransaction);
       expect(comp.wareHousesSharedCollection).toContain(wareHouses);
       expect(comp.securityUsersSharedCollection).toContain(securityUsers);
     });
@@ -239,6 +268,14 @@ describe('ProductInventory Management Update Component', () => {
       it('Should return tracked PurchaseOrder primary key', () => {
         const entity = { id: 123 };
         const trackResult = comp.trackPurchaseOrderById(0, entity);
+        expect(trackResult).toEqual(entity.id);
+      });
+    });
+
+    describe('trackProductTransactionById', () => {
+      it('Should return tracked ProductTransaction primary key', () => {
+        const entity = { id: 123 };
+        const trackResult = comp.trackProductTransactionById(0, entity);
         expect(trackResult).toEqual(entity.id);
       });
     });

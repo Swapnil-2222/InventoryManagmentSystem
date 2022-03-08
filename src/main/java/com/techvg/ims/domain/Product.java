@@ -105,28 +105,18 @@ public class Product implements Serializable {
     private Set<TransferDetails> transferDetails = new HashSet<>();
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "products", "purchaseOrder" }, allowSetters = true)
-    private PurchaseOrderDetails purchaseOrderDetails;
-
-    @ManyToOne
-    @JsonIgnoreProperties(value = { "products" }, allowSetters = true)
     private Categories categories;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "products" }, allowSetters = true)
     private Unit unit;
 
     @ManyToOne
-    @JsonIgnoreProperties(
-        value = { "productTransactions", "products", "securityPermissions", "securityRoles", "productInventories" },
-        allowSetters = true
-    )
-    private SecurityUser securityUser;
+    @JsonIgnoreProperties(value = { "securityPermissions", "securityRoles", "securityUsers", "productInventories" }, allowSetters = true)
+    private SecurityUser ecurityUser;
 
-    @ManyToMany(mappedBy = "products")
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "wareHouse", "products", "productInventory", "securityUser" }, allowSetters = true)
-    private Set<ProductTransaction> productTransactions = new HashSet<>();
+    @ManyToOne
+    @JsonIgnoreProperties(value = { "products", "purchaseOrder" }, allowSetters = true)
+    private PurchaseOrderDetails purchaseOrderDetails;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -486,19 +476,6 @@ public class Product implements Serializable {
         return this;
     }
 
-    public PurchaseOrderDetails getPurchaseOrderDetails() {
-        return this.purchaseOrderDetails;
-    }
-
-    public void setPurchaseOrderDetails(PurchaseOrderDetails purchaseOrderDetails) {
-        this.purchaseOrderDetails = purchaseOrderDetails;
-    }
-
-    public Product purchaseOrderDetails(PurchaseOrderDetails purchaseOrderDetails) {
-        this.setPurchaseOrderDetails(purchaseOrderDetails);
-        return this;
-    }
-
     public Categories getCategories() {
         return this.categories;
     }
@@ -525,47 +502,29 @@ public class Product implements Serializable {
         return this;
     }
 
-    public SecurityUser getSecurityUser() {
-        return this.securityUser;
+    public SecurityUser getEcurityUser() {
+        return this.ecurityUser;
     }
 
-    public void setSecurityUser(SecurityUser securityUser) {
-        this.securityUser = securityUser;
+    public void setEcurityUser(SecurityUser securityUser) {
+        this.ecurityUser = securityUser;
     }
 
-    public Product securityUser(SecurityUser securityUser) {
-        this.setSecurityUser(securityUser);
+    public Product ecurityUser(SecurityUser securityUser) {
+        this.setEcurityUser(securityUser);
         return this;
     }
 
-    public Set<ProductTransaction> getProductTransactions() {
-        return this.productTransactions;
+    public PurchaseOrderDetails getPurchaseOrderDetails() {
+        return this.purchaseOrderDetails;
     }
 
-    public void setProductTransactions(Set<ProductTransaction> productTransactions) {
-        if (this.productTransactions != null) {
-            this.productTransactions.forEach(i -> i.removeProduct(this));
-        }
-        if (productTransactions != null) {
-            productTransactions.forEach(i -> i.addProduct(this));
-        }
-        this.productTransactions = productTransactions;
+    public void setPurchaseOrderDetails(PurchaseOrderDetails purchaseOrderDetails) {
+        this.purchaseOrderDetails = purchaseOrderDetails;
     }
 
-    public Product productTransactions(Set<ProductTransaction> productTransactions) {
-        this.setProductTransactions(productTransactions);
-        return this;
-    }
-
-    public Product addProductTransaction(ProductTransaction productTransaction) {
-        this.productTransactions.add(productTransaction);
-        productTransaction.getProducts().add(this);
-        return this;
-    }
-
-    public Product removeProductTransaction(ProductTransaction productTransaction) {
-        this.productTransactions.remove(productTransaction);
-        productTransaction.getProducts().remove(this);
+    public Product purchaseOrderDetails(PurchaseOrderDetails purchaseOrderDetails) {
+        this.setPurchaseOrderDetails(purchaseOrderDetails);
         return this;
     }
 

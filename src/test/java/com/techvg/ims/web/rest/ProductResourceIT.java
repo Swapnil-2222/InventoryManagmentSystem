@@ -8,7 +8,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.techvg.ims.IntegrationTest;
 import com.techvg.ims.domain.Categories;
 import com.techvg.ims.domain.Product;
-import com.techvg.ims.domain.ProductTransaction;
 import com.techvg.ims.domain.PurchaseOrderDetails;
 import com.techvg.ims.domain.SecurityUser;
 import com.techvg.ims.domain.TransferDetails;
@@ -2055,32 +2054,6 @@ class ProductResourceIT {
 
     @Test
     @Transactional
-    void getAllProductsByPurchaseOrderDetailsIsEqualToSomething() throws Exception {
-        // Initialize the database
-        productRepository.saveAndFlush(product);
-        PurchaseOrderDetails purchaseOrderDetails;
-        if (TestUtil.findAll(em, PurchaseOrderDetails.class).isEmpty()) {
-            purchaseOrderDetails = PurchaseOrderDetailsResourceIT.createEntity(em);
-            em.persist(purchaseOrderDetails);
-            em.flush();
-        } else {
-            purchaseOrderDetails = TestUtil.findAll(em, PurchaseOrderDetails.class).get(0);
-        }
-        em.persist(purchaseOrderDetails);
-        em.flush();
-        product.setPurchaseOrderDetails(purchaseOrderDetails);
-        productRepository.saveAndFlush(product);
-        Long purchaseOrderDetailsId = purchaseOrderDetails.getId();
-
-        // Get all the productList where purchaseOrderDetails equals to purchaseOrderDetailsId
-        defaultProductShouldBeFound("purchaseOrderDetailsId.equals=" + purchaseOrderDetailsId);
-
-        // Get all the productList where purchaseOrderDetails equals to (purchaseOrderDetailsId + 1)
-        defaultProductShouldNotBeFound("purchaseOrderDetailsId.equals=" + (purchaseOrderDetailsId + 1));
-    }
-
-    @Test
-    @Transactional
     void getAllProductsByCategoriesIsEqualToSomething() throws Exception {
         // Initialize the database
         productRepository.saveAndFlush(product);
@@ -2133,54 +2106,54 @@ class ProductResourceIT {
 
     @Test
     @Transactional
-    void getAllProductsBySecurityUserIsEqualToSomething() throws Exception {
+    void getAllProductsByEcurityUserIsEqualToSomething() throws Exception {
         // Initialize the database
         productRepository.saveAndFlush(product);
-        SecurityUser securityUser;
+        SecurityUser ecurityUser;
         if (TestUtil.findAll(em, SecurityUser.class).isEmpty()) {
-            securityUser = SecurityUserResourceIT.createEntity(em);
-            em.persist(securityUser);
+            ecurityUser = SecurityUserResourceIT.createEntity(em);
+            em.persist(ecurityUser);
             em.flush();
         } else {
-            securityUser = TestUtil.findAll(em, SecurityUser.class).get(0);
+            ecurityUser = TestUtil.findAll(em, SecurityUser.class).get(0);
         }
-        em.persist(securityUser);
+        em.persist(ecurityUser);
         em.flush();
-        product.setSecurityUser(securityUser);
+        product.setEcurityUser(ecurityUser);
         productRepository.saveAndFlush(product);
-        Long securityUserId = securityUser.getId();
+        Long ecurityUserId = ecurityUser.getId();
 
-        // Get all the productList where securityUser equals to securityUserId
-        defaultProductShouldBeFound("securityUserId.equals=" + securityUserId);
+        // Get all the productList where ecurityUser equals to ecurityUserId
+        defaultProductShouldBeFound("ecurityUserId.equals=" + ecurityUserId);
 
-        // Get all the productList where securityUser equals to (securityUserId + 1)
-        defaultProductShouldNotBeFound("securityUserId.equals=" + (securityUserId + 1));
+        // Get all the productList where ecurityUser equals to (ecurityUserId + 1)
+        defaultProductShouldNotBeFound("ecurityUserId.equals=" + (ecurityUserId + 1));
     }
 
     @Test
     @Transactional
-    void getAllProductsByProductTransactionIsEqualToSomething() throws Exception {
+    void getAllProductsByPurchaseOrderDetailsIsEqualToSomething() throws Exception {
         // Initialize the database
         productRepository.saveAndFlush(product);
-        ProductTransaction productTransaction;
-        if (TestUtil.findAll(em, ProductTransaction.class).isEmpty()) {
-            productTransaction = ProductTransactionResourceIT.createEntity(em);
-            em.persist(productTransaction);
+        PurchaseOrderDetails purchaseOrderDetails;
+        if (TestUtil.findAll(em, PurchaseOrderDetails.class).isEmpty()) {
+            purchaseOrderDetails = PurchaseOrderDetailsResourceIT.createEntity(em);
+            em.persist(purchaseOrderDetails);
             em.flush();
         } else {
-            productTransaction = TestUtil.findAll(em, ProductTransaction.class).get(0);
+            purchaseOrderDetails = TestUtil.findAll(em, PurchaseOrderDetails.class).get(0);
         }
-        em.persist(productTransaction);
+        em.persist(purchaseOrderDetails);
         em.flush();
-        product.addProductTransaction(productTransaction);
+        product.setPurchaseOrderDetails(purchaseOrderDetails);
         productRepository.saveAndFlush(product);
-        Long productTransactionId = productTransaction.getId();
+        Long purchaseOrderDetailsId = purchaseOrderDetails.getId();
 
-        // Get all the productList where productTransaction equals to productTransactionId
-        defaultProductShouldBeFound("productTransactionId.equals=" + productTransactionId);
+        // Get all the productList where purchaseOrderDetails equals to purchaseOrderDetailsId
+        defaultProductShouldBeFound("purchaseOrderDetailsId.equals=" + purchaseOrderDetailsId);
 
-        // Get all the productList where productTransaction equals to (productTransactionId + 1)
-        defaultProductShouldNotBeFound("productTransactionId.equals=" + (productTransactionId + 1));
+        // Get all the productList where purchaseOrderDetails equals to (purchaseOrderDetailsId + 1)
+        defaultProductShouldNotBeFound("purchaseOrderDetailsId.equals=" + (purchaseOrderDetailsId + 1));
     }
 
     /**

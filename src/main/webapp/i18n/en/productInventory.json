@@ -33,9 +33,9 @@
       "isDeleted": "Is Deleted",
       "isActive": "Is Active",
       "consumptionDetails": "Consumption Details",
-      "productTransaction": "Product Transaction",
       "product": "Product",
       "purchaseOrder": "Purchase Order",
+      "productTransaction": "Product Transaction",
       "wareHouse": "Ware House",
       "securityUser": "Security User"
     }

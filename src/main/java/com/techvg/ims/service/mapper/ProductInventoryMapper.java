@@ -10,12 +10,15 @@ import org.mapstruct.*;
  */
 @Mapper(
     componentModel = "spring",
-    uses = { ProductMapper.class, PurchaseOrderMapper.class, WareHouseMapper.class, SecurityUserMapper.class }
+    uses = {
+        ProductMapper.class, PurchaseOrderMapper.class, ProductTransactionMapper.class, WareHouseMapper.class, SecurityUserMapper.class,
+    }
 )
 public interface ProductInventoryMapper extends EntityMapper<ProductInventoryDTO, ProductInventory> {
     @Mapping(target = "product", source = "product", qualifiedByName = "productName")
     @Mapping(target = "purchaseOrder", source = "purchaseOrder", qualifiedByName = "id")
-    @Mapping(target = "wareHouses", source = "wareHouses", qualifiedByName = "wareHouseNameSet")
+    @Mapping(target = "productTransaction", source = "productTransaction", qualifiedByName = "id")
+    @Mapping(target = "wareHouses", source = "wareHouses", qualifiedByName = "whNameSet")
     @Mapping(target = "securityUsers", source = "securityUsers", qualifiedByName = "loginSet")
     ProductInventoryDTO toDto(ProductInventory s);
 

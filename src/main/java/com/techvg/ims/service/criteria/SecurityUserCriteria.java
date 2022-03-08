@@ -65,13 +65,11 @@ public class SecurityUserCriteria implements Serializable, Criteria {
 
     private StringFilter lastModifiedBy;
 
-    private LongFilter productTransactionId;
-
-    private LongFilter productId;
-
     private LongFilter securityPermissionId;
 
     private LongFilter securityRoleId;
+
+    private LongFilter securityUserId;
 
     private LongFilter productInventoryId;
 
@@ -99,10 +97,9 @@ public class SecurityUserCriteria implements Serializable, Criteria {
         this.otpExpiryTime = other.otpExpiryTime == null ? null : other.otpExpiryTime.copy();
         this.lastModified = other.lastModified == null ? null : other.lastModified.copy();
         this.lastModifiedBy = other.lastModifiedBy == null ? null : other.lastModifiedBy.copy();
-        this.productTransactionId = other.productTransactionId == null ? null : other.productTransactionId.copy();
-        this.productId = other.productId == null ? null : other.productId.copy();
         this.securityPermissionId = other.securityPermissionId == null ? null : other.securityPermissionId.copy();
         this.securityRoleId = other.securityRoleId == null ? null : other.securityRoleId.copy();
+        this.securityUserId = other.securityUserId == null ? null : other.securityUserId.copy();
         this.productInventoryId = other.productInventoryId == null ? null : other.productInventoryId.copy();
         this.distinct = other.distinct;
     }
@@ -397,36 +394,6 @@ public class SecurityUserCriteria implements Serializable, Criteria {
         this.lastModifiedBy = lastModifiedBy;
     }
 
-    public LongFilter getProductTransactionId() {
-        return productTransactionId;
-    }
-
-    public LongFilter productTransactionId() {
-        if (productTransactionId == null) {
-            productTransactionId = new LongFilter();
-        }
-        return productTransactionId;
-    }
-
-    public void setProductTransactionId(LongFilter productTransactionId) {
-        this.productTransactionId = productTransactionId;
-    }
-
-    public LongFilter getProductId() {
-        return productId;
-    }
-
-    public LongFilter productId() {
-        if (productId == null) {
-            productId = new LongFilter();
-        }
-        return productId;
-    }
-
-    public void setProductId(LongFilter productId) {
-        this.productId = productId;
-    }
-
     public LongFilter getSecurityPermissionId() {
         return securityPermissionId;
     }
@@ -455,6 +422,21 @@ public class SecurityUserCriteria implements Serializable, Criteria {
 
     public void setSecurityRoleId(LongFilter securityRoleId) {
         this.securityRoleId = securityRoleId;
+    }
+
+    public LongFilter getSecurityUserId() {
+        return securityUserId;
+    }
+
+    public LongFilter securityUserId() {
+        if (securityUserId == null) {
+            securityUserId = new LongFilter();
+        }
+        return securityUserId;
+    }
+
+    public void setSecurityUserId(LongFilter securityUserId) {
+        this.securityUserId = securityUserId;
     }
 
     public LongFilter getProductInventoryId() {
@@ -509,10 +491,9 @@ public class SecurityUserCriteria implements Serializable, Criteria {
             Objects.equals(otpExpiryTime, that.otpExpiryTime) &&
             Objects.equals(lastModified, that.lastModified) &&
             Objects.equals(lastModifiedBy, that.lastModifiedBy) &&
-            Objects.equals(productTransactionId, that.productTransactionId) &&
-            Objects.equals(productId, that.productId) &&
             Objects.equals(securityPermissionId, that.securityPermissionId) &&
             Objects.equals(securityRoleId, that.securityRoleId) &&
+            Objects.equals(securityUserId, that.securityUserId) &&
             Objects.equals(productInventoryId, that.productInventoryId) &&
             Objects.equals(distinct, that.distinct)
         );
@@ -540,10 +521,9 @@ public class SecurityUserCriteria implements Serializable, Criteria {
             otpExpiryTime,
             lastModified,
             lastModifiedBy,
-            productTransactionId,
-            productId,
             securityPermissionId,
             securityRoleId,
+            securityUserId,
             productInventoryId,
             distinct
         );
@@ -572,10 +552,9 @@ public class SecurityUserCriteria implements Serializable, Criteria {
             (otpExpiryTime != null ? "otpExpiryTime=" + otpExpiryTime + ", " : "") +
             (lastModified != null ? "lastModified=" + lastModified + ", " : "") +
             (lastModifiedBy != null ? "lastModifiedBy=" + lastModifiedBy + ", " : "") +
-            (productTransactionId != null ? "productTransactionId=" + productTransactionId + ", " : "") +
-            (productId != null ? "productId=" + productId + ", " : "") +
             (securityPermissionId != null ? "securityPermissionId=" + securityPermissionId + ", " : "") +
             (securityRoleId != null ? "securityRoleId=" + securityRoleId + ", " : "") +
+            (securityUserId != null ? "securityUserId=" + securityUserId + ", " : "") +
             (productInventoryId != null ? "productInventoryId=" + productInventoryId + ", " : "") +
             (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";

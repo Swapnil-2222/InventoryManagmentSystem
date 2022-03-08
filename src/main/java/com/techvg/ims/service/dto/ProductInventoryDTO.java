@@ -45,6 +45,8 @@ public class ProductInventoryDTO implements Serializable {
 
     private PurchaseOrderDTO purchaseOrder;
 
+    private ProductTransactionDTO productTransaction;
+
     private Set<WareHouseDTO> wareHouses = new HashSet<>();
 
     private Set<SecurityUserDTO> securityUsers = new HashSet<>();
@@ -185,6 +187,14 @@ public class ProductInventoryDTO implements Serializable {
         this.purchaseOrder = purchaseOrder;
     }
 
+    public ProductTransactionDTO getProductTransaction() {
+        return productTransaction;
+    }
+
+    public void setProductTransaction(ProductTransactionDTO productTransaction) {
+        this.productTransaction = productTransaction;
+    }
+
     public Set<WareHouseDTO> getWareHouses() {
         return wareHouses;
     }
@@ -243,6 +253,7 @@ public class ProductInventoryDTO implements Serializable {
             ", isActive='" + getIsActive() + "'" +
             ", product=" + getProduct() +
             ", purchaseOrder=" + getPurchaseOrder() +
+            ", productTransaction=" + getProductTransaction() +
             ", wareHouses=" + getWareHouses() +
             ", securityUsers=" + getSecurityUsers() +
             "}";

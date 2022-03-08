@@ -1,0 +1,178 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2
+        id="jhi-notification-heading"
+        data-cy="NotificationCreateUpdateHeading"
+        jhiTranslate="inventoryManagmentSystemApp.notification.home.createOrEditLabel"
+      >
+        Create or edit a Notification
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-3" [hidden]="editForm.get('id')!.value == null">
+          <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="inventoryManagmentSystemApp.notification.massage" for="field_massage">Massage</label>
+          <input type="text" class="form-control" name="massage" id="field_massage" data-cy="massage" formControlName="massage" />
+          <div *ngIf="editForm.get('massage')!.invalid && (editForm.get('massage')!.dirty || editForm.get('massage')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('massage')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="inventoryManagmentSystemApp.notification.notificationType" for="field_notificationType"
+            >Notification Type</label
+          >
+          <select
+            class="form-control"
+            name="notificationType"
+            formControlName="notificationType"
+            id="field_notificationType"
+            data-cy="notificationType"
+          >
+            <option [ngValue]="null">{{ 'inventoryManagmentSystemApp.NotificationType.null' | translate }}</option>
+            <option *ngFor="let notificationType of notificationTypeValues" [value]="notificationType">
+              {{ 'inventoryManagmentSystemApp.NotificationType.' + notificationType | translate }}
+            </option>
+          </select>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="inventoryManagmentSystemApp.notification.isActionRequired" for="field_isActionRequired"
+            >Is Action Required</label
+          >
+          <input
+            type="checkbox"
+            class="form-check"
+            name="isActionRequired"
+            id="field_isActionRequired"
+            data-cy="isActionRequired"
+            formControlName="isActionRequired"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="inventoryManagmentSystemApp.notification.lastModified" for="field_lastModified"
+            >Last Modified</label
+          >
+          <div class="d-flex">
+            <input
+              id="field_lastModified"
+              data-cy="lastModified"
+              type="datetime-local"
+              class="form-control"
+              name="lastModified"
+              formControlName="lastModified"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+          <div
+            *ngIf="editForm.get('lastModified')!.invalid && (editForm.get('lastModified')!.dirty || editForm.get('lastModified')!.touched)"
+          >
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('lastModified')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+            <small
+              class="form-text text-danger"
+              [hidden]="!editForm.get('lastModified')?.errors?.ZonedDateTimelocal"
+              jhiTranslate="entity.validation.ZonedDateTimelocal"
+            >
+              This field should be a date and time.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="inventoryManagmentSystemApp.notification.lastModifiedBy" for="field_lastModifiedBy"
+            >Last Modified By</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="lastModifiedBy"
+            id="field_lastModifiedBy"
+            data-cy="lastModifiedBy"
+            formControlName="lastModifiedBy"
+          />
+          <div
+            *ngIf="
+              editForm.get('lastModifiedBy')!.invalid && (editForm.get('lastModifiedBy')!.dirty || editForm.get('lastModifiedBy')!.touched)
+            "
+          >
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('lastModifiedBy')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="inventoryManagmentSystemApp.notification.ecurityUser" for="field_ecurityUser"
+            >Ecurity User</label
+          >
+          <select class="form-control" id="field_ecurityUser" data-cy="ecurityUser" name="ecurityUser" formControlName="ecurityUser">
+            <option [ngValue]="null"></option>
+            <option
+              [ngValue]="
+                securityUserOption.id === editForm.get('ecurityUser')!.value?.id ? editForm.get('ecurityUser')!.value : securityUserOption
+              "
+              *ngFor="let securityUserOption of securityUsersSharedCollection; trackBy: trackSecurityUserById"
+            >
+              {{ securityUserOption.login }}
+            </option>
+          </select>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="inventoryManagmentSystemApp.notification.wareHouse" for="field_wareHouse"
+            >Ware House</label
+          >
+          <select class="form-control" id="field_wareHouse" data-cy="wareHouse" name="wareHouse" formControlName="wareHouse">
+            <option [ngValue]="null"></option>
+            <option
+              [ngValue]="wareHouseOption.id === editForm.get('wareHouse')!.value?.id ? editForm.get('wareHouse')!.value : wareHouseOption"
+              *ngFor="let wareHouseOption of wareHousesSharedCollection; trackBy: trackWareHouseById"
+            >
+              {{ wareHouseOption.whName }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

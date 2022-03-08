@@ -41,33 +41,16 @@
             <column name="last_modified_by" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
+            <column name="ecurity_user_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
             <column name="ware_house_id" type="bigint">
-                <constraints nullable="true" />
-            </column>
-            <column name="product_inventory_id" type="bigint">
-                <constraints nullable="true" />
-            </column>
-            <column name="security_user_id" type="bigint">
                 <constraints nullable="true" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
         <dropDefaultValue tableName="product_transaction" columnName="expirydate" columnDataType="${datetimeType}"/>
         <dropDefaultValue tableName="product_transaction" columnName="last_modified" columnDataType="${datetimeType}"/>
-    </changeSet>
-
-    <changeSet id="20220308102610-1-relations" author="jhipster">
-
-        <createTable tableName="rel_product_transaction__product">
-            <column name="product_id" type="bigint">
-                <constraints nullable="false"/>
-            </column>
-            <column name="product_transaction_id" type="bigint">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-
-        <addPrimaryKey columnNames="product_transaction_id, product_id" tableName="rel_product_transaction__product"/>
     </changeSet>
 
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
