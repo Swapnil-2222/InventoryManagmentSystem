@@ -31,5 +31,17 @@
                                  constraintName="fk_rel_security_user__security_role__security_role_id"
                                  referencedColumnNames="id"
                                  referencedTableName="security_role"/>
+
+        <addForeignKeyConstraint baseColumnNames="security_user_id"
+                                 baseTableName="rel_security_user__security_user"
+                                 constraintName="fk_rel_security_user__security_user__security_user_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="security_user"/>
+
+        <addForeignKeyConstraint baseColumnNames="security_user_id"
+                                 baseTableName="rel_security_user__security_user"
+                                 constraintName="fk_rel_security_user__security_user__security_user_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="ware_house"/>
     </changeSet>
 </databaseChangeLog>

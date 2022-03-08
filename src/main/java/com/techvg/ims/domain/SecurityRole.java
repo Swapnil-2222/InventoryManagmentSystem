@@ -52,10 +52,7 @@ public class SecurityRole implements Serializable {
 
     @ManyToMany(mappedBy = "securityRoles")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(
-        value = { "productTransactions", "products", "securityPermissions", "securityRoles", "productInventories" },
-        allowSetters = true
-    )
+    @JsonIgnoreProperties(value = { "securityPermissions", "securityRoles", "securityUsers", "productInventories" }, allowSetters = true)
     private Set<SecurityUser> securityUsers = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

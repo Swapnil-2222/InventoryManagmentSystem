@@ -2,9 +2,7 @@ package com.techvg.ims.service.dto;
 
 import java.io.Serializable;
 import java.time.Instant;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
 /**
  * A DTO for the {@link com.techvg.ims.domain.ProductTransaction} entity.
@@ -31,13 +29,9 @@ public class ProductTransactionDTO implements Serializable {
 
     private String lastModifiedBy;
 
+    private SecurityUserDTO ecurityUser;
+
     private WareHouseDTO wareHouse;
-
-    private Set<ProductDTO> products = new HashSet<>();
-
-    private ProductInventoryDTO productInventory;
-
-    private SecurityUserDTO securityUser;
 
     public Long getId() {
         return id;
@@ -119,36 +113,20 @@ public class ProductTransactionDTO implements Serializable {
         this.lastModifiedBy = lastModifiedBy;
     }
 
+    public SecurityUserDTO getEcurityUser() {
+        return ecurityUser;
+    }
+
+    public void setEcurityUser(SecurityUserDTO ecurityUser) {
+        this.ecurityUser = ecurityUser;
+    }
+
     public WareHouseDTO getWareHouse() {
         return wareHouse;
     }
 
     public void setWareHouse(WareHouseDTO wareHouse) {
         this.wareHouse = wareHouse;
-    }
-
-    public Set<ProductDTO> getProducts() {
-        return products;
-    }
-
-    public void setProducts(Set<ProductDTO> products) {
-        this.products = products;
-    }
-
-    public ProductInventoryDTO getProductInventory() {
-        return productInventory;
-    }
-
-    public void setProductInventory(ProductInventoryDTO productInventory) {
-        this.productInventory = productInventory;
-    }
-
-    public SecurityUserDTO getSecurityUser() {
-        return securityUser;
-    }
-
-    public void setSecurityUser(SecurityUserDTO securityUser) {
-        this.securityUser = securityUser;
     }
 
     @Override
@@ -186,10 +164,8 @@ public class ProductTransactionDTO implements Serializable {
             ", description='" + getDescription() + "'" +
             ", lastModified='" + getLastModified() + "'" +
             ", lastModifiedBy='" + getLastModifiedBy() + "'" +
+            ", ecurityUser=" + getEcurityUser() +
             ", wareHouse=" + getWareHouse() +
-            ", products=" + getProducts() +
-            ", productInventory=" + getProductInventory() +
-            ", securityUser=" + getSecurityUser() +
             "}";
     }
 }

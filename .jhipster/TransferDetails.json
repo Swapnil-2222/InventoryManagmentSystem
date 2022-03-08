@@ -49,7 +49,7 @@
   "readOnly": false,
   "relationships": [
     {
-      "otherEntityField": "wareHouseName",
+      "otherEntityField": "whName",
       "otherEntityName": "wareHouse",
       "otherEntityRelationshipName": "transferDetails",
       "relationshipName": "wareHouse",

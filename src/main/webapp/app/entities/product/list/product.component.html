@@ -103,18 +103,18 @@
           <th scope="col" jhiSortBy="freeField2">
             <span jhiTranslate="inventoryManagmentSystemApp.product.freeField2">Free Field 2</span> <fa-icon icon="sort"></fa-icon>
           </th>
-          <th scope="col" jhiSortBy="purchaseOrderDetails.id">
-            <span jhiTranslate="inventoryManagmentSystemApp.product.purchaseOrderDetails">Purchase Order Details</span>
-            <fa-icon icon="sort"></fa-icon>
-          </th>
           <th scope="col" jhiSortBy="categories.id">
             <span jhiTranslate="inventoryManagmentSystemApp.product.categories">Categories</span> <fa-icon icon="sort"></fa-icon>
           </th>
           <th scope="col" jhiSortBy="unit.id">
             <span jhiTranslate="inventoryManagmentSystemApp.product.unit">Unit</span> <fa-icon icon="sort"></fa-icon>
           </th>
-          <th scope="col" jhiSortBy="securityUser.id">
-            <span jhiTranslate="inventoryManagmentSystemApp.product.securityUser">Security User</span> <fa-icon icon="sort"></fa-icon>
+          <th scope="col" jhiSortBy="ecurityUser.login">
+            <span jhiTranslate="inventoryManagmentSystemApp.product.ecurityUser">Ecurity User</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="purchaseOrderDetails.id">
+            <span jhiTranslate="inventoryManagmentSystemApp.product.purchaseOrderDetails">Purchase Order Details</span>
+            <fa-icon icon="sort"></fa-icon>
           </th>
           <th scope="col"></th>
         </tr>
@@ -156,13 +156,6 @@
           <td>{{ product.freeField1 }}</td>
           <td>{{ product.freeField2 }}</td>
           <td>
-            <div *ngIf="product.purchaseOrderDetails">
-              <a [routerLink]="['/purchase-order-details', product.purchaseOrderDetails?.id, 'view']">{{
-                product.purchaseOrderDetails?.id
-              }}</a>
-            </div>
-          </td>
-          <td>
             <div *ngIf="product.categories">
               <a [routerLink]="['/categories', product.categories?.id, 'view']">{{ product.categories?.id }}</a>
             </div>
@@ -173,8 +166,15 @@
             </div>
           </td>
           <td>
-            <div *ngIf="product.securityUser">
-              <a [routerLink]="['/security-user', product.securityUser?.id, 'view']">{{ product.securityUser?.id }}</a>
+            <div *ngIf="product.ecurityUser">
+              <a [routerLink]="['/security-user', product.ecurityUser?.id, 'view']">{{ product.ecurityUser?.login }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="product.purchaseOrderDetails">
+              <a [routerLink]="['/purchase-order-details', product.purchaseOrderDetails?.id, 'view']">{{
+                product.purchaseOrderDetails?.id
+              }}</a>
             </div>
           </td>
           <td class="text-end">

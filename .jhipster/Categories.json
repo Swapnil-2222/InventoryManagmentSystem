@@ -39,13 +39,6 @@
   "name": "Categories",
   "pagination": "pagination",
   "readOnly": false,
-  "relationships": [
-    {
-      "otherEntityName": "product",
-      "otherEntityRelationshipName": "categories",
-      "relationshipName": "product",
-      "relationshipType": "one-to-many"
-    }
-  ],
+  "relationships": [],
   "service": "serviceClass"
 }

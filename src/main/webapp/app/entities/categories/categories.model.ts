@@ -1,5 +1,4 @@
 import dayjs from 'dayjs/esm';
-import { IProduct } from 'app/entities/product/product.model';
 
 export interface ICategories {
   id?: number;
@@ -10,7 +9,6 @@ export interface ICategories {
   lastModifiedBy?: string | null;
   isDeleted?: boolean | null;
   isActive?: boolean | null;
-  products?: IProduct[] | null;
 }
 
 export class Categories implements ICategories {
@@ -22,8 +20,7 @@ export class Categories implements ICategories {
     public lastModified?: dayjs.Dayjs | null,
     public lastModifiedBy?: string | null,
     public isDeleted?: boolean | null,
-    public isActive?: boolean | null,
-    public products?: IProduct[] | null
+    public isActive?: boolean | null
   ) {
     this.isDeleted = this.isDeleted ?? false;
     this.isActive = this.isActive ?? false;

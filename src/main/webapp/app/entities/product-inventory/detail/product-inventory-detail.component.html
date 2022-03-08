@@ -84,10 +84,18 @@
             <a [routerLink]="['/purchase-order', productInventory.purchaseOrder?.id, 'view']">{{ productInventory.purchaseOrder?.id }}</a>
           </div>
         </dd>
+        <dt><span jhiTranslate="inventoryManagmentSystemApp.productInventory.productTransaction">Product Transaction</span></dt>
+        <dd>
+          <div *ngIf="productInventory.productTransaction">
+            <a [routerLink]="['/product-transaction', productInventory.productTransaction?.id, 'view']">{{
+              productInventory.productTransaction?.id
+            }}</a>
+          </div>
+        </dd>
         <dt><span jhiTranslate="inventoryManagmentSystemApp.productInventory.wareHouse">Ware House</span></dt>
         <dd>
           <span *ngFor="let wareHouse of productInventory.wareHouses; let last = last">
-            <a [routerLink]="['/ware-house', wareHouse?.id, 'view']">{{ wareHouse.wareHouseName }}</a
+            <a [routerLink]="['/ware-house', wareHouse?.id, 'view']">{{ wareHouse.whName }}</a
             >{{ last ? '' : ', ' }}
           </span>
         </dd>

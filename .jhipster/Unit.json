@@ -39,13 +39,6 @@
   "name": "Unit",
   "pagination": "pagination",
   "readOnly": false,
-  "relationships": [
-    {
-      "otherEntityName": "product",
-      "otherEntityRelationshipName": "unit",
-      "relationshipName": "product",
-      "relationshipType": "one-to-many"
-    }
-  ],
+  "relationships": [],
   "service": "serviceClass"
 }

@@ -19,7 +19,7 @@ public class SecurityUserRepositoryWithBagRelationshipsImpl implements SecurityU
 
     @Override
     public Optional<SecurityUser> fetchBagRelationships(Optional<SecurityUser> securityUser) {
-        return securityUser.map(this::fetchSecurityPermissions).map(this::fetchSecurityRoles);
+        return securityUser.map(this::fetchSecurityPermissions).map(this::fetchSecurityRoles).map(this::fetchSecurityUsers);
     }
 
     @Override
@@ -33,7 +33,12 @@ public class SecurityUserRepositoryWithBagRelationshipsImpl implements SecurityU
 
     @Override
     public List<SecurityUser> fetchBagRelationships(List<SecurityUser> securityUsers) {
-        return Optional.of(securityUsers).map(this::fetchSecurityPermissions).map(this::fetchSecurityRoles).get();
+        return Optional
+            .of(securityUsers)
+            .map(this::fetchSecurityPermissions)
+            .map(this::fetchSecurityRoles)
+            .map(this::fetchSecurityUsers)
+            .get();
     }
 
     SecurityUser fetchSecurityPermissions(SecurityUser result) {
@@ -73,6 +78,28 @@ public class SecurityUserRepositoryWithBagRelationshipsImpl implements SecurityU
         return entityManager
             .createQuery(
                 "select distinct securityUser from SecurityUser securityUser left join fetch securityUser.securityRoles where securityUser in :securityUsers",
+                SecurityUser.class
+            )
+            .setParameter("securityUsers", securityUsers)
+            .setHint(QueryHints.PASS_DISTINCT_THROUGH, false)
+            .getResultList();
+    }
+
+    SecurityUser fetchSecurityUsers(SecurityUser result) {
+        return entityManager
+            .createQuery(
+                "select securityUser from SecurityUser securityUser left join fetch securityUser.securityUsers where securityUser is :securityUser",
+                SecurityUser.class
+            )
+            .setParameter("securityUser", result)
+            .setHint(QueryHints.PASS_DISTINCT_THROUGH, false)
+            .getSingleResult();
+    }
+
+    List<SecurityUser> fetchSecurityUsers(List<SecurityUser> securityUsers) {
+        return entityManager
+            .createQuery(
+                "select distinct securityUser from SecurityUser securityUser left join fetch securityUser.securityUsers where securityUser in :securityUsers",
                 SecurityUser.class
             )
             .setParameter("securityUsers", securityUsers)

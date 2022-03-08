@@ -13,14 +13,14 @@ import { ProductService } from '../service/product.service';
 import { AlertError } from 'app/shared/alert/alert-error.model';
 import { EventManager, EventWithContent } from 'app/core/util/event-manager.service';
 import { DataUtils, FileLoadError } from 'app/core/util/data-util.service';
-import { IPurchaseOrderDetails } from 'app/entities/purchase-order-details/purchase-order-details.model';
-import { PurchaseOrderDetailsService } from 'app/entities/purchase-order-details/service/purchase-order-details.service';
 import { ICategories } from 'app/entities/categories/categories.model';
 import { CategoriesService } from 'app/entities/categories/service/categories.service';
 import { IUnit } from 'app/entities/unit/unit.model';
 import { UnitService } from 'app/entities/unit/service/unit.service';
 import { ISecurityUser } from 'app/entities/security-user/security-user.model';
 import { SecurityUserService } from 'app/entities/security-user/service/security-user.service';
+import { IPurchaseOrderDetails } from 'app/entities/purchase-order-details/purchase-order-details.model';
+import { PurchaseOrderDetailsService } from 'app/entities/purchase-order-details/service/purchase-order-details.service';
 import { ProductType } from 'app/entities/enumerations/product-type.model';
 
 @Component({
@@ -31,10 +31,10 @@ export class ProductUpdateComponent implements OnInit {
   isSaving = false;
   productTypeValues = Object.keys(ProductType);
 
-  purchaseOrderDetailsSharedCollection: IPurchaseOrderDetails[] = [];
   categoriesSharedCollection: ICategories[] = [];
   unitsSharedCollection: IUnit[] = [];
   securityUsersSharedCollection: ISecurityUser[] = [];
+  purchaseOrderDetailsSharedCollection: IPurchaseOrderDetails[] = [];
 
   editForm = this.fb.group({
     id: [],
@@ -62,20 +62,20 @@ export class ProductUpdateComponent implements OnInit {
     lastModifiedBy: [],
     freeField1: [],
     freeField2: [],
-    purchaseOrderDetails: [],
     categories: [],
     unit: [],
-    securityUser: [],
+    ecurityUser: [],
+    purchaseOrderDetails: [],
   });
 
   constructor(
     protected dataUtils: DataUtils,
     protected eventManager: EventManager,
     protected productService: ProductService,
-    protected purchaseOrderDetailsService: PurchaseOrderDetailsService,
     protected categoriesService: CategoriesService,
     protected unitService: UnitService,
     protected securityUserService: SecurityUserService,
+    protected purchaseOrderDetailsService: PurchaseOrderDetailsService,
     protected activatedRoute: ActivatedRoute,
     protected fb: FormBuilder
   ) {}
@@ -124,10 +124,6 @@ export class ProductUpdateComponent implements OnInit {
     }
   }
 
-  trackPurchaseOrderDetailsById(index: number, item: IPurchaseOrderDetails): number {
-    return item.id!;
-  }
-
   trackCategoriesById(index: number, item: ICategories): number {
     return item.id!;
   }
@@ -137,6 +133,10 @@ export class ProductUpdateComponent implements OnInit {
   }
 
   trackSecurityUserById(index: number, item: ISecurityUser): number {
+    return item.id!;
+  }
+
+  trackPurchaseOrderDetailsById(index: number, item: IPurchaseOrderDetails): number {
     return item.id!;
   }
 
@@ -186,16 +186,12 @@ export class ProductUpdateComponent implements OnInit {
       lastModifiedBy: product.lastModifiedBy,
       freeField1: product.freeField1,
       freeField2: product.freeField2,
-      purchaseOrderDetails: product.purchaseOrderDetails,
       categories: product.categories,
       unit: product.unit,
-      securityUser: product.securityUser,
+      ecurityUser: product.ecurityUser,
+      purchaseOrderDetails: product.purchaseOrderDetails,
     });
 
-    this.purchaseOrderDetailsSharedCollection = this.purchaseOrderDetailsService.addPurchaseOrderDetailsToCollectionIfMissing(
-      this.purchaseOrderDetailsSharedCollection,
-      product.purchaseOrderDetails
-    );
     this.categoriesSharedCollection = this.categoriesService.addCategoriesToCollectionIfMissing(
       this.categoriesSharedCollection,
       product.categories
@@ -203,24 +199,15 @@ export class ProductUpdateComponent implements OnInit {
     this.unitsSharedCollection = this.unitService.addUnitToCollectionIfMissing(this.unitsSharedCollection, product.unit);
     this.securityUsersSharedCollection = this.securityUserService.addSecurityUserToCollectionIfMissing(
       this.securityUsersSharedCollection,
-      product.securityUser
+      product.ecurityUser
+    );
+    this.purchaseOrderDetailsSharedCollection = this.purchaseOrderDetailsService.addPurchaseOrderDetailsToCollectionIfMissing(
+      this.purchaseOrderDetailsSharedCollection,
+      product.purchaseOrderDetails
     );
   }
 
   protected loadRelationshipsOptions(): void {
-    this.purchaseOrderDetailsService
-      .query()
-      .pipe(map((res: HttpResponse<IPurchaseOrderDetails[]>) => res.body ?? []))
-      .pipe(
-        map((purchaseOrderDetails: IPurchaseOrderDetails[]) =>
-          this.purchaseOrderDetailsService.addPurchaseOrderDetailsToCollectionIfMissing(
-            purchaseOrderDetails,
-            this.editForm.get('purchaseOrderDetails')!.value
-          )
-        )
-      )
-      .subscribe((purchaseOrderDetails: IPurchaseOrderDetails[]) => (this.purchaseOrderDetailsSharedCollection = purchaseOrderDetails));
-
     this.categoriesService
       .query()
       .pipe(map((res: HttpResponse<ICategories[]>) => res.body ?? []))
@@ -242,10 +229,23 @@ export class ProductUpdateComponent implements OnInit {
       .pipe(map((res: HttpResponse<ISecurityUser[]>) => res.body ?? []))
       .pipe(
         map((securityUsers: ISecurityUser[]) =>
-          this.securityUserService.addSecurityUserToCollectionIfMissing(securityUsers, this.editForm.get('securityUser')!.value)
+          this.securityUserService.addSecurityUserToCollectionIfMissing(securityUsers, this.editForm.get('ecurityUser')!.value)
         )
       )
       .subscribe((securityUsers: ISecurityUser[]) => (this.securityUsersSharedCollection = securityUsers));
+
+    this.purchaseOrderDetailsService
+      .query()
+      .pipe(map((res: HttpResponse<IPurchaseOrderDetails[]>) => res.body ?? []))
+      .pipe(
+        map((purchaseOrderDetails: IPurchaseOrderDetails[]) =>
+          this.purchaseOrderDetailsService.addPurchaseOrderDetailsToCollectionIfMissing(
+            purchaseOrderDetails,
+            this.editForm.get('purchaseOrderDetails')!.value
+          )
+        )
+      )
+      .subscribe((purchaseOrderDetails: IPurchaseOrderDetails[]) => (this.purchaseOrderDetailsSharedCollection = purchaseOrderDetails));
   }
 
   protected createFromForm(): IProduct {
@@ -278,10 +278,10 @@ export class ProductUpdateComponent implements OnInit {
       lastModifiedBy: this.editForm.get(['lastModifiedBy'])!.value,
       freeField1: this.editForm.get(['freeField1'])!.value,
       freeField2: this.editForm.get(['freeField2'])!.value,
-      purchaseOrderDetails: this.editForm.get(['purchaseOrderDetails'])!.value,
       categories: this.editForm.get(['categories'])!.value,
       unit: this.editForm.get(['unit'])!.value,
-      securityUser: this.editForm.get(['securityUser'])!.value,
+      ecurityUser: this.editForm.get(['ecurityUser'])!.value,
+      purchaseOrderDetails: this.editForm.get(['purchaseOrderDetails'])!.value,
     };
   }
 }

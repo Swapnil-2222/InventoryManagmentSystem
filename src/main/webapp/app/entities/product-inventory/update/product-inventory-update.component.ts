@@ -14,6 +14,8 @@ import { IProduct } from 'app/entities/product/product.model';
 import { ProductService } from 'app/entities/product/service/product.service';
 import { IPurchaseOrder } from 'app/entities/purchase-order/purchase-order.model';
 import { PurchaseOrderService } from 'app/entities/purchase-order/service/purchase-order.service';
+import { IProductTransaction } from 'app/entities/product-transaction/product-transaction.model';
+import { ProductTransactionService } from 'app/entities/product-transaction/service/product-transaction.service';
 import { IWareHouse } from 'app/entities/ware-house/ware-house.model';
 import { WareHouseService } from 'app/entities/ware-house/service/ware-house.service';
 import { ISecurityUser } from 'app/entities/security-user/security-user.model';
@@ -28,6 +30,7 @@ export class ProductInventoryUpdateComponent implements OnInit {
 
   productsSharedCollection: IProduct[] = [];
   purchaseOrdersSharedCollection: IPurchaseOrder[] = [];
+  productTransactionsSharedCollection: IProductTransaction[] = [];
   wareHousesSharedCollection: IWareHouse[] = [];
   securityUsersSharedCollection: ISecurityUser[] = [];
 
@@ -49,6 +52,7 @@ export class ProductInventoryUpdateComponent implements OnInit {
     isActive: [],
     product: [],
     purchaseOrder: [],
+    productTransaction: [],
     wareHouses: [],
     securityUsers: [],
   });
@@ -57,6 +61,7 @@ export class ProductInventoryUpdateComponent implements OnInit {
     protected productInventoryService: ProductInventoryService,
     protected productService: ProductService,
     protected purchaseOrderService: PurchaseOrderService,
+    protected productTransactionService: ProductTransactionService,
     protected wareHouseService: WareHouseService,
     protected securityUserService: SecurityUserService,
     protected activatedRoute: ActivatedRoute,
@@ -97,6 +102,10 @@ export class ProductInventoryUpdateComponent implements OnInit {
   }
 
   trackPurchaseOrderById(index: number, item: IPurchaseOrder): number {
+    return item.id!;
+  }
+
+  trackProductTransactionById(index: number, item: IProductTransaction): number {
     return item.id!;
   }
 
@@ -168,6 +177,7 @@ export class ProductInventoryUpdateComponent implements OnInit {
       isActive: productInventory.isActive,
       product: productInventory.product,
       purchaseOrder: productInventory.purchaseOrder,
+      productTransaction: productInventory.productTransaction,
       wareHouses: productInventory.wareHouses,
       securityUsers: productInventory.securityUsers,
     });
@@ -179,6 +189,10 @@ export class ProductInventoryUpdateComponent implements OnInit {
     this.purchaseOrdersSharedCollection = this.purchaseOrderService.addPurchaseOrderToCollectionIfMissing(
       this.purchaseOrdersSharedCollection,
       productInventory.purchaseOrder
+    );
+    this.productTransactionsSharedCollection = this.productTransactionService.addProductTransactionToCollectionIfMissing(
+      this.productTransactionsSharedCollection,
+      productInventory.productTransaction
     );
     this.wareHousesSharedCollection = this.wareHouseService.addWareHouseToCollectionIfMissing(
       this.wareHousesSharedCollection,
@@ -208,6 +222,19 @@ export class ProductInventoryUpdateComponent implements OnInit {
         )
       )
       .subscribe((purchaseOrders: IPurchaseOrder[]) => (this.purchaseOrdersSharedCollection = purchaseOrders));
+
+    this.productTransactionService
+      .query()
+      .pipe(map((res: HttpResponse<IProductTransaction[]>) => res.body ?? []))
+      .pipe(
+        map((productTransactions: IProductTransaction[]) =>
+          this.productTransactionService.addProductTransactionToCollectionIfMissing(
+            productTransactions,
+            this.editForm.get('productTransaction')!.value
+          )
+        )
+      )
+      .subscribe((productTransactions: IProductTransaction[]) => (this.productTransactionsSharedCollection = productTransactions));
 
     this.wareHouseService
       .query()
@@ -254,6 +281,7 @@ export class ProductInventoryUpdateComponent implements OnInit {
       isActive: this.editForm.get(['isActive'])!.value,
       product: this.editForm.get(['product'])!.value,
       purchaseOrder: this.editForm.get(['purchaseOrder'])!.value,
+      productTransaction: this.editForm.get(['productTransaction'])!.value,
       wareHouses: this.editForm.get(['wareHouses'])!.value,
       securityUsers: this.editForm.get(['securityUsers'])!.value,
     };

@@ -87,16 +87,13 @@ public class PurchaseOrder implements Serializable {
     private Set<GoodsRecived> goodReciveds = new HashSet<>();
 
     @ManyToOne
-    @JsonIgnoreProperties(
-        value = { "productTransactions", "products", "securityPermissions", "securityRoles", "productInventories" },
-        allowSetters = true
-    )
+    @JsonIgnoreProperties(value = { "securityPermissions", "securityRoles", "securityUsers", "productInventories" }, allowSetters = true)
     private SecurityUser securityUser;
 
     @OneToMany(mappedBy = "purchaseOrder")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(
-        value = { "consumptionDetails", "productTransactions", "product", "purchaseOrder", "wareHouses", "securityUsers" },
+        value = { "consumptionDetails", "product", "purchaseOrder", "productTransaction", "wareHouses", "securityUsers" },
         allowSetters = true
     )
     private Set<ProductInventory> productInventories = new HashSet<>();

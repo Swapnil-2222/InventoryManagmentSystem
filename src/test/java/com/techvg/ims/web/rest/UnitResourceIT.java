@@ -6,7 +6,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.techvg.ims.IntegrationTest;
-import com.techvg.ims.domain.Product;
 import com.techvg.ims.domain.Unit;
 import com.techvg.ims.repository.UnitRepository;
 import com.techvg.ims.service.criteria.UnitCriteria;
@@ -685,32 +684,6 @@ class UnitResourceIT {
 
         // Get all the unitList where isActive is null
         defaultUnitShouldNotBeFound("isActive.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllUnitsByProductIsEqualToSomething() throws Exception {
-        // Initialize the database
-        unitRepository.saveAndFlush(unit);
-        Product product;
-        if (TestUtil.findAll(em, Product.class).isEmpty()) {
-            product = ProductResourceIT.createEntity(em);
-            em.persist(product);
-            em.flush();
-        } else {
-            product = TestUtil.findAll(em, Product.class).get(0);
-        }
-        em.persist(product);
-        em.flush();
-        unit.addProduct(product);
-        unitRepository.saveAndFlush(unit);
-        Long productId = product.getId();
-
-        // Get all the unitList where product equals to productId
-        defaultUnitShouldBeFound("productId.equals=" + productId);
-
-        // Get all the unitList where product equals to (productId + 1)
-        defaultUnitShouldNotBeFound("productId.equals=" + (productId + 1));
     }
 
     /**
